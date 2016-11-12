@@ -7,6 +7,7 @@
 package specifications.Service;
 
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 
 public interface ViewerService{
   public void init();

@@ -6,26 +6,31 @@
  * ******************************************************/
 package alpha;
 
-import tools.HardCodedParameters;
+import java.io.File;
 
-import specifications.Service.DataService;
-import specifications.Service.EngineService;
-import specifications.Service.ViewerService;
-
-import data.DataOfWorld;
-import engine.Engine;
 import View.Viewer;
 //import algorithm.RandomWalker;
-
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import javafx.event.EventHandler;
+import data.DataOfWorld;
+import engine.Engine;
 import javafx.animation.AnimationTimer;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import specifications.Service.DataService;
+import specifications.Service.EngineService;
+import specifications.Service.ViewerService;
+import tools.CSVReader;
+import tools.HardCodedParameters;
 
 public class Main extends Application{
   //---HARD-CODED-PARAMETERS---//
@@ -91,6 +96,7 @@ public class Main extends Application{
 //        }
 //    });
     
+
     stage.setScene(scene);
     stage.setWidth(HardCodedParameters.defaultWidth);
     stage.setHeight(HardCodedParameters.defaultHeight);
@@ -104,6 +110,7 @@ public class Main extends Application{
         engine.stop();
       }
     });
+   
     stage.show();
     
 //    timer = new AnimationTimer() {

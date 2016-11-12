@@ -6,6 +6,8 @@
  * ******************************************************/
 package data;
 
+import java.util.ArrayList;
+
 import Model.FactoryModel;
 import specifications.Service.DataService;
 
@@ -13,6 +15,7 @@ public class DataOfWorld implements DataService{
     //  private Sound.SOUND sound
     private String name;
     private FactoryModel userFactory;
+
     private double budget;
 
     public DataOfWorld(){}
@@ -51,4 +54,14 @@ public class DataOfWorld implements DataService{
     public void setName(String name) {
         this.name = name;
     }
+    
+    public void loadCSVFile () {
+    
+    }
+
+	@Override
+	public void generateCsvFile() {
+		// TODO Auto-generated method stub
+		
+	}
 }

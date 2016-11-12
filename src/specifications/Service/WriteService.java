@@ -23,4 +23,6 @@ public interface WriteService {
     public void setBudget(double budget);
     public void setUserFactory(FactoryModel userFactory);
     public void setName(String name);
+    public void loadCSVFile();
+    public void generateCsvFile();    
 }
