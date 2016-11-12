@@ -6,26 +6,32 @@
  * ******************************************************/
 package alpha;
 
-import tools.HardCodedParameters;
+import java.io.File;
 
-import specifications.Service.DataService;
-import specifications.Service.EngineService;
-import specifications.Service.ViewerService;
-
-import data.DataOfWorld;
-import engine.Engine;
 import View.Viewer;
 //import algorithm.RandomWalker;
-
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import javafx.event.EventHandler;
+import data.DataOfWorld;
+import engine.Engine;
 import javafx.animation.AnimationTimer;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import specifications.Service.DataService;
+import specifications.Service.EngineService;
+import specifications.Service.ViewerService;
+import tools.CSVReader;
+import tools.HardCodedParameters;
+import tools.User_Entry;
 
 public class Main extends Application{
   //---HARD-CODED-PARAMETERS---//
@@ -62,24 +68,24 @@ public class Main extends Application{
     scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
       @Override
         public void handle(KeyEvent event) {
-//          if (event.getCode()==KeyCode.LEFT) engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
-//          if (event.getCode()==KeyCode.RIGHT) engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
-//          if (event.getCode()==KeyCode.UP) engine.setHeroesCommand(User_Entry.COMMAND.UP);
-//          if (event.getCode()==KeyCode.DOWN) engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
-          if(event.getCode() == KeyCode.Q) { System.exit(0);}
+          if (event.getCode()==KeyCode.LEFT) engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
+          if (event.getCode()==KeyCode.RIGHT) engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
+          if (event.getCode()==KeyCode.UP) engine.setHeroesCommand(User_Entry.COMMAND.UP);
+          if (event.getCode()==KeyCode.DOWN) engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
+          if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.ESCAPE ) { System.exit(0);}
           event.consume();
         }
     });
-//    scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
-//      @Override
-//        public void handle(KeyEvent event) {
-//          if (event.getCode()==KeyCode.LEFT) engine.releaseHeroesCommand(User_Entry.COMMAND.LEFT);
-//          if (event.getCode()==KeyCode.RIGHT) engine.releaseHeroesCommand(User_Entry.COMMAND.RIGHT);
-//          if (event.getCode()==KeyCode.UP) engine.releaseHeroesCommand(User_Entry.COMMAND.UP);
-//          if (event.getCode()==KeyCode.DOWN) engine.releaseHeroesCommand(User_Entry.COMMAND.DOWN);
-//          event.consume();
-//        }
-//    });
+    scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
+      @Override
+        public void handle(KeyEvent event) {
+          if (event.getCode()==KeyCode.LEFT) engine.releaseHeroesCommand(User_Entry.COMMAND.LEFT);
+          if (event.getCode()==KeyCode.RIGHT) engine.releaseHeroesCommand(User_Entry.COMMAND.RIGHT);
+          if (event.getCode()==KeyCode.UP) engine.releaseHeroesCommand(User_Entry.COMMAND.UP);
+          if (event.getCode()==KeyCode.DOWN) engine.releaseHeroesCommand(User_Entry.COMMAND.DOWN);
+          event.consume();
+        }
+    });
 //    scene.widthProperty().addListener(new ChangeListener<Number>() {
 //        @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
 //          viewer.setMainWindowWidth(newSceneWidth.doubleValue());
@@ -91,6 +97,7 @@ public class Main extends Application{
 //        }
 //    });
     
+
     stage.setScene(scene);
     stage.setWidth(HardCodedParameters.defaultWidth);
     stage.setHeight(HardCodedParameters.defaultHeight);
@@ -104,11 +111,13 @@ public class Main extends Application{
         engine.stop();
       }
     });
+    
+   
     stage.show();
     
-//    timer = new AnimationTimer() {
-//      @Override public void handle(long l) {
-//        scene.setRoot(((Viewer)viewer).getPanel());
+    timer = new AnimationTimer() {
+      @Override public void handle(long l) {
+        scene.setRoot(((Viewer)viewer).getPanel());
 //        switch (data.getSoundEffect()){
 //          case PhantomDestroyed:
 //            new MediaPlayer(new Media(getHostServices().getDocumentBase()+"src/sound/waterdrip.mp3")).play();
@@ -119,9 +128,9 @@ public class Main extends Application{
 //          default:
 //            break;
 //        }
-//      }
-//    };
-//    timer.start();
+      }
+    };
+    timer.start();
   }
 
 //  //---ARGUMENTS---//

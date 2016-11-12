@@ -6,33 +6,25 @@
  * ******************************************************/
 package View;
 
+import java.util.ArrayList;
+
 import Model.PersonModel;
-import tools.HardCodedParameters;
-
-import specifications.Service.ViewerService;
-import specifications.Service.ReadService;
-import specifications.Require.RequireReadService;
-
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.geometry.Rectangle2D;
-
-import java.util.ArrayList;
+import specifications.Require.RequireReadService;
+import specifications.Service.ReadService;
+import specifications.Service.ViewerService;
+import tools.HardCodedParameters;
 
 public class Viewer implements ViewerService, RequireReadService{
   private static final int spriteSlowDownRate=HardCodedParameters.spriteSlowDownRate;
   private static final double defaultMainWidth=HardCodedParameters.defaultWidth,
                               defaultMainHeight=HardCodedParameters.defaultHeight;
   private ReadService data;
-  private ImageView heroesAvatar;
-  private Image heroesSpriteSheet;
-  private ArrayList<Rectangle2D> heroesAvatarViewports;
-  private ArrayList<Integer> heroesAvatarXModifiers;
-  private ArrayList<Integer> heroesAvatarYModifiers;
-  private int heroesAvatarViewportIndex;
-  private double xShrink,yShrink,shrink,xModifier,yModifier,heroesScale;
 
   public Viewer(){}
   
@@ -49,26 +41,37 @@ public class Viewer implements ViewerService, RequireReadService{
 
   @Override
   public Parent getPanel(){
-
-    Group panel = new Group();
+	Group panel = new Group();
     for (PersonModel employee : data.getUserFactory().getEmployeeOfFactory()){
+
+    	Label label = new Label(employee.getName());
+    	label.setTranslateX(employee.getPositionOfEntity().x+50);
+    	label.setTranslateY(employee.getPositionOfEntity().y);
       ImageView imageOfEmployee = new ImageView(employee.getImageOfEntity());
       imageOfEmployee.setTranslateX(employee.getPositionOfEntity().x);
       imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y);
       imageOfEmployee.setScaleX(0.5);
       imageOfEmployee.setScaleY(0.5);
-      panel.getChildren().add(imageOfEmployee);
+      panel.getChildren().addAll(label, imageOfEmployee);
     }
+    ImageView sprite = data.getTestSprite().getCurrentSprite();
+    sprite.setTranslateX(data.getTestSprite().getPositionOfEntity().x);
+    sprite.setTranslateY(data.getTestSprite().getPositionOfEntity().y);
+    sprite.setScaleX(0.5);
+    sprite.setScaleY(0.5);
+    panel.getChildren().add(sprite);
     return panel;
   }
 
-  @Override
-  public void setMainWindowWidth(double width){
-    xShrink=width/defaultMainWidth;
-  }
+ 
   
-  @Override
-  public void setMainWindowHeight(double height){
-    yShrink=height/defaultMainHeight;
-  }
+//  @Override
+//  public void setMainWindowWidth(double width){
+//    xShrink=width/defaultMainWidth;
+//  }
+//
+//  @Override
+//  public void setMainWindowHeight(double height){
+//    yShrink=height/defaultMainHeight;
+//  }
 }

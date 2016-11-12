@@ -7,10 +7,11 @@
 package specifications.Service;
 
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 
 public interface ViewerService{
   public void init();
   public Parent getPanel();
-  public void setMainWindowWidth(double w);
-  public void setMainWindowHeight(double h);
+//  public void setMainWindowWidth(double w);
+//  public void setMainWindowHeight(double h);
 }

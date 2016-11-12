@@ -7,6 +7,7 @@
 package specifications.Service;
 
 import Model.FactoryModel;
+import tools.AnimationSprite;
 import tools.Position;
 import tools.Sound;
 
@@ -16,5 +17,6 @@ public interface ReadService {
  // public Sound.SOUND getSoundEffect();
      public double getBudget();
     public FactoryModel getUserFactory();
+    public AnimationSprite getTestSprite();
     public String getName();
 }

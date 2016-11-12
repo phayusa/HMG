@@ -6,13 +6,20 @@
  * ******************************************************/
 package data;
 
+import java.util.ArrayList;
+
 import Model.FactoryModel;
 import specifications.Service.DataService;
+import tools.AnimationSprite;
+import tools.GraphicalEntity;
+import tools.Position;
 
 public class DataOfWorld implements DataService{
     //  private Sound.SOUND sound
     private String name;
     private FactoryModel userFactory;
+    private AnimationSprite testSprite;
+
     private double budget;
 
     public DataOfWorld(){}
@@ -20,6 +27,7 @@ public class DataOfWorld implements DataService{
     @Override
     public void init(){
         userFactory = new FactoryModel();
+        testSprite = new AnimationSprite(new GraphicalEntity(new Position(100,100),50,50),"file:Ressource/images/wizard/walk_",".png",10,1,4,8);
     }
 
     @Override
@@ -51,4 +59,22 @@ public class DataOfWorld implements DataService{
     public void setName(String name) {
         this.name = name;
     }
+    
+    public void loadCSVFile () {
+    
+    }
+
+    public AnimationSprite getTestSprite() {
+        return testSprite;
+    }
+
+    public void setTestSprite(AnimationSprite testSprite) {
+        this.testSprite = testSprite;
+    }
+
+    @Override
+	public void generateCsvFile() {
+		// TODO Auto-generated method stub
+		
+	}
 }
