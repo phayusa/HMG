@@ -54,9 +54,10 @@ public class FactoryModel extends GraphicalEntity {
     }
     
     public void generateCSVFile () {
-    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+    	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH mm ss");
     	Date date = new Date();
     	String csvFile = "Ressource/files/res.csv";
+//    	String csvFile = "Ressource/files/res "+dateFormat.format(date)+".csv";
     	CSVReader.generateCsvFile(csvFile, this.EmployeeOfFactory);
     	
     }

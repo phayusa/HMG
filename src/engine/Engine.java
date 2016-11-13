@@ -26,6 +26,7 @@ public class Engine implements EngineService, RequireDataService{
   private DataService dataOfWorld;
 //  private User_Entry.COMMAND command;
   private Random gen;
+  private int testNbAnim;
   private boolean moveLeft,moveRight,moveUp,moveDown;
 
   public Engine(){}
@@ -44,6 +45,7 @@ public class Engine implements EngineService, RequireDataService{
     moveRight = false;
     moveUp = false;
     moveDown = false;
+    testNbAnim = 1;
   }
 
   @Override
@@ -51,7 +53,14 @@ public class Engine implements EngineService, RequireDataService{
     engineClock.schedule(new TimerTask(){
       public void run() {
         updateMoveHeroe();
-        System.out.println(dataOfWorld.getTestSprite().getPositionOfEntity().x +" "+dataOfWorld.getTestSprite().getPositionOfEntity().y);
+//        if(testNbAnim == 4) {
+//          dataOfWorld.getTestSprite().stopAnim();
+//          testNbAnim++;
+//        }
+//        if(testNbAnim < 4){
+//          dataOfWorld.getTestSprite().setNbAnim(testNbAnim);
+//        }
+
         //System.out.println("Game step #"+data.getStepNumber()+": checked.");
 
 //        if (gen.nextInt(10)<3) spawnPhantom();
@@ -104,6 +113,7 @@ public class Engine implements EngineService, RequireDataService{
 
   @Override
   public void releaseHeroesCommand(User_Entry.COMMAND c){
+    dataOfWorld.getTestSprite().stopAnim();
     if (c==User_Entry.COMMAND.LEFT) moveLeft=false;
     if (c==User_Entry.COMMAND.RIGHT) moveRight=false;
     if (c==User_Entry.COMMAND.UP) moveUp=false;
@@ -111,13 +121,36 @@ public class Engine implements EngineService, RequireDataService{
   }
 
   public void updateMoveHeroe(){
-    if(moveDown)
-      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x,dataOfWorld.getTestSprite().getPositionOfEntity().y + dataOfWorld.getTestSprite().getSpeed()));
-    if(moveUp)
-      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x,dataOfWorld.getTestSprite().getPositionOfEntity().y - dataOfWorld.getTestSprite().getSpeed()));
-    if(moveRight)
-      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x + dataOfWorld.getTestSprite().getSpeed(),dataOfWorld.getTestSprite().getPositionOfEntity().y));
-    if(moveLeft)
-      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x - dataOfWorld.getTestSprite().getSpeed(),dataOfWorld.getTestSprite().getPositionOfEntity().y ));
+    if(moveDown) {
+      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x, dataOfWorld.getTestSprite().getPositionOfEntity().y + dataOfWorld.getTestSprite().getSpeed()));
+      dataOfWorld.getTestSprite().setNbAnim(0);
+    }
+    if(moveUp) {
+      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x, dataOfWorld.getTestSprite().getPositionOfEntity().y - dataOfWorld.getTestSprite().getSpeed()));
+      dataOfWorld.getTestSprite().setNbAnim(3);
+    }
+    if(moveRight) {
+      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x + dataOfWorld.getTestSprite().getSpeed(), dataOfWorld.getTestSprite().getPositionOfEntity().y));
+      dataOfWorld.getTestSprite().setNbAnim(2);
+    }
+    if(moveLeft) {
+      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x - dataOfWorld.getTestSprite().getSpeed(), dataOfWorld.getTestSprite().getPositionOfEntity().y));
+      dataOfWorld.getTestSprite().setNbAnim(1);
+    }
+  }
+
+
+
+  @Override
+  public void modifyTestNbAnim(){
+    testNbAnim++;
+    if(testNbAnim >= 4){
+      testNbAnim = 0;
+    }
+  }
+
+  @Override
+  public void stopAnim() {
+    testNbAnim = 4;
   }
 }

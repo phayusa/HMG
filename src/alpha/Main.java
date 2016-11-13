@@ -68,21 +68,53 @@ public class Main extends Application{
     scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
       @Override
         public void handle(KeyEvent event) {
-          if (event.getCode()==KeyCode.LEFT) engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
-          if (event.getCode()==KeyCode.RIGHT) engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
-          if (event.getCode()==KeyCode.UP) engine.setHeroesCommand(User_Entry.COMMAND.UP);
-          if (event.getCode()==KeyCode.DOWN) engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
-          if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.ESCAPE ) { System.exit(0);}
+        switch (event.getCode()){
+          case LEFT:
+            engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
+            break;
+          case RIGHT:
+            engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
+            break;
+          case UP:
+            engine.setHeroesCommand(User_Entry.COMMAND.UP);
+            break;
+          case DOWN:
+            engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
+            break;
+          case Q:
+          case ESCAPE:
+            System.exit(0);
+            break;
+
+
+        }
+//          if (event.getCode()==KeyCode.LEFT) engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
+//          if (event.getCode()==KeyCode.RIGHT) engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
+//          if (event.getCode()==KeyCode.UP) engine.setHeroesCommand(User_Entry.COMMAND.UP);
+//          if (event.getCode()==KeyCode.DOWN) engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
+//          if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.ESCAPE ) { System.exit(0);}
+//          if(event.getCode() == KeyCode.P) engine.modifyTestNbAnim();
+//          if(event.getCode() == KeyCode.T) engine.stopAnim();
           event.consume();
         }
     });
     scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
       @Override
         public void handle(KeyEvent event) {
-          if (event.getCode()==KeyCode.LEFT) engine.releaseHeroesCommand(User_Entry.COMMAND.LEFT);
-          if (event.getCode()==KeyCode.RIGHT) engine.releaseHeroesCommand(User_Entry.COMMAND.RIGHT);
-          if (event.getCode()==KeyCode.UP) engine.releaseHeroesCommand(User_Entry.COMMAND.UP);
-          if (event.getCode()==KeyCode.DOWN) engine.releaseHeroesCommand(User_Entry.COMMAND.DOWN);
+          switch (event.getCode()){
+            case LEFT:
+              engine.releaseHeroesCommand(User_Entry.COMMAND.LEFT);
+            case RIGHT:
+              engine.releaseHeroesCommand(User_Entry.COMMAND.RIGHT);
+            case UP:
+              engine.releaseHeroesCommand(User_Entry.COMMAND.UP);
+            case DOWN:
+              engine.releaseHeroesCommand(User_Entry.COMMAND.DOWN);
+          }
+//          if (event.getCode()==KeyCode.LEFT) engine.releaseHeroesCommand(User_Entry.COMMAND.LEFT);
+//          if (event.getCode()==KeyCode.RIGHT) engine.releaseHeroesCommand(User_Entry.COMMAND.RIGHT);
+//          if (event.getCode()==KeyCode.UP) engine.releaseHeroesCommand(User_Entry.COMMAND.UP);
+//          if (event.getCode()==KeyCode.DOWN) engine.releaseHeroesCommand(User_Entry.COMMAND.DOWN);
           event.consume();
         }
     });

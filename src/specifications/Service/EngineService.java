@@ -14,4 +14,6 @@ public interface EngineService{
   public void stop();
   public void setHeroesCommand(User_Entry.COMMAND c);
   public void releaseHeroesCommand(User_Entry.COMMAND c);
+  public void modifyTestNbAnim();
+  public void stopAnim();
 }

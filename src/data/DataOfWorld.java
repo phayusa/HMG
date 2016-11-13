@@ -27,8 +27,13 @@ public class DataOfWorld implements DataService{
     @Override
     public void init(){
         userFactory = new FactoryModel();
-        testSprite = new AnimationSprite(new GraphicalEntity(new Position(100,100),50,50),"file:Ressource/images/wizard/walk_",".png",10,1,4,8);
+//        testSprite = new AnimationSprite(new GraphicalEntity(new Position(100,100),50,50),"file:Ressource/images/wizard/walk_",".png",10,1,4,8);
+//        testSprite = new AnimationSprite(new GraphicalEntity(new Position(100,100),50,50),"file:Ressource/images/test.png",4,3,24,32,10,8);
+        testSprite = new AnimationSprite(new GraphicalEntity(new Position(100,100),50,50),"file:Ressource/images/test2.png",4,3,32,32,10,8);
+        testSprite.setNbAnim(1);
+        testSprite.stopAnim();
     }
+
 
     @Override
     public double getBudget() {

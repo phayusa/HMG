@@ -57,8 +57,8 @@ public class Viewer implements ViewerService, RequireReadService{
     ImageView sprite = data.getTestSprite().getCurrentSprite();
     sprite.setTranslateX(data.getTestSprite().getPositionOfEntity().x);
     sprite.setTranslateY(data.getTestSprite().getPositionOfEntity().y);
-    sprite.setScaleX(0.5);
-    sprite.setScaleY(0.5);
+    sprite.setScaleX(2);
+    sprite.setScaleY(2);
     panel.getChildren().add(sprite);
     return panel;
   }
