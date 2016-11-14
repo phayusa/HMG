@@ -37,13 +37,13 @@ public class CSVReader {
     {
 	     try
 	     {
-	        FileWriter writer = new FileWriter(CSVFile,true);
-	 		for (int i = 0; i < employeeOfFactory.size(); i++) {
-	 			writer.append(employeeOfFactory.get(i).getName());
+	        FileWriter writer = new FileWriter(CSVFile,false);
+	 		for (PersonModel employee : employeeOfFactory) {
+	 			writer.append(employee.getName());
 	 	        writer.append(',');
-	 	        writer.append(employeeOfFactory.get(i).getJob());
+	 	        writer.append(employee.getJob());
 	 	        writer.append(',');
-	 	        writer.append(String.valueOf(employeeOfFactory.get(i).getSalary()));
+	 	        writer.append(""+employee.getSalary());
 	 	        writer.append('\n');
 			}
 	          
