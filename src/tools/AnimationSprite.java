@@ -62,7 +62,6 @@ public class AnimationSprite extends GraphicalEntity {
         this.Sprites = new ArrayList<ImageView>();
         for(int y = 0;y<Xsprite;y++)
             for (int x=0;x<Ysprite;x++) {
-                System.out.println(x + " "+y);
                 ImageView test = new ImageView(new Image(pathOfImage));
                 test.setViewport(new Rectangle2D(x * sizeSpriteX, y * sizeSpriteY, sizeSpriteX, sizeSpriteY));
                 Sprites.add(test);
