@@ -7,10 +7,12 @@
 package View;
 
 import Model.PersonModel;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import specifications.Require.RequireReadService;
 import specifications.Service.ReadService;
@@ -48,6 +50,13 @@ public class Viewer implements ViewerService, RequireReadService{
         imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y);
         imageOfEmployee.setFitWidth(employee.getWidth());
         imageOfEmployee.setFitHeight(employee.getHeight());
+        //Example of Mouse Event
+        imageOfEmployee.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("Pressed "+employee.getName());
+            }
+        });
         panel.getChildren().addAll(label, imageOfEmployee);
     }
     ImageView sprite = data.getTestSprite().getCurrentSprite();
@@ -55,6 +64,12 @@ public class Viewer implements ViewerService, RequireReadService{
     sprite.setTranslateY(data.getTestSprite().getPositionOfEntity().y);
     sprite.setScaleX(2);
     sprite.setScaleY(2);
+    sprite.setOnMousePressed(new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            System.out.println("Pressed");
+        }
+    });
     panel.getChildren().add(sprite);
     return panel;
   }
