@@ -6,15 +6,12 @@
  * ******************************************************/
 package View;
 
-import java.util.ArrayList;
-
 import Model.PersonModel;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import specifications.Require.RequireReadService;
 import specifications.Service.ReadService;
 import specifications.Service.ViewerService;
@@ -43,16 +40,15 @@ public class Viewer implements ViewerService, RequireReadService{
   public Parent getPanel(){
 	Group panel = new Group();
     for (PersonModel employee : data.getUserFactory().getEmployeeOfFactory()){
-
-    	Label label = new Label(employee.getName());
-    	label.setTranslateX(employee.getPositionOfEntity().x+50);
-    	label.setTranslateY(employee.getPositionOfEntity().y);
-      ImageView imageOfEmployee = new ImageView(employee.getImageOfEntity());
-      imageOfEmployee.setTranslateX(employee.getPositionOfEntity().x);
-      imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y);
-      imageOfEmployee.setScaleX(0.5);
-      imageOfEmployee.setScaleY(0.5);
-      panel.getChildren().addAll(label, imageOfEmployee);
+        Label label = new Label(employee.getName());
+        label.setTranslateX(employee.getPositionOfEntity().x+employee.getWidth()/8);
+        label.setTranslateY(employee.getPositionOfEntity().y - employee.getHeight()/2);
+        ImageView imageOfEmployee = employee.getCurrentSprite();
+        imageOfEmployee.setTranslateX(employee.getPositionOfEntity().x);
+        imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y);
+        imageOfEmployee.setFitWidth(employee.getWidth());
+        imageOfEmployee.setFitHeight(employee.getHeight());
+        panel.getChildren().addAll(label, imageOfEmployee);
     }
     ImageView sprite = data.getTestSprite().getCurrentSprite();
     sprite.setTranslateX(data.getTestSprite().getPositionOfEntity().x);

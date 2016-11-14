@@ -13,7 +13,6 @@ import java.util.TimerTask;
  */
 public class AnimationSprite extends GraphicalEntity {
 
-    private double Speed;
     private Timer timeToUpdateFrame;
     private int indexOfSprite;
     private ArrayList<ImageView> Sprites;
@@ -21,11 +20,11 @@ public class AnimationSprite extends GraphicalEntity {
     private int endIndex;
     private int sizeOfLine;
     private boolean inMovement;
+    private int leftAnim,rightAnim, upAnim,downAnim;
 
     @Deprecated
-    public AnimationSprite(GraphicalEntity initGraphicalEntity,String prefix,String suffix,double speed,int startcount ,int countSprites){
+    public AnimationSprite(GraphicalEntity initGraphicalEntity,String prefix,String suffix,int startcount ,int countSprites){
         super(initGraphicalEntity);
-        this.Speed = speed;
         startIndex = 0;
         endIndex = countSprites;
         this.Sprites = new ArrayList<ImageView>();
@@ -42,9 +41,8 @@ public class AnimationSprite extends GraphicalEntity {
     }
 
     @Deprecated
-    public AnimationSprite(GraphicalEntity initGraphicalEntity,String prefix,String suffix,double speed,int startcount ,int countSprites,long frameBySecond){
+    public AnimationSprite(GraphicalEntity initGraphicalEntity,String prefix,String suffix,int startcount ,int countSprites,long frameBySecond){
         super(initGraphicalEntity);
-        this.Speed = speed;
         startIndex = 0;
         endIndex = countSprites;
         this.Sprites = new ArrayList<ImageView>();
@@ -59,9 +57,8 @@ public class AnimationSprite extends GraphicalEntity {
         commonInit(numberFrame);
     }
 
-    public AnimationSprite(GraphicalEntity initGraphicalEntity,String pathOfImage,int Xsprite, int Ysprite,double sizeSpriteX,double sizeSpriteY,double speed,long frameBySecond){
+    public AnimationSprite(GraphicalEntity initGraphicalEntity,String pathOfImage,int Xsprite, int Ysprite,double sizeSpriteX,double sizeSpriteY,long frameBySecond){
         super(initGraphicalEntity);
-        this.Speed = speed;
         this.Sprites = new ArrayList<ImageView>();
         for(int y = 0;y<Xsprite;y++)
             for (int x=0;x<Ysprite;x++) {
@@ -99,19 +96,21 @@ public class AnimationSprite extends GraphicalEntity {
         inMovement = true;
         startIndex = line * sizeOfLine;
         endIndex = startIndex + sizeOfLine;
+        indexOfSprite = startIndex;
     }
 
     public ImageView getCurrentSprite(){
         return Sprites.get(indexOfSprite);
     }
 
-    public double getSpeed() {
-        return Speed;
-    }
 
     public void stopAnim(){
         inMovement = false;
         indexOfSprite = startIndex + sizeOfLine/2;
+    }
+
+    public void setPositionWithSpeed(double speedX, double speedY){
+        setPositionOfEntity(new Position(positionOfEntity.x + speedX,positionOfEntity.y + speedY));
     }
 
     //If the stop case is not the middle image of spriteSheet

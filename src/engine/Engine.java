@@ -6,8 +6,9 @@
  * ******************************************************/
 package engine;
 
+import Model.PersonModel;
+import tools.AnimationSprite;
 import tools.HardCodedParameters;
-import tools.Position;
 import tools.User_Entry;
 
 import specifications.Service.EngineService;
@@ -27,7 +28,7 @@ public class Engine implements EngineService, RequireDataService{
 //  private User_Entry.COMMAND command;
   private Random gen;
   private int testNbAnim;
-  private boolean moveLeft,moveRight,moveUp,moveDown;
+  private boolean keyLeft, keyRight, keyUp, keyDown;
 
   public Engine(){}
 
@@ -41,10 +42,10 @@ public class Engine implements EngineService, RequireDataService{
     engineClock = new Timer();
 //    command = User_Entry.COMMAND.NONE;
     gen = new Random();/**/
-    moveLeft = false;
-    moveRight = false;
-    moveUp = false;
-    moveDown = false;
+    keyLeft = false;
+    keyRight = false;
+    keyUp = false;
+    keyDown = false;
     testNbAnim = 1;
   }
 
@@ -52,7 +53,10 @@ public class Engine implements EngineService, RequireDataService{
   public void start(){
     engineClock.schedule(new TimerTask(){
       public void run() {
-        updateMoveHeroe();
+        updateMoveHeroe(dataOfWorld.getTestSprite());
+        for(PersonModel employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()){
+          updateMoveHeroe(employee);
+        }
 //        if(testNbAnim == 4) {
 //          dataOfWorld.getTestSprite().stopAnim();
 //          testNbAnim++;
@@ -75,10 +79,10 @@ public class Engine implements EngineService, RequireDataService{
 //        data.setSoundEffect(Sound.SOUND.None);
 //
 //        for (PhantomService p:data.getPhantoms()){
-//          if (p.getAction()==PhantomService.MOVE.LEFT) moveLeft(p);
-//          if (p.getAction()==PhantomService.MOVE.RIGHT) moveRight(p);
-//          if (p.getAction()==PhantomService.MOVE.UP) moveUp(p);
-//          if (p.getAction()==PhantomService.MOVE.DOWN) moveDown(p);
+//          if (p.getAction()==PhantomService.MOVE.LEFT) keyLeft(p);
+//          if (p.getAction()==PhantomService.MOVE.RIGHT) keyRight(p);
+//          if (p.getAction()==PhantomService.MOVE.UP) keyUp(p);
+//          if (p.getAction()==PhantomService.MOVE.DOWN) keyDown(p);
 //
 //          if (collisionHeroesPhantom(p)){
 //            data.setSoundEffect(Sound.SOUND.HeroesGotHit);
@@ -105,52 +109,59 @@ public class Engine implements EngineService, RequireDataService{
 
   @Override
   public void setHeroesCommand(User_Entry.COMMAND c){
-    if (c==User_Entry.COMMAND.LEFT) moveLeft=true;
-    if (c==User_Entry.COMMAND.RIGHT) moveRight=true;
-    if (c==User_Entry.COMMAND.UP) moveUp=true;
-    if (c==User_Entry.COMMAND.DOWN) moveDown=true;
+    switch (c){
+      case LEFT:
+        keyLeft=true;
+        break;
+      case RIGHT:
+        keyRight=true;
+        break;
+      case UP:
+        keyUp=true;
+        break;
+      case DOWN:
+        keyDown=true;
+        break;
+    }
   }
 
   @Override
   public void releaseHeroesCommand(User_Entry.COMMAND c){
-    dataOfWorld.getTestSprite().stopAnim();
-    if (c==User_Entry.COMMAND.LEFT) moveLeft=false;
-    if (c==User_Entry.COMMAND.RIGHT) moveRight=false;
-    if (c==User_Entry.COMMAND.UP) moveUp=false;
-    if (c==User_Entry.COMMAND.DOWN) moveDown=false;
-  }
-
-  public void updateMoveHeroe(){
-    if(moveDown) {
-      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x, dataOfWorld.getTestSprite().getPositionOfEntity().y + dataOfWorld.getTestSprite().getSpeed()));
-      dataOfWorld.getTestSprite().setNbAnim(0);
-    }
-    if(moveUp) {
-      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x, dataOfWorld.getTestSprite().getPositionOfEntity().y - dataOfWorld.getTestSprite().getSpeed()));
-      dataOfWorld.getTestSprite().setNbAnim(3);
-    }
-    if(moveRight) {
-      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x + dataOfWorld.getTestSprite().getSpeed(), dataOfWorld.getTestSprite().getPositionOfEntity().y));
-      dataOfWorld.getTestSprite().setNbAnim(2);
-    }
-    if(moveLeft) {
-      dataOfWorld.getTestSprite().setPositionOfEntity(new Position(dataOfWorld.getTestSprite().getPositionOfEntity().x - dataOfWorld.getTestSprite().getSpeed(), dataOfWorld.getTestSprite().getPositionOfEntity().y));
-      dataOfWorld.getTestSprite().setNbAnim(1);
+    switch (c){
+      case LEFT:
+        keyLeft=false;
+        break;
+      case RIGHT:
+        keyRight=false;
+        break;
+      case UP:
+        keyUp=false;
+        break;
+      case DOWN:
+        keyDown=false;
+        break;
     }
   }
 
-
-
-  @Override
-  public void modifyTestNbAnim(){
-    testNbAnim++;
-    if(testNbAnim >= 4){
-      testNbAnim = 0;
+  public void updateMoveHeroe(AnimationSprite objectToMove){
+    if(keyDown) {
+      objectToMove.setNbAnim(0);
+      objectToMove.setPositionWithSpeed(0,10);
     }
+    if(keyUp) {
+      objectToMove.setNbAnim(3);
+      objectToMove.setPositionWithSpeed(0,-10);
+    }
+    if(keyRight) {
+      objectToMove.setNbAnim(2);
+      objectToMove.setPositionWithSpeed(10,0);
+    }
+    if(keyLeft) {
+      objectToMove.setNbAnim(1);
+      objectToMove.setPositionWithSpeed(-10,0);
+    }
+    if(!keyLeft && !keyDown && !keyRight && !keyUp)
+      objectToMove.stopAnim();
   }
 
-  @Override
-  public void stopAnim() {
-    testNbAnim = 4;
-  }
 }

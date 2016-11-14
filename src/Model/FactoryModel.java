@@ -1,12 +1,12 @@
 package Model;
 
+import tools.CSVReader;
+import tools.GraphicalEntity;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import tools.CSVReader;
-import tools.GraphicalEntity;
 
 /**
  * Created by Micdu95 on 11/11/2016.

@@ -20,8 +20,10 @@ public class CSVReader {
 
             while ((line = br.readLine()) != null) {
                 String[] person = line.split(cvsSplitBy);
-                PersonModel personModel = new PersonModel(person[0], person[1], Double.parseDouble(person[2]), new GraphicalEntity(new Position(50+i,50),100,100,"file:Ressource/images/cyclope.png"));
-                employeeOfFactory.add(personModel);
+                PersonModel personModel = new PersonModel(person[0], person[1], Double.parseDouble(person[2]), new GraphicalEntity(new Position(50+i,50),60,60),"file:Ressource/images/test2.png",4,3,32,32,8);
+                personModel.setNbAnim(1);
+                personModel.stopAnim();
+				employeeOfFactory.add(personModel);
                 i += 100;
             } 
             return employeeOfFactory;
