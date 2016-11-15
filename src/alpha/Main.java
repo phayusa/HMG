@@ -72,39 +72,7 @@ public class Main extends Application{
     final Scene scene = new Scene(((Viewer)viewer).getMainPanel());
 
     scene.setFill(Color.CORNFLOWERBLUE);
-    scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
-      @Override
-        public void handle(KeyEvent event) {
-        switch (event.getCode()){
-          case LEFT:
-            engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
-            break;
-          case RIGHT:
-            engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
-            break;
-          case UP:
-            engine.setHeroesCommand(User_Entry.COMMAND.UP);
-            break;
-          case DOWN:
-            engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
-            break;
-          case Q:
-          case ESCAPE:
-            System.exit(0);
-            break;
 
-
-        }
-//          if (event.getCode()==KeyCode.LEFT) engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
-//          if (event.getCode()==KeyCode.RIGHT) engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
-//          if (event.getCode()==KeyCode.UP) engine.setHeroesCommand(User_Entry.COMMAND.UP);
-//          if (event.getCode()==KeyCode.DOWN) engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
-//          if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.ESCAPE ) { System.exit(0);}
-//          if(event.getCode() == KeyCode.P) engine.modifyTestNbAnim();
-//          if(event.getCode() == KeyCode.T) engine.stopAnim();
-          event.consume();
-        }
-    });
     scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
       @Override
         public void handle(KeyEvent event) {
@@ -151,6 +119,46 @@ public class Main extends Application{
       @Override public void handle(WindowEvent event) {
         engine.stop();
         statistics.stop();
+      }
+    });
+
+    scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+      @Override
+      public void handle(KeyEvent event) {
+        switch (event.getCode()){
+          case LEFT:
+            engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
+            break;
+          case RIGHT:
+            engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
+            break;
+          case UP:
+            engine.setHeroesCommand(User_Entry.COMMAND.UP);
+            break;
+          case DOWN:
+            engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
+            break;
+          case R:
+            engine.resetPosition();
+            break;
+          case L:
+            engine.allLeave();
+            break;
+          case Q:
+          case ESCAPE:
+            System.exit(0);
+            break;
+
+
+        }
+//          if (event.getCode()==KeyCode.LEFT) engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
+//          if (event.getCode()==KeyCode.RIGHT) engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
+//          if (event.getCode()==KeyCode.UP) engine.setHeroesCommand(User_Entry.COMMAND.UP);
+//          if (event.getCode()==KeyCode.DOWN) engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
+//          if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.ESCAPE ) { System.exit(0);}
+//          if(event.getCode() == KeyCode.P) engine.modifyTestNbAnim();
+//          if(event.getCode() == KeyCode.T) engine.stopAnim();
+        event.consume();
       }
     });
 

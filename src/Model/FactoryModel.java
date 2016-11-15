@@ -19,6 +19,7 @@ public class FactoryModel extends GraphicalEntity {
     private static CSVReader csvReader;
     private ArrayList<PersonModel> EmployeeOfFactory;
     private ArrayList<GraphicalEntity> Offices;
+    private GraphicalEntity HideRoom;
 
     public FactoryModel(GraphicalEntity factoryEntity){
         super(factoryEntity);
@@ -35,19 +36,32 @@ public class FactoryModel extends GraphicalEntity {
             else
                 Offices.add(new GraphicalEntity(new Position(positionOfEntity.x + (i-halfOffice) * deltaToMove,positionOfEntity.y + height - deltaHeight * 4), HardCodedParameters.OfficeWidth,HardCodedParameters.OfficeHeight,"file:Ressource/images/tableBack.png"));
         }
+
+        HideRoom = new GraphicalEntity(new Position(positionOfEntity.x + width - 100,HardCodedParameters.FactoryStartY+HardCodedParameters.FactoryHeight/2-50),50,100);
+
         int i = 0;
         int numberIterate = 1;
+        int numberOfPlace = HardCodedParameters.numberOfficeInFactory * 2;
         for (PersonModel e : EmployeeOfFactory){
 
-            if(numberIterate%2==1) {
-                e.setNewPosition(new Position(Offices.get(i).getPositionOfEntity().x + Offices.get(i).getWidth()/3, Offices.get(i).getPositionOfEntity().y));
+//            e.setNewPosition(new Position(HideRoom.getPositionOfEntity().x+ HideRoom.getWidth(),HideRoom.getPositionOfEntity().y+HideRoom.getHeight()/2));
+            System.err.println("iterate ="+numberIterate+"\noffice ="+numberOfPlace+"\n--*------");
+            if(numberIterate <= numberOfPlace){
+                if (numberIterate % 2 == 1) {
+                    e.setNewPosition(new Position(Offices.get(i).getPositionOfEntity().x + Offices.get(i).getWidth() / 3, Offices.get(i).getPositionOfEntity().y));
 
+                } else {
+                    e.setNewPosition(new Position(Offices.get(i).getPositionOfEntity().x + Offices.get(i).getWidth() - Offices.get(i).getWidth() / 16, Offices.get(i).getPositionOfEntity().y));
+                    i++;
+                }
+                numberIterate++;
             }else{
-                e.setNewPosition(new Position(Offices.get(i).getPositionOfEntity().x + Offices.get(i).getWidth() - Offices.get(i).getWidth()/16 , Offices.get(i).getPositionOfEntity().y));
-                i++;
+//                System.err.println("C superieur");
+                e.setNewPosition(new Position(HideRoom.getPositionOfEntity().x+ HideRoom.getWidth(),HideRoom.getPositionOfEntity().y+HideRoom.getHeight()/2));
+
             }
-            numberIterate++;
         }
+
 
     }
 
@@ -88,6 +102,10 @@ public class FactoryModel extends GraphicalEntity {
 //    	String csvFile = "Ressource/files/res "+dateFormat.format(date)+".csv";
     	CSVReader.generateCsvFile(csvFile, this.EmployeeOfFactory);
     	
+    }
+
+    public GraphicalEntity getHideRoom() {
+        return HideRoom;
     }
 
     public ArrayList<GraphicalEntity> getOffices() {

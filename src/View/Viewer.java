@@ -77,27 +77,35 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
           panel.getChildren().add(imageOfOffice);
       }
     for (PersonModel employee : data.getUserFactory().getEmployeeOfFactory()){
-        Label label = new Label(employee.getName());
-        label.setTranslateX(employee.getPositionOfEntity().x + employee.getWidth()/8);
-        label.setTranslateY(employee.getPositionOfEntity().y - employee.getHeight()/2);
-        label.setTextFill(Color.WHITE);
-        ImageView imageOfEmployee = employee.getCurrentSprite();
-        imageOfEmployee.setTranslateX(employee.getPositionOfEntity().x);
-        imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y);
-        imageOfEmployee.setFitWidth(employee.getWidth());
-        imageOfEmployee.setFitHeight(employee.getHeight());
-        //Example of Mouse Event
-        imageOfEmployee.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("Name: " + employee.getName() +
-                					"\nJob: " + employee.getJob() + 
-                					"\nSalary: " + (int) employee.getSalary() + "€");
+        if(employee.getPositionOfEntity().x < data.getUserFactory().getHideRoom().getPositionOfEntity().x && employee.getPositionOfEntity().x > data.getUserFactory().getPositionOfEntity().x){
+            Label label = new Label(employee.getName());
+            label.setTranslateX(employee.getPositionOfEntity().x + employee.getWidth()/8);
+            label.setTranslateY(employee.getPositionOfEntity().y - employee.getHeight()/2);
+            label.setTextFill(Color.WHITE);
+            ImageView imageOfEmployee = employee.getCurrentSprite();
+            imageOfEmployee.setTranslateX(employee.getPositionOfEntity().x);
+            imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y);
+            imageOfEmployee.setFitWidth(employee.getWidth());
+            imageOfEmployee.setFitHeight(employee.getHeight());
+            //Example of Mouse Event
+            imageOfEmployee.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    System.out.println("Name: " + employee.getName() +
+                                        "\nJob: " + employee.getJob() +
+                                        "\nSalary: " + (int) employee.getSalary() + "€");
 
-            }
-        });
-        panel.getChildren().addAll(label, imageOfEmployee);
+                }
+            });
+            panel.getChildren().addAll(label, imageOfEmployee);
+        }
     }
+
+    Rectangle hideRooom = new Rectangle(data.getUserFactory().getHideRoom().getWidth(),data.getUserFactory().getHideRoom().getHeight(),Color.RED);
+    hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x);
+    hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y);
+    panel.getChildren().add(hideRooom);
+
     return panel;
   }
 

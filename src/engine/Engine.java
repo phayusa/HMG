@@ -6,10 +6,9 @@
  * ******************************************************/
 package engine;
 
+import Model.FactoryModel;
 import Model.PersonModel;
-import tools.AnimationSprite;
-import tools.HardCodedParameters;
-import tools.User_Entry;
+import tools.*;
 
 import specifications.Service.EngineService;
 import specifications.Service.DataService;
@@ -145,6 +144,11 @@ public class Engine implements EngineService, RequireDataService{
   }
 
   private void updateMoveHeroe(AnimationSprite objectToMove){
+    if(objectToMove.isDown()) {
+      objectToMove.setNbAnim(0);
+      objectToMove.setPositionWithSpeed(0,10);
+      return;
+    }
     if(objectToMove.isRight()) {
       objectToMove.setNbAnim(2);
       objectToMove.setPositionWithSpeed(10,0);
@@ -153,11 +157,6 @@ public class Engine implements EngineService, RequireDataService{
     if(objectToMove.isLeft()) {
       objectToMove.setNbAnim(1);
       objectToMove.setPositionWithSpeed(-10,0);
-      return;
-    }
-    if(objectToMove.isDown()) {
-      objectToMove.setNbAnim(0);
-      objectToMove.setPositionWithSpeed(0,10);
       return;
     }
     if(objectToMove.isUp()) {
@@ -189,4 +188,16 @@ public class Engine implements EngineService, RequireDataService{
     }
   }
 
+  @Override
+  public void resetPosition() {
+    dataOfWorld.setUserFactory(new FactoryModel(new GraphicalEntity(new Position(HardCodedParameters.FactoryStartX,HardCodedParameters.FactoryStartY), HardCodedParameters.FactoryWidth,HardCodedParameters.FactoryHeight)));
+  }
+
+  @Override
+  public void allLeave() {
+    int halfFactory = HardCodedParameters.FactoryHeight/2;
+    for (PersonModel Employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+      Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
+    }
+  }
 }
