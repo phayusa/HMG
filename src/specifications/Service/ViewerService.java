@@ -11,7 +11,7 @@ import javafx.scene.control.Button;
 
 public interface ViewerService{
   public void init();
-  public Parent getPanel();
+  public Parent getMainPanel();
 //  public void setMainWindowWidth(double w);
 //  public void setMainWindowHeight(double h);
 }
