@@ -53,6 +53,8 @@ public class Engine implements EngineService, RequireDataService{
   public void start(){
     engineClock.schedule(new TimerTask(){
       public void run() {
+//        updateAllPositionWithKey();
+        updateAllPositionWithFinalPosition();
         updateMoveHeroe(dataOfWorld.getTestSprite());
         for(PersonModel employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()){
           updateMoveHeroe(employee);
@@ -143,25 +145,49 @@ public class Engine implements EngineService, RequireDataService{
     }
   }
 
-  public void updateMoveHeroe(AnimationSprite objectToMove){
-    if(keyDown) {
-      objectToMove.setNbAnim(0);
-      objectToMove.setPositionWithSpeed(0,10);
-    }
-    if(keyUp) {
-      objectToMove.setNbAnim(3);
-      objectToMove.setPositionWithSpeed(0,-10);
-    }
-    if(keyRight) {
+  private void updateMoveHeroe(AnimationSprite objectToMove){
+    if(objectToMove.isRight()) {
       objectToMove.setNbAnim(2);
       objectToMove.setPositionWithSpeed(10,0);
+      return;
     }
-    if(keyLeft) {
+    if(objectToMove.isLeft()) {
       objectToMove.setNbAnim(1);
       objectToMove.setPositionWithSpeed(-10,0);
+      return;
     }
-    if(!keyLeft && !keyDown && !keyRight && !keyUp)
+    if(objectToMove.isDown()) {
+      objectToMove.setNbAnim(0);
+      objectToMove.setPositionWithSpeed(0,10);
+      return;
+    }
+    if(objectToMove.isUp()) {
+      objectToMove.setNbAnim(3);
+      objectToMove.setPositionWithSpeed(0,-10);
+      return;
+    }
+
+    if(!objectToMove.isLeft() && !objectToMove.isRight() && !objectToMove.isDown() && !objectToMove.isUp())
       objectToMove.stopAnim();
+  }
+
+  private void updateAllPositionWithKey(){
+    for (PersonModel employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+      employee.setLeft(keyLeft);
+      employee.setRight(keyRight);
+      employee.setDown(keyDown);
+      employee.setUp(keyUp);
+    }
+  }
+
+  private void updateAllPositionWithFinalPosition(){
+    //TODO : find correct calculation
+    for (PersonModel employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+      employee.setDown(!(employee.getNewPosition().y < employee.getPositionOfEntity().y + 50 ));
+      employee.setUp(!(employee.getNewPosition().y > employee.getPositionOfEntity().y - 50));
+      employee.setRight(!(employee.getNewPosition().x < employee.getPositionOfEntity().x + 50));
+      employee.setLeft(!(employee.getNewPosition().x > employee.getPositionOfEntity().x - 50));
+    }
   }
 
 }
