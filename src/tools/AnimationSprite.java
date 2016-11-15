@@ -21,6 +21,8 @@ public class AnimationSprite extends GraphicalEntity {
     private int sizeOfLine;
     private boolean inMovement;
     private int leftAnim,rightAnim, upAnim,downAnim;
+    private boolean left,right,up,down;
+    private Position newPosition;
 
     @Deprecated
     public AnimationSprite(GraphicalEntity initGraphicalEntity,String prefix,String suffix,int startcount ,int countSprites){
@@ -90,8 +92,8 @@ public class AnimationSprite extends GraphicalEntity {
     }
 
     public void setNbAnim(int line){
-        if(inMovement)
-            return;
+//        if(inMovement)
+//            return;
         inMovement = true;
         startIndex = line * sizeOfLine;
         endIndex = startIndex + sizeOfLine;
@@ -118,5 +120,43 @@ public class AnimationSprite extends GraphicalEntity {
         indexOfSprite = startIndex + indexOfLine;
     }
 
+    public boolean isLeft() {
+        return left;
+    }
 
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
+    }
+
+    public Position getNewPosition() {
+        return newPosition;
+    }
+
+    public void setNewPosition(Position newPosition) {
+        this.newPosition = newPosition;
+    }
 }

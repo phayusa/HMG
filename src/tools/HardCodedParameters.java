@@ -17,39 +17,12 @@ public class HardCodedParameters {
                           statSizeX=476, statSizeY=510,
                           statTranslateX=394, statTranslateY=-78,
                           backSizeX=477, backSizeY=148,
-                          backTranslateX=394, backTranslateY=253;
-
-
+                          backTranslateX=394, backTranslateY=253,
+                          FactoryWidth =700, FactoryHeight = 510,
+                          OfficeWidth = 150,OfficeHeight=80,numberOfficeInFactory=6,
+                          EmployeeStartX = 0;
+  public static final double FactoryStartX =50, FactoryStartY =40;
   public static final int enginePaceMillis = 100,
                           spriteSlowDownRate = 7;
-  public static final double friction = 0.50;
-  public static final double resolutionShrinkFactor = 0.95,
-                             userBarShrinkFactor = 0.25,
-                             menuBarShrinkFactor = 0.5,
-                             logBarShrinkFactor = 0.15,
-                             logBarCharacterShrinkFactor = 0.1175,
-                             logBarCharacterShrinkControlFactor = 0.01275,
-                             menuBarCharacterShrinkFactor = 0.175;
-  public static final int displayZoneXStep = 5,
-                          displayZoneYStep = 5,
-                          displayZoneXZoomStep = 5,
-                          displayZoneYZoomStep = 5;
-  public static final double displayZoneAlphaZoomStep = 0.98;
 
-  //---MISCELLANOUS---//
-  public static final Object loadingLock = new Object();
-  public static final String greetingsZoneId = String.valueOf(0xED1C7E),
-                             simulatorZoneId = String.valueOf(0x51E77E);
-  
-  public static <T> T instantiate(final String className, final Class<T> type){
-    try{
-      return type.cast(Class.forName(className).newInstance());
-    } catch(final InstantiationException e){
-      throw new IllegalStateException(e);
-    } catch(final IllegalAccessException e){
-      throw new IllegalStateException(e);
-    } catch(final ClassNotFoundException e){
-      throw new IllegalStateException(e);
-    }
-  }
 }

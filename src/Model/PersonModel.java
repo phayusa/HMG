@@ -11,15 +11,6 @@ public class PersonModel extends AnimationSprite{
     double salary,experience,ID;
     String name,job;
 
-//	public PersonModel(){}
-
-//    public PersonModel(String name,String job,double salary,GraphicalEntity graphicSettings){
-//        super(graphicSettings);
-//        this.name = name;
-//        this.job = job;
-//        this.salary = salary;
-//    }
-
 	public PersonModel(String name,String job,double salary,GraphicalEntity graphicSettings,String pathOfImage,int Xsprite, int Ysprite,double sizeSpriteX,double sizeSpriteY,long frameBySecond){
 		super(graphicSettings,pathOfImage,Xsprite,Ysprite,sizeSpriteX,sizeSpriteY,frameBySecond);
 		this.name = name;

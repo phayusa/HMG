@@ -153,8 +153,8 @@ public class Main extends Application{
         statistics.stop();
       }
     });
-    
-   
+
+
     stage.show();
     
     timer = new AnimationTimer() {

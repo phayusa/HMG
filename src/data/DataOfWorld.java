@@ -6,12 +6,11 @@
  * ******************************************************/
 package data;
 
-import java.util.ArrayList;
-
 import Model.FactoryModel;
 import specifications.Service.DataService;
 import tools.AnimationSprite;
 import tools.GraphicalEntity;
+import tools.HardCodedParameters;
 import tools.Position;
 
 public class DataOfWorld implements DataService{
@@ -26,12 +25,7 @@ public class DataOfWorld implements DataService{
 
     @Override
     public void init(){
-        userFactory = new FactoryModel();
-//        testSprite = new AnimationSprite(new GraphicalEntity(new Position(100,100),50,50),"file:Ressource/images/wizard/walk_",".png",10,1,4,8);
-//        testSprite = new AnimationSprite(new GraphicalEntity(new Position(100,100),50,50),"file:Ressource/images/test.png",4,3,24,32,10,8);
-        testSprite = new AnimationSprite(new GraphicalEntity(new Position(100,100),50,50),"file:Ressource/images/test2.png",4,3,32,32,8);
-        testSprite.setNbAnim(1);
-        testSprite.stopAnim();
+        userFactory = new FactoryModel(new GraphicalEntity(new Position(HardCodedParameters.FactoryStartX,HardCodedParameters.FactoryStartY), HardCodedParameters.FactoryWidth,HardCodedParameters.FactoryHeight));
     }
 
 
@@ -69,13 +63,6 @@ public class DataOfWorld implements DataService{
     
     }
 
-    public AnimationSprite getTestSprite() {
-        return testSprite;
-    }
-
-    public void setTestSprite(AnimationSprite testSprite) {
-        this.testSprite = testSprite;
-    }
 
     @Override
 	public void generateCsvFile() {
