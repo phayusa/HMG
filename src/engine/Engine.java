@@ -55,7 +55,6 @@ public class Engine implements EngineService, RequireDataService{
       public void run() {
 //        updateAllPositionWithKey();
         updateAllPositionWithFinalPosition();
-        updateMoveHeroe(dataOfWorld.getTestSprite());
         for(PersonModel employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()){
           updateMoveHeroe(employee);
         }
@@ -183,7 +182,7 @@ public class Engine implements EngineService, RequireDataService{
   private void updateAllPositionWithFinalPosition(){
     //TODO : find correct calculation
     for (PersonModel employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
-      employee.setDown(!(employee.getNewPosition().y < employee.getPositionOfEntity().y + 50 ));
+      employee.setDown(!(employee.getNewPosition().y < employee.getPositionOfEntity().y + 50));
       employee.setUp(!(employee.getNewPosition().y > employee.getPositionOfEntity().y - 50));
       employee.setRight(!(employee.getNewPosition().x < employee.getPositionOfEntity().x + 50));
       employee.setLeft(!(employee.getNewPosition().x > employee.getPositionOfEntity().x - 50));

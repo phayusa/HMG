@@ -7,10 +7,10 @@ import javafx.scene.image.ImageView;
  * Created by Miche on 10/11/2016.
  */
 public class GraphicalEntity {
-    Position positionOfEntity;
-    int width,height;
+    protected Position positionOfEntity;
+    protected int width,height;
     // the image will be be load only once
-    Image imageOfEntity;
+    protected ImageView imageOfEntity;
 
     public  GraphicalEntity(){}
 
@@ -24,7 +24,7 @@ public class GraphicalEntity {
         positionOfEntity = startPosition;
         this.width = width;
         this.height = height;
-        imageOfEntity = new Image(pathOfImage);
+        imageOfEntity = new ImageView(new Image(pathOfImage));
     }
 
     //Copy constructor
@@ -50,7 +50,7 @@ public class GraphicalEntity {
         return o;
     }
 
-    public Image getImageOfEntity(){
+    public ImageView getImageOfEntity(){
         return imageOfEntity;
     }
 

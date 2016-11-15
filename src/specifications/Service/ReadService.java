@@ -17,6 +17,5 @@ public interface ReadService {
  // public Sound.SOUND getSoundEffect();
     public double getBudget();
     public FactoryModel getUserFactory();
-    public AnimationSprite getTestSprite();
     public String getName();
 }

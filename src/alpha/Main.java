@@ -143,8 +143,8 @@ public class Main extends Application{
         engine.stop();
       }
     });
-    
-   
+
+
     stage.show();
     
     timer = new AnimationTimer() {
