@@ -6,32 +6,46 @@
  * ******************************************************/
 package View;
 
+import java.util.HashMap;
+import java.util.stream.Collectors;
+
 import Model.PersonModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
 import specifications.Require.RequireReadService;
+import specifications.Require.RequireStatisticsService;
 import specifications.Service.ReadService;
+import specifications.Service.StatisticsService;
 import specifications.Service.ViewerService;
 import tools.HardCodedParameters;
 
-public class Viewer implements ViewerService, RequireReadService{
+public class Viewer implements ViewerService, RequireReadService, RequireStatisticsService{
   private static final int spriteSlowDownRate=HardCodedParameters.spriteSlowDownRate;
   private static final double defaultMainWidth=HardCodedParameters.defaultWidth,
                               defaultMainHeight=HardCodedParameters.defaultHeight;
   private ReadService data;
-
+  private StatisticsService statistics;
+  
   public Viewer(){}
   
   @Override
   public void bindReadService(ReadService service){
-    data=service;
+	  data=service;
+  }
+  
+  @Override
+  public void bindStatisticsService(StatisticsService statisticsService) {
+	  statistics=statisticsService;  	
   }
 
+  
   @Override
   public void init(){
 
@@ -43,7 +57,7 @@ public class Viewer implements ViewerService, RequireReadService{
 	Group panel = new Group();
     for (PersonModel employee : data.getUserFactory().getEmployeeOfFactory()){
         Label label = new Label(employee.getName());
-        label.setTranslateX(employee.getPositionOfEntity().x+employee.getWidth()/8);
+        label.setTranslateX(employee.getPositionOfEntity().x + employee.getWidth()/8);
         label.setTranslateY(employee.getPositionOfEntity().y - employee.getHeight()/2);
         ImageView imageOfEmployee = employee.getCurrentSprite();
         imageOfEmployee.setTranslateX(employee.getPositionOfEntity().x);
@@ -54,7 +68,10 @@ public class Viewer implements ViewerService, RequireReadService{
         imageOfEmployee.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("Pressed "+employee.getName());
+                System.out.println("Name: " + employee.getName() +
+                					"\nJob: " + employee.getJob() + 
+                					"\nSalary: " + (int) employee.getSalary() + "€");
+
             }
         });
         panel.getChildren().addAll(label, imageOfEmployee);
@@ -70,11 +87,25 @@ public class Viewer implements ViewerService, RequireReadService{
             System.out.println("Pressed");
         }
     });
-    panel.getChildren().add(sprite);
+    HashMap<String, Double> salaryByJob = statistics.getSalaryByJob();
+     
+    ObservableList<PieChart.Data> pieChartData =
+    		salaryByJob.entrySet().stream()
+    	    .map(entry -> new PieChart.Data(entry.getKey(), entry.getValue()))
+    	    .collect(Collectors.toCollection(() -> FXCollections.observableArrayList()));
+   
+    final PieChart chart = new PieChart(pieChartData);
+    chart.setTitle("Company stat");
+    chart.setMaxWidth(300);
+    chart.setMaxHeight(300);
+    chart.setTranslateX(900);
+    chart.setTranslateY(100);
+
+    panel.getChildren().add(chart);
     return panel;
   }
 
- 
+
   
 //  @Override
 //  public void setMainWindowWidth(double width){

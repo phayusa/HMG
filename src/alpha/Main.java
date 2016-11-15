@@ -12,6 +12,7 @@ import View.Viewer;
 //import algorithm.RandomWalker;
 import data.DataOfWorld;
 import engine.Engine;
+import engine.StatisticsController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -28,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import specifications.Service.DataService;
 import specifications.Service.EngineService;
+import specifications.Service.StatisticsService;
 import specifications.Service.ViewerService;
 import tools.CSVReader;
 import tools.HardCodedParameters;
@@ -40,6 +42,7 @@ public class Main extends Application{
   //---VARIABLES---//
   private static DataService data;
   private static EngineService engine;
+  private static StatisticsService statistics;
   private static ViewerService viewer;
   private static AnimationTimer timer;
 
@@ -49,13 +52,17 @@ public class Main extends Application{
 
     data = new DataOfWorld();
     engine = new Engine();
+    statistics = new StatisticsController();
     viewer = new Viewer();
 
     ((Engine)engine).bindDataService(data);
+    ((StatisticsController)statistics).bindDataService(data);
+    ((Viewer)viewer).bindStatisticsService(statistics);
     ((Viewer)viewer).bindReadService(data);
 
     data.init();
     engine.init();
+    statistics.init();
     viewer.init();
     
     launch(args);
@@ -136,11 +143,13 @@ public class Main extends Application{
     stage.setOnShown(new EventHandler<WindowEvent>() {
       @Override public void handle(WindowEvent event) {
         engine.start();
+        statistics.start();
       }
     });
     stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
       @Override public void handle(WindowEvent event) {
         engine.stop();
+        statistics.stop();
       }
     });
     
