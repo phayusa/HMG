@@ -14,20 +14,20 @@ import specifications.Service.EngineService;
 import specifications.Service.DataService;
 import specifications.Require.RequireDataService;
 
+import java.lang.ref.PhantomReference;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
 
 public class Engine implements EngineService, RequireDataService{
-//  private static final double friction=HardCodedParameters.friction,
-//                              heroesStep=HardCodedParameters.heroesStep,
-//                              phantomStep=HardCodedParameters.phantomStep;
+
+
   private Timer engineClock;
   private DataService dataOfWorld;
 //  private User_Entry.COMMAND command;
   private Random gen;
-  private int testNbAnim;
   private boolean keyLeft, keyRight, keyUp, keyDown;
+  private int index;
 
   public Engine(){}
 
@@ -39,13 +39,12 @@ public class Engine implements EngineService, RequireDataService{
   @Override
   public void init(){
     engineClock = new Timer();
-//    command = User_Entry.COMMAND.NONE;
-    gen = new Random();/**/
+    gen = new Random();
     keyLeft = false;
     keyRight = false;
     keyUp = false;
     keyDown = false;
-    testNbAnim = 1;
+    index = 0;
   }
 
   @Override
@@ -53,50 +52,10 @@ public class Engine implements EngineService, RequireDataService{
     engineClock.schedule(new TimerTask(){
       public void run() {
 //        updateAllPositionWithKey();
-        updateAllPositionWithFinalPosition();
-        for(PersonModel employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()){
-          updateMoveHeroe(employee);
-        }
-//        if(testNbAnim == 4) {
-//          dataOfWorld.getTestSprite().stopAnim();
-//          testNbAnim++;
-//        }
-//        if(testNbAnim < 4){
-//          dataOfWorld.getTestSprite().setNbAnim(testNbAnim);
-//        }
-
-        //System.out.println("Game step #"+data.getStepNumber()+": checked.");
-
-//        if (gen.nextInt(10)<3) spawnPhantom();
-//
-//        updateSpeedHeroes();
-//        updateCommandHeroes();
-//        updatePositionHeroes();
-//
-//        ArrayList<PhantomService> phantoms = new ArrayList<PhantomService>();
-//        int score=0;
-//
-//        data.setSoundEffect(Sound.SOUND.None);
-//
-//        for (PhantomService p:data.getPhantoms()){
-//          if (p.getAction()==PhantomService.MOVE.LEFT) keyLeft(p);
-//          if (p.getAction()==PhantomService.MOVE.RIGHT) keyRight(p);
-//          if (p.getAction()==PhantomService.MOVE.UP) keyUp(p);
-//          if (p.getAction()==PhantomService.MOVE.DOWN) keyDown(p);
-//
-//          if (collisionHeroesPhantom(p)){
-//            data.setSoundEffect(Sound.SOUND.HeroesGotHit);
-//            score++;
-//          } else {
-//            if (p.getPosition().x>0) phantoms.add(p);
-//          }
-//        }
-//
-//        data.addScore(score);
-//
-//        data.setPhantoms(phantoms);
-
-        //data.setStepNumber(data.getStepNumber()+1);
+        updateAllPositionWithFinalPosition(index/5);
+        if(index<dataOfWorld.getUserFactory().getEmployeeOfFactory().size()*5)
+          index++;
+//      data.setSoundEffect(Sound.SOUND.None);
       }
     },0,HardCodedParameters.enginePaceMillis);
   }
@@ -143,12 +102,7 @@ public class Engine implements EngineService, RequireDataService{
     }
   }
 
-  private void updateMoveHeroe(AnimationSprite objectToMove){
-    if(objectToMove.isDown()) {
-      objectToMove.setNbAnim(0);
-      objectToMove.setPositionWithSpeed(0,10);
-      return;
-    }
+  private void updateMoveHeroeGeneral(AnimationSprite objectToMove){
     if(objectToMove.isRight()) {
       objectToMove.setNbAnim(2);
       objectToMove.setPositionWithSpeed(10,0);
@@ -162,6 +116,39 @@ public class Engine implements EngineService, RequireDataService{
     if(objectToMove.isUp()) {
       objectToMove.setNbAnim(3);
       objectToMove.setPositionWithSpeed(0,-10);
+      return;
+    }
+    if(objectToMove.isDown()) {
+      objectToMove.setNbAnim(0);
+      objectToMove.setPositionWithSpeed(0,10);
+      return;
+    }
+
+    if(!objectToMove.isLeft() && !objectToMove.isRight() && !objectToMove.isDown() && !objectToMove.isUp())
+      objectToMove.stopAnim();
+  }
+
+  //Problem of priority at out
+  private void updateMoveHeroeAtOut(AnimationSprite objectToMove){
+
+    if(objectToMove.isUp()) {
+      objectToMove.setNbAnim(3);
+      objectToMove.setPositionWithSpeed(0,-10);
+      return;
+    }
+    if(objectToMove.isDown()) {
+      objectToMove.setNbAnim(0);
+      objectToMove.setPositionWithSpeed(0,10);
+      return;
+    }
+    if(objectToMove.isRight()) {
+      objectToMove.setNbAnim(2);
+      objectToMove.setPositionWithSpeed(10,0);
+      return;
+    }
+    if(objectToMove.isLeft()) {
+      objectToMove.setNbAnim(1);
+      objectToMove.setPositionWithSpeed(-10,0);
       return;
     }
 
@@ -178,13 +165,17 @@ public class Engine implements EngineService, RequireDataService{
     }
   }
 
-  private void updateAllPositionWithFinalPosition(){
-    //TODO : find correct calculation
-    for (PersonModel employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
-      employee.setDown(!(employee.getNewPosition().y < employee.getPositionOfEntity().y + 50));
-      employee.setUp(!(employee.getNewPosition().y > employee.getPositionOfEntity().y - 50));
+  private void updateAllPositionWithFinalPosition(int maxIndex){
+    for (int i=0;i<maxIndex;i++) {
+      PersonModel employee = dataOfWorld.getUserFactory().getEmployeeOfFactory().get(i);
       employee.setRight(!(employee.getNewPosition().x < employee.getPositionOfEntity().x + 50));
       employee.setLeft(!(employee.getNewPosition().x > employee.getPositionOfEntity().x - 50));
+      employee.setDown(!(employee.getNewPosition().y < employee.getPositionOfEntity().y + 50));
+      employee.setUp(!(employee.getNewPosition().y > employee.getPositionOfEntity().y - 50));
+      if (employee.getNewPosition().x == HardCodedParameters.EmployeeStartX)
+        updateMoveHeroeAtOut(employee);
+      else
+        updateMoveHeroeGeneral(employee);
     }
   }
 
@@ -198,13 +189,17 @@ public class Engine implements EngineService, RequireDataService{
     				HardCodedParameters.urlBackground
     				)
     		));
+    index = 0;
   }
 
   @Override
   public void allLeave() {
-    int halfFactory = HardCodedParameters.FactoryHeight/2;
+    int halfFactory = HardCodedParameters.FactoryHeight/3;
     for (PersonModel Employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
       Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
     }
   }
+
+
+
 }

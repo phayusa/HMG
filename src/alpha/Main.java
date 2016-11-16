@@ -151,13 +151,6 @@ public class Main extends Application{
 
 
         }
-//          if (event.getCode()==KeyCode.LEFT) engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
-//          if (event.getCode()==KeyCode.RIGHT) engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
-//          if (event.getCode()==KeyCode.UP) engine.setHeroesCommand(User_Entry.COMMAND.UP);
-//          if (event.getCode()==KeyCode.DOWN) engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
-//          if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.ESCAPE ) { System.exit(0);}
-//          if(event.getCode() == KeyCode.P) engine.modifyTestNbAnim();
-//          if(event.getCode() == KeyCode.T) engine.stopAnim();
         event.consume();
       }
     });

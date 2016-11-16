@@ -64,31 +64,32 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
   }
 
   public Parent panelCompany(){
+
 	Pane panel = new Pane();
-      panel.setMaxSize(HardCodedParameters.companySizeX,HardCodedParameters.companySizeY);
-      panel.setTranslateX(HardCodedParameters.companyTranslateX);
-      panel.setTranslateY(HardCodedParameters.companyTranslateY);
-      ImageView factoryRepresentation = data.getUserFactory().getImageOfEntity();
-      factoryRepresentation.setTranslateX(data.getUserFactory().getPositionOfEntity().x);
-      factoryRepresentation.setTranslateY(data.getUserFactory().getPositionOfEntity().y);
-      factoryRepresentation.setFitWidth(data.getUserFactory().getWidth());
-      factoryRepresentation.setFitHeight(data.getUserFactory().getHeight());
+    panel.setMaxSize(HardCodedParameters.companySizeX,HardCodedParameters.companySizeY);
+    panel.setTranslateX(HardCodedParameters.companyTranslateX);
+    panel.setTranslateY(HardCodedParameters.companyTranslateY);
+    ImageView factoryRepresentation = data.getUserFactory().getImageOfEntity();
+    factoryRepresentation.setTranslateX(data.getUserFactory().getPositionOfEntity().x);
+    factoryRepresentation.setTranslateY(data.getUserFactory().getPositionOfEntity().y);
+    factoryRepresentation.setFitWidth(data.getUserFactory().getWidth());
+    factoryRepresentation.setFitHeight(data.getUserFactory().getHeight());
 
     panel.getChildren().add(factoryRepresentation);
-      for (GraphicalEntity Office : data.getUserFactory().getOffices() ) {
-          ImageView imageOfOffice = Office.getImageOfEntity();
-          imageOfOffice.setTranslateX(Office.getPositionOfEntity().x);
-          imageOfOffice.setTranslateY(Office.getPositionOfEntity().y);
-          imageOfOffice.setFitWidth(Office.getWidth());
-          imageOfOffice.setFitHeight(Office.getHeight());
-          panel.getChildren().add(imageOfOffice);
-      }
+    for (GraphicalEntity Office : data.getUserFactory().getOffices() ) {
+      ImageView imageOfOffice = Office.getImageOfEntity();
+      imageOfOffice.setTranslateX(Office.getPositionOfEntity().x);
+      imageOfOffice.setTranslateY(Office.getPositionOfEntity().y);
+      imageOfOffice.setFitWidth(Office.getWidth());
+      imageOfOffice.setFitHeight(Office.getHeight());
+      panel.getChildren().add(imageOfOffice);
+    }
     for (PersonModel employee : data.getUserFactory().getEmployeeOfFactory()){
         if(employee.getPositionOfEntity().x < data.getUserFactory().getHideRoom().getPositionOfEntity().x && employee.getPositionOfEntity().x > data.getUserFactory().getPositionOfEntity().x){
             Label label = new Label(employee.getName());
             label.setTranslateX(employee.getPositionOfEntity().x + employee.getWidth()/8);
             label.setTranslateY(employee.getPositionOfEntity().y - employee.getHeight()/2);
-            label.setTextFill(Color.WHITE);
+            label.setTextFill(Color.BLACK);
             ImageView imageOfEmployee = employee.getCurrentSprite();
             imageOfEmployee.setTranslateX(employee.getPositionOfEntity().x);
             imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y);

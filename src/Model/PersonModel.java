@@ -8,8 +8,8 @@ import tools.Position;
  * Created by Miche on 10/11/2016.
  */
 public class PersonModel extends AnimationSprite{
-    double salary,experience,ID;
-    String name,job;
+    private double salary,experience,ID;
+    private String name,job;
 
 	public PersonModel(String name,String job,double salary,GraphicalEntity graphicSettings,String pathOfImage,int Xsprite, int Ysprite,double sizeSpriteX,double sizeSpriteY,long frameBySecond){
 		super(graphicSettings,pathOfImage,Xsprite,Ysprite,sizeSpriteX,sizeSpriteY,frameBySecond);
