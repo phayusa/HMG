@@ -24,10 +24,11 @@ public class Engine implements EngineService, RequireDataService{
 
   private Timer engineClock;
   private DataService dataOfWorld;
-//  private User_Entry.COMMAND command;
   private Random gen;
   private boolean keyLeft, keyRight, keyUp, keyDown;
-  private int index;
+  private int index,FinalIndex;
+  private Timer updateDay;
+  private boolean InPause;
 
   public Engine(){}
 
@@ -45,6 +46,16 @@ public class Engine implements EngineService, RequireDataService{
     keyUp = false;
     keyDown = false;
     index = 0;
+    FinalIndex = dataOfWorld.getUserFactory().getEmployeeOfFactory().size() * 5;
+    InPause = false;
+    updateDay = new Timer();
+    updateDay.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        if(index == FinalIndex && !InPause)
+          DayProgression();
+      }
+    },0,HardCodedParameters.TimeBetweenDaysInMilli);
   }
 
   @Override
@@ -53,13 +64,14 @@ public class Engine implements EngineService, RequireDataService{
       public void run() {
 //        updateAllPositionWithKey();
 
-        if(index<dataOfWorld.getUserFactory().getEmployeeOfFactory().size()*5) {
-          index++;
-          updateAllPositionWithFinalPosition(index/5);
-        }
-        else {
-          updateAllPositionWithFinalPosition();
-          DayProgression();
+        if(!InPause) {
+          if (index < FinalIndex) {
+            index++;
+            updateAllPositionWithFinalPosition(index / 5);
+          } else {
+            updateAllPositionWithFinalPosition();
+//          DayProgression();
+          }
         }
 //      data.setSoundEffect(Sound.SOUND.None);
       }
@@ -70,6 +82,14 @@ public class Engine implements EngineService, RequireDataService{
   public void stop(){
     engineClock.cancel();
     System.exit(0);
+  }
+
+  @Override
+  public void onPause() {
+    InPause = !InPause;
+    for (PersonModel employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+      employee.stopAnim();
+    }
   }
 
   @Override
@@ -226,10 +246,15 @@ public class Engine implements EngineService, RequireDataService{
     int halfFactory = HardCodedParameters.FactoryHeight/3;
 //    for (int i=0;i<dataOfWorld.getMaxProgressionByDay();i++){
       for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
-          int nextRandom = gen.nextInt(100);
+          //TODO : draw a number and add with a pourcent of wage. If inferior of 1 the diff is stocked in personModel and if this difference is greater than 1 -> the employee leave the factory
+          int nextRandom = gen.nextInt(10);
           if(nextRandom == 0){
             Employee.setInFactory(false);
             Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
+          }
+          nextRandom = gen.nextInt(2);
+          if(nextRandom == 1){
+            dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + 1);
           }
       }
 //    }
@@ -237,12 +262,6 @@ public class Engine implements EngineService, RequireDataService{
 
   @Override
   public void ClearEmployeeOfNotInAction(ArrayList<PersonModel> test){
-//    ArrayList<PersonModel> CleanArray = new ArrayList<PersonModel>();
-//    for (PersonModel employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
-//      if(employee.isInFactory() && employee.getNewPosition().x<)
-//        CleanArray.add(employee);
-//    }
-//    dataOfWorld.setEmployeeOfFactory(CleanArray);
     if(test.size() != dataOfWorld.getUserFactory().getEmployeeOfFactory().size())
       dataOfWorld.setEmployeeOfFactory(test);
   }

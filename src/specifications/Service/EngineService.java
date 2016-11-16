@@ -15,6 +15,7 @@ public interface EngineService{
   public void init();
   public void start();
   public void stop();
+  public void onPause();
   public void setHeroesCommand(User_Entry.COMMAND c);
   public void releaseHeroesCommand(User_Entry.COMMAND c);
   public void resetPosition();

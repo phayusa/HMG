@@ -141,6 +141,9 @@ public class Main extends Application{
           case L:
             engine.allLeave();
             break;
+          case P:
+            engine.onPause();
+            break;
           case Q:
           case ESCAPE:
             System.exit(0);

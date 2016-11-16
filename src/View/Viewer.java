@@ -160,8 +160,8 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y);
     panel.getChildren().add(hideRooom);
 
-    ProgressBar progressionOfProject = new ProgressBar(data.getProgressOfWork());
-    ProgressIndicator progressIndication = new ProgressIndicator(data.getProgressOfWork());
+    ProgressBar progressionOfProject = new ProgressBar(data.getProgressOfWorkInFloat());
+    ProgressIndicator progressIndication = new ProgressIndicator(data.getProgressOfWorkInFloat());
     HBox ProgressionBox = new HBox();
     ProgressionBox.setAlignment(Pos.CENTER);
     ProgressionBox.getChildren().addAll(progressionOfProject,progressIndication);
@@ -170,9 +170,8 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     panel.getChildren().add(ProgressionBox);
 
     Label DayPresentation = new Label("Jour "+data.getCurrentDay());
-//      DayPresentation.setFont(new Font("Arial",30));
     DayPresentation.setTextFill(Color.BLACK);
-      DayPresentation.setFont(new Font("Arial",25));
+    DayPresentation.setFont(new Font("Arial",25));
     DayPresentation.setTranslateX(HardCodedParameters.FactoryStartX+15);
     DayPresentation.setTranslateY(HardCodedParameters.FactoryHeight - 45);
     panel.getChildren().add(DayPresentation);

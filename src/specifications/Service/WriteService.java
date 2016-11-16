@@ -25,6 +25,7 @@ public interface WriteService {
     public void setUserFactory(FactoryModel userFactory);
     public void setCurrentDay(int currentDay);
     public void setEmployeeOfFactory(ArrayList<PersonModel> employeeOfFactory);
+    public void setProgressionOfWork(int progressionOfWork);
     public void setName(String name);
     public void loadCSVFile();
     public void generateCsvFile();

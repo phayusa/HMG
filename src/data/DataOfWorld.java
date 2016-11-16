@@ -77,10 +77,17 @@ public class DataOfWorld implements DataService{
     }
 
     @Override
-    public float getProgressOfWork() {
+    public float getProgressOfWorkInFloat() {
         return ((float) ProgressionOfWork)/100;
     }
 
+    @Override
+    public int getProgressOfWork() {
+        return ProgressionOfWork;
+    }
+
+
+    @Override
     public void setProgressionOfWork(int progressionOfWork) {
         ProgressionOfWork = progressionOfWork;
     }
@@ -119,4 +126,5 @@ public class DataOfWorld implements DataService{
     public void setEmployeeOfFactory(ArrayList<PersonModel> employeeOfFactory) {
         userFactory.setEmployeeOfFactory(employeeOfFactory);
     }
+
 }

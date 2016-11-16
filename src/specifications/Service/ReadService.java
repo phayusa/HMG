@@ -18,7 +18,8 @@ public interface ReadService {
    public double getBudget();
    public FactoryModel getUserFactory();
    public String getName();
-   public float getProgressOfWork();
+   public int getProgressOfWork();
+   public float getProgressOfWorkInFloat();
    public int getCurrentDay();
    public int getMaxProgressionByDay();
 }

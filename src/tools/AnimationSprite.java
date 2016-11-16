@@ -173,4 +173,8 @@ public class AnimationSprite extends GraphicalEntity {
     public void setInFactory(boolean inFactory) {
         this.inFactory = inFactory;
     }
+
+    public void setInMovement(boolean inMovement) {
+        this.inMovement = inMovement;
+    }
 }

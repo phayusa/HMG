@@ -14,6 +14,7 @@ public class HardCodedParameters {
                           OfficeWidth = 150,OfficeHeight = 80,numberOfficeInFactory=6,
                           EmployeeStartX = -260;
     public static final double FactoryStartX = 0, FactoryStartY = 0;
+    public static final int TimeBetweenDaysInMilli = 10000;
 
   //----Panels Dimension---//
   public static final int companySizeX = 700, companySizeY = 510,
