@@ -136,6 +136,7 @@ public class Main extends Application{
             break;
           case R:
             engine.resetPosition();
+            statistics.resetStat();
             break;
           case L:
             engine.allLeave();

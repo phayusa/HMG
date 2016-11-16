@@ -209,6 +209,7 @@ public class Engine implements EngineService, RequireDataService{
     				)
     		));
     index = 0;
+    dataOfWorld.setCurrentDay(1);
   }
 
   @Override

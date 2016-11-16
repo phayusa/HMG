@@ -8,4 +8,5 @@ public interface StatisticsService {
 	public void start();
 	public HashMap<String, Double> getSalaryByJob();
 	public Double getTotalSalary();
+	public void resetStat();
 }

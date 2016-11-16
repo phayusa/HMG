@@ -10,6 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 import specifications.Require.RequireDataService;
 import specifications.Service.DataService;
 import specifications.Service.StatisticsService;
+import tools.HardCodedParameters;
 
 public class StatisticsController implements StatisticsService, RequireDataService {
 
@@ -35,6 +36,10 @@ public class StatisticsController implements StatisticsService, RequireDataServi
 	    System.exit(0);
 	}
 
+	public void resetStat() {
+		factory = dataOfWorld.getUserFactory();
+	}
+	
 	@Override
 	public void start() {
 		
