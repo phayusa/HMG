@@ -221,13 +221,10 @@ public class Engine implements EngineService, RequireDataService{
 
   public void DayProgression(){
     dataOfWorld.setCurrentDay(dataOfWorld.getCurrentDay() + 1);
-    System.out.println("number employee "+dataOfWorld.getUserFactory().getEmployeeOfFactory().size());
-    System.out.println("index  "+index);
     int halfFactory = HardCodedParameters.FactoryHeight/3;
 //    for (int i=0;i<dataOfWorld.getMaxProgressionByDay();i++){
       for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
           int nextRandom = gen.nextInt(100);
-          System.out.println("Tirage "+nextRandom+" limit 0");
           if(nextRandom == 0){
             Employee.setInFactory(false);
             Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
