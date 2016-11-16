@@ -7,26 +7,42 @@
 package View;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import Model.PersonModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import engine.Engine;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import specifications.Require.RequireEngineService;
@@ -46,7 +62,15 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
   private ReadService data;
   private StatisticsService statistics;
   private EngineService engine;
-  
+
+
+  final ImageView pic = new ImageView();
+  final Label name = new Label();
+  final Label binName = new Label();
+  final Label description = new Label();
+  private int currentIndex = -1;
+
+
   public Viewer(){}
   
   @Override
@@ -64,7 +88,7 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     engine = service;
   }
 
-  
+
   @Override
   public void init(){
 
@@ -162,21 +186,64 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
         panel.setMaxSize(HardCodedParameters.statSizeX,HardCodedParameters.statSizeY);
         panel.setTranslateX(HardCodedParameters.statTranslateX);
         panel.setTranslateY(HardCodedParameters.statTranslateY);
-        
         HashMap<String, Double> salaryByJob = statistics.getSalaryByJob();
-        ObservableList<PieChart.Data> pieChartData =
-        		salaryByJob.entrySet().stream()
-        	    .map(entry -> new PieChart.Data(entry.getKey(), entry.getValue()))
-        	    .collect(Collectors.toCollection(() -> FXCollections.observableArrayList()));
-       
-        final PieChart chart = new PieChart(pieChartData);
-        chart.setTitle("Company stat");
-        chart.setMaxSize(400, 400);
-        chart.setTranslateX(0);
-        chart.setTranslateY(100);
 
-        panel.getChildren().add(chart);
-        //panel.getChildren().addAll(btn);
+	    if (!salaryByJob.isEmpty()) {
+	        ObservableList<PieChart.Data> pieChartData =
+				salaryByJob.entrySet().stream()
+			    .map(entry -> new PieChart.Data(entry.getKey(), entry.getValue()))
+			    .collect(Collectors.toCollection(() -> FXCollections.observableArrayList()));
+
+	        pieChartData.forEach(dataChart ->
+	        dataChart.nameProperty().bind(
+	                Bindings.concat(
+	                		dataChart.getName(), " ",
+	                		//IF
+	                		dataChart.pieValueProperty().intValue() > 1?
+	                		//THEN
+	                		dataChart.pieValueProperty().intValue() + "%":
+	                		//ELSE
+	                		"< 1%"
+			                )
+			        )
+			);
+
+	        final PieChart chart = new PieChart(pieChartData);
+	        chart.autosize();
+	        chart.setTitle("Budget Entreprise");
+	        chart.setMaxSize(450, 300);
+	        chart.setTranslateY(HardCodedParameters.statSizeY-400);
+	        chart.setLabelLineLength(10);
+	        chart.setLegendVisible(false);
+
+	        chart.setOnMousePressed(new EventHandler<MouseEvent>() {
+	            @Override
+	            public void handle(MouseEvent event) {
+	            	TextInputDialog dialog = new TextInputDialog(String.valueOf(data.getUserFactory().getBudget()));
+	            	dialog.setTitle("Budget entreprise");
+	            	dialog.setHeaderText("Entrez un nouveau budget");
+
+	            	Optional<String> result = dialog.showAndWait();
+	            	if (result.isPresent() && !result.get().isEmpty() && result.get().matches("[0-9]{1,13}(\\.[0-9]*)?") && result.get().length() > 2 ){
+	            	    if (Double.parseDouble(result.get()) < statistics.getTotalSalary()) {
+	            	    	Alert alert = new Alert(AlertType.INFORMATION);
+	            	    	alert.setTitle("Information du budget");
+	            	    	alert.setHeaderText("Budget insuffisant");
+	            	    	alert.setContentText("Minimum " + statistics.getTotalSalary() + " €");
+
+	            	    	alert.showAndWait();
+	            	    }
+	            	    else {
+	            	    	 data.getUserFactory().setBudget(Double.parseDouble(result.get()));
+	            	    }
+
+	            	}
+
+	            }
+	        });
+
+	        panel.getChildren().addAll(chart);
+        }
       return panel;
   }
 
@@ -201,14 +268,12 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
   @Override
     public Parent getMainPanel() {
         StackPane rootPane = new StackPane();
+
         rootPane.getChildren().addAll(panelCompany(),panelStat(),panelBack());
         return rootPane;
     }
-
-
-
-
-    //  @Override
+   
+//  @Override
 //  public void setMainWindowWidth(double width){
 //    xShrink=width/defaultMainWidth;
 //  }

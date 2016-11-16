@@ -22,7 +22,8 @@ public class HardCodedParameters {
 				          statTranslateX = 394, statTranslateY = -80,
 				          backSizeX = 476, backSizeY = 148,
 				          backTranslateX = 394, backTranslateY = 253;
-
+  
+  public static final double FactoryStartX = 0, FactoryStartY = 0, startBudget = 10000;
   public static final int enginePaceMillis = 100,
                           spriteSlowDownRate = 7;
   

@@ -7,4 +7,5 @@ public interface StatisticsService {
 	public void stop();
 	public void start();
 	public HashMap<String, Double> getSalaryByJob();
+	public Double getTotalSalary();
 }

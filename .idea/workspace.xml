@@ -2,54 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="16a60003-ea1f-490b-93f5-56687e4c0d78" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/Model/FactoryModel.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/Model/PersonModel.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/View/Viewer$1.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/View/Viewer.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/alpha/Main$1.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/alpha/Main$2.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/alpha/Main$3.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/alpha/Main$4.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/alpha/Main$5.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/alpha/Main$6.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/alpha/Main.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/data/DataOfWorld.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/engine/Engine$1.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/engine/Engine$2.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/engine/Engine.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/engine/StatisticsController.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Require/RequireDataService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Require/RequireEngineService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Require/RequireReadService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Require/RequireStatisticsService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Require/RequireViewerService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Require/RequireWriteService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Service/DataService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Service/EngineService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Service/ReadService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Service/StatisticsService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Service/ViewerService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/specifications/Service/WriteService.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/tools/AnimationSprite$1.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/tools/AnimationSprite.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/tools/CSVReader.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/tools/GraphicalEntity.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/tools/HardCodedParameters.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/tools/Position.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/tools/Sound$SOUND.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/tools/Sound.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/tools/User_Entry$COMMAND.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/beans/tools/User_Entry.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/FactoryModel.java" afterPath="$PROJECT_DIR$/src/Model/FactoryModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model/PersonModel.java" afterPath="$PROJECT_DIR$/src/Model/PersonModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/View/Viewer.java" afterPath="$PROJECT_DIR$/src/View/Viewer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/alpha/Main.java" afterPath="$PROJECT_DIR$/src/alpha/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/DataOfWorld.java" afterPath="$PROJECT_DIR$/src/data/DataOfWorld.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/engine/Engine.java" afterPath="$PROJECT_DIR$/src/engine/Engine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/specifications/Service/EngineService.java" afterPath="$PROJECT_DIR$/src/specifications/Service/EngineService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/specifications/Service/ReadService.java" afterPath="$PROJECT_DIR$/src/specifications/Service/ReadService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/specifications/Service/WriteService.java" afterPath="$PROJECT_DIR$/src/specifications/Service/WriteService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/engine/StatisticsController.java" afterPath="$PROJECT_DIR$/src/engine/StatisticsController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/specifications/Service/StatisticsService.java" afterPath="$PROJECT_DIR$/src/specifications/Service/StatisticsService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tools/AnimationSprite.java" afterPath="$PROJECT_DIR$/src/tools/AnimationSprite.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tools/HardCodedParameters.java" afterPath="$PROJECT_DIR$/src/tools/HardCodedParameters.java" />
     </list>
     <ignored path="HMG.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,22 +34,32 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/alpha/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="66" column="18" selection-start-line="66" selection-start-column="18" selection-end-line="66" selection-end-column="18" />
+            <state relative-caret-position="900">
+              <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Engine.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Engine.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/engine/Engine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="228" column="42" selection-start-line="228" selection-start-column="42" selection-end-line="228" selection-end-column="42" />
+            <state relative-caret-position="433">
+              <caret line="232" column="7" selection-start-line="232" selection-start-column="7" selection-end-line="232" selection-end-column="7" />
               <folding>
-                <element signature="e#7752#7753#0" expanded="true" />
-                <element signature="e#7774#7775#0" expanded="true" />
+                <element signature="e#7545#7546#0" expanded="true" />
+                <element signature="e#7567#7568#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HardCodedParameters.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/tools/HardCodedParameters.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="15" selection-end-column="68" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -131,12 +102,10 @@
       <file leaf-file-name="Viewer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/View/Viewer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="869">
-              <caret line="123" column="39" selection-start-line="123" selection-start-column="39" selection-end-line="123" selection-end-column="39" />
+            <state relative-caret-position="1103">
+              <caret line="135" column="39" selection-start-line="135" selection-start-column="39" selection-end-line="135" selection-end-column="39" />
               <folding>
-                <element signature="e#2264#2265#0" expanded="true" />
-                <element signature="e#2290#2291#0" expanded="true" />
-                <element signature="e#3551#3564#0" expanded="true" />
+                <marker date="1479309311400" expanded="false" signature="427:437" ph="..." />
               </folding>
             </state>
           </provider>
@@ -170,7 +139,6 @@
         <option value="$PROJECT_DIR$/src/tools/Position.java" />
         <option value="$PROJECT_DIR$/src/tools/GraphicalEntity.java" />
         <option value="$PROJECT_DIR$/src/tools/CSVReader.java" />
-        <option value="$PROJECT_DIR$/src/tools/HardCodedParameters.java" />
         <option value="$PROJECT_DIR$/src/Model/PersonModel.java" />
         <option value="$PROJECT_DIR$/src/Model/FactoryModel.java" />
         <option value="$PROJECT_DIR$/src/specifications/Service/ReadService.java" />
@@ -181,6 +149,7 @@
         <option value="$PROJECT_DIR$/src/specifications/Service/EngineService.java" />
         <option value="$PROJECT_DIR$/src/View/Viewer.java" />
         <option value="$PROJECT_DIR$/src/engine/Engine.java" />
+        <option value="$PROJECT_DIR$/src/tools/HardCodedParameters.java" />
       </list>
     </option>
   </component>
@@ -1112,7 +1081,7 @@
       <updated>1478763956565</updated>
       <workItem from="1479286080317" duration="136000" />
       <workItem from="1479286384629" duration="53000" />
-      <workItem from="1479286492025" duration="18815000" />
+      <workItem from="1479286492025" duration="20054000" />
     </task>
     <task id="LOCAL-00001" summary="Correction of bugs in out and out.">
       <created>1479290296088</created>
@@ -1121,11 +1090,25 @@
       <option name="project" value="LOCAL" />
       <updated>1479290296088</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add of Day plus random out of the day">
+      <created>1479308215643</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1479308215643</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add of Day plus random out of the day">
+      <created>1479308992515</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1479308992515</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19004000" />
+    <option name="totallyTimeSpent" value="20243000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="1056" extended-state="6" />
@@ -1171,7 +1154,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Correction of bugs in out and out." />
-    <option name="LAST_COMMIT_MESSAGE" value="Correction of bugs in out and out." />
+    <MESSAGE value="Add of Day plus random out of the day" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add of Day plus random out of the day" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1214,7 +1198,7 @@
         <state relative-caret-position="216">
           <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding>
-            <marker date="1479288931224" expanded="true" signature="611:612" ph="{...}" />
+            <marker date="1479309140208" expanded="true" signature="611:612" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1264,7 +1248,7 @@
         <state relative-caret-position="216">
           <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding>
-            <marker date="1479288931224" expanded="true" signature="611:612" ph="{...}" />
+            <marker date="1479309140208" expanded="true" signature="611:612" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1314,7 +1298,7 @@
         <state relative-caret-position="216">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding>
-            <marker date="1479288931224" expanded="true" signature="611:612" ph="{...}" />
+            <marker date="1479309140208" expanded="true" signature="611:612" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1369,14 +1353,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tools/HardCodedParameters.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/specifications/Service/ReadService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1398,7 +1374,7 @@
         <state relative-caret-position="162">
           <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
           <folding>
-            <marker date="1479288931224" expanded="true" signature="611:612" ph="{...}" />
+            <marker date="1479309140208" expanded="true" signature="611:612" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1439,20 +1415,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/alpha/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="66" column="18" selection-start-line="66" selection-start-column="18" selection-end-line="66" selection-end-column="18" />
+        <state relative-caret-position="900">
+          <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/View/Viewer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="869">
-          <caret line="123" column="39" selection-start-line="123" selection-start-column="39" selection-end-line="123" selection-end-column="39" />
+        <state relative-caret-position="1103">
+          <caret line="135" column="39" selection-start-line="135" selection-start-column="39" selection-end-line="135" selection-end-column="39" />
           <folding>
-            <element signature="e#2264#2265#0" expanded="true" />
-            <element signature="e#2290#2291#0" expanded="true" />
-            <element signature="e#3551#3564#0" expanded="true" />
+            <marker date="1479309311400" expanded="false" signature="427:437" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1480,12 +1454,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/engine/Engine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="228" column="42" selection-start-line="228" selection-start-column="42" selection-end-line="228" selection-end-column="42" />
+        <state relative-caret-position="433">
+          <caret line="232" column="7" selection-start-line="232" selection-start-column="7" selection-end-line="232" selection-end-column="7" />
           <folding>
-            <element signature="e#7752#7753#0" expanded="true" />
-            <element signature="e#7774#7775#0" expanded="true" />
+            <element signature="e#7545#7546#0" expanded="true" />
+            <element signature="e#7567#7568#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tools/HardCodedParameters.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="15" selection-end-column="68" />
+          <folding />
         </state>
       </provider>
     </entry>
