@@ -6,7 +6,10 @@
  * ******************************************************/
 package specifications.Service;
 
+import Model.PersonModel;
 import tools.User_Entry;
+
+import java.util.ArrayList;
 
 public interface EngineService{
   public void init();
@@ -16,4 +19,6 @@ public interface EngineService{
   public void releaseHeroesCommand(User_Entry.COMMAND c);
   public void resetPosition();
   public void allLeave();
+  public void ClearEmployeeOfNotInAction(ArrayList<PersonModel> test);
+  public int getIndex();
 }

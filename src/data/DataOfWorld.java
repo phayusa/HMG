@@ -7,17 +7,21 @@
 package data;
 
 import Model.FactoryModel;
+import Model.PersonModel;
 import specifications.Service.DataService;
 import tools.AnimationSprite;
 import tools.GraphicalEntity;
 import tools.HardCodedParameters;
 import tools.Position;
 
+import java.util.ArrayList;
+
 public class DataOfWorld implements DataService{
     //  private Sound.SOUND sound
     private String name;
     private FactoryModel userFactory;
-    private AnimationSprite testSprite;
+    private int ProgressionOfWork,NumberOfDaysForProject,CurrentDay;
+    private int MaxProgressionByDay;
 
     private double budget;
 
@@ -33,6 +37,8 @@ public class DataOfWorld implements DataService{
         				HardCodedParameters.urlBackground
         				)
         		);
+        ProgressionOfWork = 30;
+        CurrentDay = 1;
     }
 
 
@@ -70,10 +76,47 @@ public class DataOfWorld implements DataService{
     
     }
 
+    @Override
+    public float getProgressOfWork() {
+        return ((float) ProgressionOfWork)/100;
+    }
+
+    public void setProgressionOfWork(int progressionOfWork) {
+        ProgressionOfWork = progressionOfWork;
+    }
 
     @Override
 	public void generateCsvFile() {
 		// TODO Auto-generated method stub
 		
 	}
+
+    public int getNumberOfDaysForProject() {
+        return NumberOfDaysForProject;
+    }
+
+    public void setNumberOfDaysForProject(int numberOfDaysForProject) {
+        NumberOfDaysForProject = numberOfDaysForProject;
+        MaxProgressionByDay = ((int) (1.0 / ((double) numberOfDaysForProject) * 100));
+    }
+
+    @Override
+    public int getCurrentDay() {
+        return CurrentDay;
+    }
+
+    @Override
+    public void setCurrentDay(int currentDay) {
+        CurrentDay = currentDay;
+    }
+
+    @Override
+    public int getMaxProgressionByDay() {
+        return MaxProgressionByDay;
+    }
+
+    @Override
+    public void setEmployeeOfFactory(ArrayList<PersonModel> employeeOfFactory) {
+        userFactory.setEmployeeOfFactory(employeeOfFactory);
+    }
 }

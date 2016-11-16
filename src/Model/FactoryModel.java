@@ -44,8 +44,6 @@ public class FactoryModel extends GraphicalEntity {
         int numberOfPlace = HardCodedParameters.numberOfficeInFactory * 2;
         for (PersonModel e : EmployeeOfFactory){
 
-//            e.setNewPosition(new Position(HideRoom.getPositionOfEntity().x+ HideRoom.getWidth(),HideRoom.getPositionOfEntity().y+HideRoom.getHeight()/2));
-            System.err.println("iterate ="+numberIterate+"\noffice ="+numberOfPlace+"\n--*------");
             if(numberIterate <= numberOfPlace){
                 if (numberIterate % 2 == 1) {
                     e.setNewPosition(new Position(Offices.get(i).getPositionOfEntity().x + Offices.get(i).getWidth() / 3, Offices.get(i).getPositionOfEntity().y));

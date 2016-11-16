@@ -6,43 +6,46 @@
  * ******************************************************/
 package View;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-import javax.swing.BorderFactory;
-
 import Model.PersonModel;
+import engine.Engine;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import specifications.Require.RequireEngineService;
 import specifications.Require.RequireReadService;
 import specifications.Require.RequireStatisticsService;
+import specifications.Service.EngineService;
 import specifications.Service.ReadService;
 import specifications.Service.StatisticsService;
 import specifications.Service.ViewerService;
 import tools.GraphicalEntity;
 import tools.HardCodedParameters;
 
-public class Viewer implements ViewerService, RequireReadService, RequireStatisticsService{
+public class Viewer implements ViewerService, RequireReadService, RequireStatisticsService,RequireEngineService{
   private static final int spriteSlowDownRate=HardCodedParameters.spriteSlowDownRate;
   private static final double defaultMainWidth=HardCodedParameters.defaultWidth,
                               defaultMainHeight=HardCodedParameters.defaultHeight;
   private ReadService data;
   private StatisticsService statistics;
+  private EngineService engine;
   
   public Viewer(){}
   
@@ -54,6 +57,11 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
   @Override
   public void bindStatisticsService(StatisticsService statisticsService) {
 	  statistics=statisticsService;  	
+  }
+
+    @Override
+  public void bindEngineService(EngineService service) {
+    engine = service;
   }
 
   
@@ -84,6 +92,7 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
       imageOfOffice.setFitHeight(Office.getHeight());
       panel.getChildren().add(imageOfOffice);
     }
+      ArrayList<PersonModel> newArray = new ArrayList<PersonModel>();
     for (PersonModel employee : data.getUserFactory().getEmployeeOfFactory()){
         if(employee.getPositionOfEntity().x < data.getUserFactory().getHideRoom().getPositionOfEntity().x && employee.getPositionOfEntity().x > data.getUserFactory().getPositionOfEntity().x){
             Label label = new Label(employee.getName());
@@ -106,13 +115,43 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
                 }
             });
             panel.getChildren().addAll(label, imageOfEmployee);
+
         }
+        if(employee.isInFactory())
+            newArray.add(employee);
+        else{
+            if(employee.getPositionOfEntity().x > data.getUserFactory().getPositionOfEntity().x)
+                newArray.add(employee);
+        }
+//        else
+//            engine.ClearEmployeeOfNotInAction();
+            //        if(employee.getPositionOfEntity().x < data.getUserFactory().getPositionOfEntity().x){
+//            engine.ClearEmployeeOfNotInAction();
+//        }
     }
+    engine.ClearEmployeeOfNotInAction(newArray);
 
     Rectangle hideRooom = new Rectangle(data.getUserFactory().getHideRoom().getWidth(),data.getUserFactory().getHideRoom().getHeight(),Color.RED);
     hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x);
     hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y);
     panel.getChildren().add(hideRooom);
+
+    ProgressBar progressionOfProject = new ProgressBar(data.getProgressOfWork());
+    ProgressIndicator progressIndication = new ProgressIndicator(data.getProgressOfWork());
+    HBox ProgressionBox = new HBox();
+    ProgressionBox.setAlignment(Pos.CENTER);
+    ProgressionBox.getChildren().addAll(progressionOfProject,progressIndication);
+    ProgressionBox.setTranslateX(HardCodedParameters.FactoryStartX + HardCodedParameters.FactoryWidth/2 - 40);
+    ProgressionBox.setTranslateY(HardCodedParameters.FactoryHeight - 45);
+    panel.getChildren().add(ProgressionBox);
+
+    Label DayPresentation = new Label("Jour "+data.getCurrentDay());
+//      DayPresentation.setFont(new Font("Arial",30));
+    DayPresentation.setTextFill(Color.BLACK);
+      DayPresentation.setFont(new Font("Arial",25));
+    DayPresentation.setTranslateX(HardCodedParameters.FactoryStartX+15);
+    DayPresentation.setTranslateY(HardCodedParameters.FactoryHeight - 45);
+    panel.getChildren().add(DayPresentation);
 
     return panel;
   }
@@ -165,8 +204,11 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
         rootPane.getChildren().addAll(panelCompany(),panelStat(),panelBack());
         return rootPane;
     }
-   
-//  @Override
+
+
+
+
+    //  @Override
 //  public void setMainWindowWidth(double width){
 //    xShrink=width/defaultMainWidth;
 //  }

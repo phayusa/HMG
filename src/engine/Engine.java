@@ -14,7 +14,7 @@ import specifications.Service.EngineService;
 import specifications.Service.DataService;
 import specifications.Require.RequireDataService;
 
-import java.lang.ref.PhantomReference;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
@@ -52,9 +52,15 @@ public class Engine implements EngineService, RequireDataService{
     engineClock.schedule(new TimerTask(){
       public void run() {
 //        updateAllPositionWithKey();
-        updateAllPositionWithFinalPosition(index/5);
-        if(index<dataOfWorld.getUserFactory().getEmployeeOfFactory().size()*5)
+
+        if(index<dataOfWorld.getUserFactory().getEmployeeOfFactory().size()*5) {
           index++;
+          updateAllPositionWithFinalPosition(index/5);
+        }
+        else {
+          updateAllPositionWithFinalPosition();
+          DayProgression();
+        }
 //      data.setSoundEffect(Sound.SOUND.None);
       }
     },0,HardCodedParameters.enginePaceMillis);
@@ -179,6 +185,19 @@ public class Engine implements EngineService, RequireDataService{
     }
   }
 
+  private void updateAllPositionWithFinalPosition(){
+    for (PersonModel employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+      employee.setRight(!(employee.getNewPosition().x < employee.getPositionOfEntity().x + 50));
+      employee.setLeft(!(employee.getNewPosition().x > employee.getPositionOfEntity().x - 50));
+      employee.setDown(!(employee.getNewPosition().y < employee.getPositionOfEntity().y + 50));
+      employee.setUp(!(employee.getNewPosition().y > employee.getPositionOfEntity().y - 50));
+      if (employee.getNewPosition().x == HardCodedParameters.EmployeeStartX)
+        updateMoveHeroeAtOut(employee);
+      else
+        updateMoveHeroeGeneral(employee);
+    }
+  }
+
   @Override
   public void resetPosition() {
     dataOfWorld.setUserFactory(new FactoryModel(
@@ -200,6 +219,37 @@ public class Engine implements EngineService, RequireDataService{
     }
   }
 
+  public void DayProgression(){
+    dataOfWorld.setCurrentDay(dataOfWorld.getCurrentDay() + 1);
+    System.out.println("number employee "+dataOfWorld.getUserFactory().getEmployeeOfFactory().size());
+    System.out.println("index  "+index);
+    int halfFactory = HardCodedParameters.FactoryHeight/3;
+//    for (int i=0;i<dataOfWorld.getMaxProgressionByDay();i++){
+      for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+          int nextRandom = gen.nextInt(100);
+          System.out.println("Tirage "+nextRandom+" limit 0");
+          if(nextRandom == 0){
+            Employee.setInFactory(false);
+            Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
+          }
+      }
+//    }
+  }
+
+  @Override
+  public void ClearEmployeeOfNotInAction(ArrayList<PersonModel> test){
+//    ArrayList<PersonModel> CleanArray = new ArrayList<PersonModel>();
+//    for (PersonModel employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+//      if(employee.isInFactory() && employee.getNewPosition().x<)
+//        CleanArray.add(employee);
+//    }
+//    dataOfWorld.setEmployeeOfFactory(CleanArray);
+    if(test.size() != dataOfWorld.getUserFactory().getEmployeeOfFactory().size())
+      dataOfWorld.setEmployeeOfFactory(test);
+  }
 
 
+  public int getIndex() {
+    return index;
+  }
 }

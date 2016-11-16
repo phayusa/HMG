@@ -15,7 +15,10 @@ import java.util.ArrayList;
 
 public interface ReadService {
  // public Sound.SOUND getSoundEffect();
-    public double getBudget();
-    public FactoryModel getUserFactory();
-    public String getName();
+   public double getBudget();
+   public FactoryModel getUserFactory();
+   public String getName();
+   public float getProgressOfWork();
+   public int getCurrentDay();
+   public int getMaxProgressionByDay();
 }

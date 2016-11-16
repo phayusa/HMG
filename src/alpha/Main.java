@@ -59,6 +59,7 @@ public class Main extends Application{
     ((StatisticsController)statistics).bindDataService(data);
     ((Viewer)viewer).bindStatisticsService(statistics);
     ((Viewer)viewer).bindReadService(data);
+    ((Viewer) viewer).bindEngineService(engine);
 
     data.init();
     engine.init();
@@ -108,7 +109,8 @@ public class Main extends Application{
     stage.setScene(scene);
     stage.setWidth(HardCodedParameters.defaultWidth);
     stage.setHeight(HardCodedParameters.defaultHeight);
-    stage.setMaximized(true);
+    stage.setResizable(false);
+//    stage.setMaximized(true);
     stage.setOnShown(new EventHandler<WindowEvent>() {
       @Override public void handle(WindowEvent event) {
         engine.start();
@@ -155,7 +157,7 @@ public class Main extends Application{
       }
     });
 
-
+    stage.setTitle("Company Manager");
     stage.show();
     
     timer = new AnimationTimer() {

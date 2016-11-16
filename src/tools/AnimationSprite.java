@@ -23,7 +23,7 @@ public class AnimationSprite extends GraphicalEntity {
     private int leftAnim,rightAnim, upAnim,downAnim;
     private boolean left,right,up,down;
     private Position newPosition;
-    private boolean inAction;
+    private boolean inFactory;
 
     @Deprecated
     public AnimationSprite(GraphicalEntity initGraphicalEntity,String prefix,String suffix,int startcount ,int countSprites){
@@ -78,7 +78,7 @@ public class AnimationSprite extends GraphicalEntity {
     private void commonInit(long numberFrame){
         inMovement = false;
         indexOfSprite = 0;
-        inAction = false;
+        inFactory = true;
         timeToUpdateFrame = new Timer();
         timeToUpdateFrame.schedule(new TimerTask() {
             @Override
@@ -162,11 +162,11 @@ public class AnimationSprite extends GraphicalEntity {
         this.newPosition = newPosition;
     }
 
-    public boolean isInAction() {
-        return inAction;
+    public boolean isInFactory() {
+        return inFactory;
     }
 
-    public void setInAction(boolean inAction) {
-        this.inAction = inAction;
+    public void setInFactory(boolean inFactory) {
+        this.inFactory = inFactory;
     }
 }
