@@ -216,6 +216,7 @@ public class Engine implements EngineService, RequireDataService{
     int halfFactory = HardCodedParameters.FactoryHeight/3;
     for (PersonModel Employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
       Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
+      Employee.setInFactory(false);
     }
   }
 
