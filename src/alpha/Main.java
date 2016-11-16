@@ -6,8 +6,6 @@
  * ******************************************************/
 package alpha;
 
-import java.io.File;
-
 import View.Viewer;
 //import algorithm.RandomWalker;
 import data.DataOfWorld;
@@ -15,23 +13,19 @@ import engine.Engine;
 import engine.StatisticsController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import specifications.Service.DataService;
 import specifications.Service.EngineService;
 import specifications.Service.StatisticsService;
 import specifications.Service.ViewerService;
-import tools.CSVReader;
 import tools.HardCodedParameters;
 import tools.User_Entry;
 
@@ -70,7 +64,7 @@ public class Main extends Application{
 
   @Override public void start(Stage stage) {
     final Scene scene = new Scene(((Viewer)viewer).getMainPanel());
-
+       
     scene.setFill(Color.CORNFLOWERBLUE);
 
     scene.setOnKeyReleased(new EventHandler<KeyEvent>(){

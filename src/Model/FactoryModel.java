@@ -23,6 +23,7 @@ public class FactoryModel extends GraphicalEntity {
 
     public FactoryModel(GraphicalEntity factoryEntity){
         super(factoryEntity);
+        budget = HardCodedParameters.startBudget;
         EmployeeOfFactory = new ArrayList<PersonModel>();
         loadCSVFile();
         generateCSVFile();

@@ -18,6 +18,13 @@ public class PersonModel extends AnimationSprite{
 		this.salary = salary;
 	}
     
+	public PersonModel(String name,String job,double salary){
+		this.name = name;
+		this.job = job;
+		this.salary = salary;
+	}
+    
+	
     public double getSalary() {
 		return salary;
 	}

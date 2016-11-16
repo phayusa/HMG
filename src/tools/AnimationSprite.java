@@ -58,6 +58,10 @@ public class AnimationSprite extends GraphicalEntity {
         long numberFrame = 1000/frameBySecond;
         commonInit(numberFrame);
     }
+    
+    public AnimationSprite(){
+    	
+    }
 
     public AnimationSprite(GraphicalEntity initGraphicalEntity,String pathOfImage,int Xsprite, int Ysprite,double sizeSpriteX,double sizeSpriteY,long frameBySecond){
         super(initGraphicalEntity);
