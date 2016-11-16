@@ -190,7 +190,14 @@ public class Engine implements EngineService, RequireDataService{
 
   @Override
   public void resetPosition() {
-    dataOfWorld.setUserFactory(new FactoryModel(new GraphicalEntity(new Position(HardCodedParameters.FactoryStartX,HardCodedParameters.FactoryStartY), HardCodedParameters.FactoryWidth,HardCodedParameters.FactoryHeight)));
+    dataOfWorld.setUserFactory(new FactoryModel(
+    		new GraphicalEntity(
+    				new Position(HardCodedParameters.FactoryStartX,HardCodedParameters.FactoryStartY),
+    				HardCodedParameters.FactoryWidth,
+    				HardCodedParameters.FactoryHeight,
+    				HardCodedParameters.urlBackground
+    				)
+    		));
   }
 
   @Override

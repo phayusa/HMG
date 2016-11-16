@@ -12,17 +12,22 @@ public class HardCodedParameters {
   public static final int defaultWidth = 1280, defaultHeight = 720,
                           heroesStartX = 80, heroesStartY = 200, heroesWidth=60, heroesHeight=90, heroesStep = 10,
                           phantomWidth = 30, phantomHeight = 30, phantomStep = 10,
-                          companySizeX=830, companySizeY=800,
-                          companyTranslateX=-260, companyTranslateY=0,
-                          statSizeX=476, statSizeY=510,
-                          statTranslateX=394, statTranslateY=-78,
-                          backSizeX=477, backSizeY=148,
-                          backTranslateX=394, backTranslateY=253,
-                          FactoryWidth =700, FactoryHeight = 510,
-                          OfficeWidth = 150,OfficeHeight=80,numberOfficeInFactory=6,
+                          FactoryWidth = 700, FactoryHeight = 510,
+                          OfficeWidth = 150,OfficeHeight = 80,numberOfficeInFactory=6,
                           EmployeeStartX = 0;
-  public static final double FactoryStartX =50, FactoryStartY =40;
+  
+  //----Panels Dimension---//
+  public static final int companySizeX = 700, companySizeY = 510,
+				          companyTranslateX = -260, companyTranslateY = -80,
+				          statSizeX = 476, statSizeY = 510,
+				          statTranslateX = 394, statTranslateY = -80,
+				          backSizeX = 476, backSizeY = 148,
+				          backTranslateX = 394, backTranslateY = 253;
+  
+  public static final double FactoryStartX = 0, FactoryStartY = 0;
   public static final int enginePaceMillis = 100,
                           spriteSlowDownRate = 7;
+  
+  public static final String urlBackground = "file:Ressource/images/floor.jpg";
 
 }

@@ -25,7 +25,14 @@ public class DataOfWorld implements DataService{
 
     @Override
     public void init(){
-        userFactory = new FactoryModel(new GraphicalEntity(new Position(HardCodedParameters.FactoryStartX,HardCodedParameters.FactoryStartY), HardCodedParameters.FactoryWidth,HardCodedParameters.FactoryHeight));
+        userFactory = new FactoryModel(
+        		new GraphicalEntity(
+        				new Position(HardCodedParameters.FactoryStartX,HardCodedParameters.FactoryStartY), 
+        				HardCodedParameters.FactoryWidth,
+        				HardCodedParameters.FactoryHeight,
+        				HardCodedParameters.urlBackground
+        				)
+        		);
     }
 
 
