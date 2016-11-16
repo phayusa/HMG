@@ -25,15 +25,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -175,6 +168,50 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     DayPresentation.setTranslateX(HardCodedParameters.FactoryStartX+15);
     DayPresentation.setTranslateY(HardCodedParameters.FactoryHeight - 45);
     panel.getChildren().add(DayPresentation);
+
+//    if(data.getUserFactory().getEmployeeOfFactory().isEmpty()){
+//        engine.onPause();
+//        Alert loose = new Alert(AlertType.CONFIRMATION);
+//        loose.setTitle("Information");
+//        loose.setHeaderText("Vous n'avez plus d'employée.");
+//        loose.setContentText("Choisissez ce que vous voulez faire");
+//        ButtonType buttonAdd = new ButtonType("Ajouter Employée");
+//        ButtonType buttonReset = new ButtonType("Relancer une simulation");
+//        ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
+//        loose.getButtonTypes().setAll(buttonAdd,buttonReset,buttonExit);
+//        Optional<ButtonType> result = loose.showAndWait();
+//        if(result.get() == buttonAdd){
+//            System.out.println("Ajouter !!!");
+//        }
+//        if(result.get() == buttonReset){
+//            engine.resetPosition();
+//        }
+//        if(result.get() == buttonExit){
+//            engine.stop();
+//        }
+//    }
+//
+//    if(data.getProgressOfWork() >= 100){
+//        engine.onPause();
+//        Alert loose = new Alert(AlertType.CONFIRMATION);
+//        loose.setTitle("Information");
+//        loose.setHeaderText("Le projet à était terminé avec succès");
+//        loose.setContentText("Que voulez-vous faire ?");
+//        ButtonType buttonExport = new ButtonType("Exporter Résultats");
+//        ButtonType buttonReset = new ButtonType("Relancer une simulation");
+//        ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
+//        loose.getButtonTypes().setAll(buttonExport,buttonReset,buttonExit);
+//        Optional<ButtonType> result = loose.showAndWait();
+//        if(result.get() == buttonReset){
+//            engine.resetPosition();
+//        }
+//        if(result.get() == buttonExit){
+//            engine.stop();
+//        }
+//        if(result.get() == buttonExport){
+//            System.out.println("Exporter");
+//        }
+//    }
 
     return panel;
   }
