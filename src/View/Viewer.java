@@ -148,10 +148,15 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     }
     engine.ClearEmployeeOfNotInAction(newArray);
 
-    Rectangle hideRooom = new Rectangle(data.getUserFactory().getHideRoom().getWidth(),data.getUserFactory().getHideRoom().getHeight(),Color.RED);
-    hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x);
-    hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y);
-    panel.getChildren().add(hideRooom);
+//    Rectangle hideRooom = new Rectangle(data.getUserFactory().getHideRoom().getWidth(),data.getUserFactory().getHideRoom().getHeight(),Color.RED);
+//    hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x);
+//    hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y);
+      ImageView hideRooom = data.getUserFactory().getHideRoom().getImageOfEntity();
+      hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x);
+      hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y);
+      hideRooom.setFitWidth(data.getUserFactory().getHideRoom().getWidth());
+      hideRooom.setFitHeight(data.getUserFactory().getHideRoom().getHeight());
+      panel.getChildren().add(hideRooom);
 
     ProgressBar progressionOfProject = new ProgressBar(data.getProgressOfWorkInFloat());
     ProgressIndicator progressIndication = new ProgressIndicator(data.getProgressOfWorkInFloat());

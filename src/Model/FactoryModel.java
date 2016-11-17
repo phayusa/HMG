@@ -38,7 +38,7 @@ public class FactoryModel extends GraphicalEntity {
                 Offices.add(new GraphicalEntity(new Position(positionOfEntity.x + (i-halfOffice) * deltaToMove,positionOfEntity.y + height - deltaHeight * 4), HardCodedParameters.OfficeWidth,HardCodedParameters.OfficeHeight,"file:Ressource/images/tableBack.png"));
         }
 
-        HideRoom = new GraphicalEntity(new Position(positionOfEntity.x + width - 100,HardCodedParameters.FactoryStartY+HardCodedParameters.FactoryHeight/2-50),50,100);
+        HideRoom = new GraphicalEntity(new Position(positionOfEntity.x + width - 100,HardCodedParameters.FactoryStartY+HardCodedParameters.FactoryHeight/2-50),100,100,"file:Ressource/images/Door.png");
 
         int i = 0;
         int numberIterate = 1;
