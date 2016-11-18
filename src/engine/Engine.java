@@ -55,7 +55,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
     keyUp = false;
     keyDown = false;
     index = 0;
-    FinalIndex = dataOfWorld.getUserFactory().getEmployeeOfFactory().size() * 5;
+    FinalIndex = dataOfWorld.getUserFactory().getNumberOfEmployee() * 5;
     InPause = false;
     updateDay = new Timer();
     ContinueInOverBudget = false;
