@@ -16,6 +16,7 @@ import java.util.Date;
 public class FactoryModel extends GraphicalEntity {
     private String name;
     private double budget;
+    private double averageSalaryByDay;
     private static CSVReader csvReader;
     private ArrayList<PersonModel> EmployeeOfFactory;
     private ArrayList<GraphicalEntity> Offices;
@@ -42,6 +43,7 @@ public class FactoryModel extends GraphicalEntity {
 
         int i = 0;
         int numberIterate = 1;
+        averageSalaryByDay = 0;
         int numberOfPlace = HardCodedParameters.numberOfficeInFactory * 2;
         for (PersonModel e : EmployeeOfFactory){
 
@@ -59,7 +61,9 @@ public class FactoryModel extends GraphicalEntity {
                 e.setNewPosition(new Position(HideRoom.getPositionOfEntity().x+ HideRoom.getWidth(),HideRoom.getPositionOfEntity().y+HideRoom.getHeight()/2));
 
             }
+            averageSalaryByDay += e.getSalaryByDay();
         }
+        averageSalaryByDay/=EmployeeOfFactory.size();
 
 
     }
@@ -85,6 +89,11 @@ public class FactoryModel extends GraphicalEntity {
     }
 
     public void setEmployeeOfFactory(ArrayList<PersonModel> employeeOfFactory) {
+        averageSalaryByDay = 0;
+        for (PersonModel e : EmployeeOfFactory){
+            averageSalaryByDay += e.getSalaryByDay();
+        }
+        averageSalaryByDay/=EmployeeOfFactory.size();
         EmployeeOfFactory = employeeOfFactory;
     }
     
@@ -110,4 +119,9 @@ public class FactoryModel extends GraphicalEntity {
     public ArrayList<GraphicalEntity> getOffices() {
         return Offices;
     }
+
+    public double getAverageSalaryByDay() {
+        return averageSalaryByDay;
+    }
+
 }

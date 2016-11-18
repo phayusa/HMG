@@ -15,14 +15,14 @@ import java.util.ArrayList;
 
 public interface ReadService {
  // public Sound.SOUND getSoundEffect();
-   public double getBudget();
-   public FactoryModel getUserFactory();
-   public String getName();
-   public int getProgressOfWork();
-   public float getProgressOfWorkInFloat();
-   public int getCurrentDay();
-   public int getMaxProgressionByDay();
-   public String getLogsInString();
+    public double getBudget();
+    public FactoryModel getUserFactory();
+    public String getName();
+    public int getProgressOfWork();
+    public float getProgressOfWorkInFloat();
+    public int getCurrentDay();
+    public int getMaxProgressionByDay();
+    public String getLogsInString();
     public ArrayList<String> getCurrentLog();
     public StringBuilder getTotalLog();
     public int getNumberOfDaysForProject();
