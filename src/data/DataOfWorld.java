@@ -9,7 +9,6 @@ package data;
 import Model.FactoryModel;
 import Model.PersonModel;
 import specifications.Service.DataService;
-import tools.AnimationSprite;
 import tools.GraphicalEntity;
 import tools.HardCodedParameters;
 import tools.Position;
@@ -22,6 +21,8 @@ public class DataOfWorld implements DataService{
     private FactoryModel userFactory;
     private int ProgressionOfWork,NumberOfDaysForProject,CurrentDay;
     private int MaxProgressionByDay;
+    private ArrayList<String> CurrentLog;
+    private StringBuilder TotalLog;
 
     private double budget;
 
@@ -37,8 +38,12 @@ public class DataOfWorld implements DataService{
         				HardCodedParameters.urlBackground
         				)
         		);
-        ProgressionOfWork = 30;
         CurrentDay = 1;
+        CurrentLog = new ArrayList<String>(HardCodedParameters.maxLines);
+        TotalLog = new StringBuilder();
+        TotalLog.append("Jour1 :");
+        ProgressionOfWork = 30;
+        setNumberOfDaysForProject(30);
     }
 
 
@@ -98,13 +103,15 @@ public class DataOfWorld implements DataService{
 		
 	}
 
+	@Override
     public int getNumberOfDaysForProject() {
         return NumberOfDaysForProject;
     }
 
+    @Override
     public void setNumberOfDaysForProject(int numberOfDaysForProject) {
         NumberOfDaysForProject = numberOfDaysForProject;
-        MaxProgressionByDay = ((int) (1.0 / ((double) numberOfDaysForProject) * 100));
+        MaxProgressionByDay = ((int) ((1.0 / ((double) numberOfDaysForProject)) * 100));
     }
 
     @Override
@@ -127,4 +134,28 @@ public class DataOfWorld implements DataService{
         userFactory.setEmployeeOfFactory(employeeOfFactory);
     }
 
+    @Override
+    public ArrayList<String> getCurrentLog() {
+        return CurrentLog;
+    }
+
+    @Override
+    public void setCurrentLog(ArrayList<String> currentLog) {
+        CurrentLog = currentLog;
+    }
+
+    @Override
+    public StringBuilder getTotalLog() {
+        return TotalLog;
+    }
+
+    @Override
+    public void setTotalLog(StringBuilder totalLog) {
+        TotalLog = totalLog;
+    }
+
+    @Override
+    public String getLogsInString() {
+        return String.join("\n", CurrentLog);
+    }
 }

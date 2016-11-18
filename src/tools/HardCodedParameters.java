@@ -16,6 +16,9 @@ public class HardCodedParameters {
     public static final double FactoryStartX = 0, FactoryStartY = 0;
     public static final int TimeBetweenDaysInMilli = 10000;
 
+    // ---- UI Dimension---//
+    public static int maxLines = 8;
+
   //----Panels Dimension---//
   public static final int companySizeX = 700, companySizeY = 510,
 				          companyTranslateX = -260, companyTranslateY = -80,

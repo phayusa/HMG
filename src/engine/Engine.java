@@ -8,6 +8,8 @@ package engine;
 
 import Model.FactoryModel;
 import Model.PersonModel;
+import specifications.Require.RequireUiService;
+import specifications.Service.UIService;
 import tools.*;
 
 import specifications.Service.EngineService;
@@ -19,11 +21,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
 
-public class Engine implements EngineService, RequireDataService{
+public class Engine implements EngineService, RequireDataService, RequireUiService{
 
 
   private Timer engineClock;
   private DataService dataOfWorld;
+  private UIService Ui;
   private Random gen;
   private boolean keyLeft, keyRight, keyUp, keyDown;
   private int index,FinalIndex;
@@ -35,6 +38,12 @@ public class Engine implements EngineService, RequireDataService{
   @Override
   public void bindDataService(DataService service){
     dataOfWorld=service;
+  }
+
+
+  @Override
+  public void bindUiService(UIService service) {
+    Ui = service;
   }
 
   @Override
@@ -242,7 +251,15 @@ public class Engine implements EngineService, RequireDataService{
   }
 
   public void DayProgression(){
-    dataOfWorld.setCurrentDay(dataOfWorld.getCurrentDay() + 1);
+    int newDay = dataOfWorld.getCurrentDay() + 1;
+
+    if(newDay == dataOfWorld.getNumberOfDaysForProject()){
+      //TODO : open the dialog
+      return;
+    }
+    dataOfWorld.setCurrentDay(newDay);
+    Ui.addLineLog("Jour "+newDay+":");
+
     int halfFactory = HardCodedParameters.FactoryHeight/3;
 //    for (int i=0;i<dataOfWorld.getMaxProgressionByDay();i++){
       for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
@@ -251,10 +268,12 @@ public class Engine implements EngineService, RequireDataService{
           if(nextRandom == 0){
             Employee.setInFactory(false);
             Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
+            Ui.addLineLog(Employee.getName()+" part du projet.");
           }
           nextRandom = gen.nextInt(2);
           if(nextRandom == 1){
             dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + 1);
+            Ui.addLineLog(Employee.getName()+" a fait progresser le projet de 1 %");
           }
       }
 //    }

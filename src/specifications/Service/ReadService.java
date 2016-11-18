@@ -22,4 +22,10 @@ public interface ReadService {
    public float getProgressOfWorkInFloat();
    public int getCurrentDay();
    public int getMaxProgressionByDay();
+   public String getLogsInString();
+    public ArrayList<String> getCurrentLog();
+    public StringBuilder getTotalLog();
+    public int getNumberOfDaysForProject();
+
+
 }

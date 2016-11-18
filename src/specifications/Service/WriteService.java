@@ -29,4 +29,8 @@ public interface WriteService {
     public void setName(String name);
     public void loadCSVFile();
     public void generateCsvFile();
+    public void setCurrentLog(ArrayList<String> currentLog);
+    public void setTotalLog(StringBuilder totalLog);
+    public void setNumberOfDaysForProject(int numberOfDaysForProject);
+
 }
