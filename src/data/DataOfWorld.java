@@ -42,7 +42,7 @@ public class DataOfWorld implements DataService{
         CurrentLog = new ArrayList<String>(HardCodedParameters.maxLines);
         TotalLog = new StringBuilder();
         TotalLog.append("Jour1 :");
-        ProgressionOfWork = 30;
+        ProgressionOfWork = 0;
         setNumberOfDaysForProject(30);
     }
 

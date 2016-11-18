@@ -17,6 +17,7 @@ public class FactoryModel extends GraphicalEntity {
     private String name;
     private double budget;
     private double averageSalaryByDay;
+    private int numberOfEmployee;
     private static CSVReader csvReader;
     private ArrayList<PersonModel> EmployeeOfFactory;
     private ArrayList<GraphicalEntity> Offices;
@@ -39,6 +40,7 @@ public class FactoryModel extends GraphicalEntity {
                 Offices.add(new GraphicalEntity(new Position(positionOfEntity.x + (i-halfOffice) * deltaToMove,positionOfEntity.y + height - deltaHeight * 4), HardCodedParameters.OfficeWidth,HardCodedParameters.OfficeHeight,"file:Ressource/images/tableBack.png"));
         }
 
+        numberOfEmployee = EmployeeOfFactory.size();
         HideRoom = new GraphicalEntity(new Position(positionOfEntity.x + width - 100,HardCodedParameters.FactoryStartY+HardCodedParameters.FactoryHeight/2-50),100,100,"file:Ressource/images/Door.png");
 
         int i = 0;
@@ -93,7 +95,8 @@ public class FactoryModel extends GraphicalEntity {
         for (PersonModel e : EmployeeOfFactory){
             averageSalaryByDay += e.getSalaryByDay();
         }
-        averageSalaryByDay/=EmployeeOfFactory.size();
+        numberOfEmployee = EmployeeOfFactory.size();
+        averageSalaryByDay/=numberOfEmployee;
         EmployeeOfFactory = employeeOfFactory;
     }
     
@@ -124,4 +127,7 @@ public class FactoryModel extends GraphicalEntity {
         return averageSalaryByDay;
     }
 
+    public int getNumberOfEmployee() {
+        return numberOfEmployee;
+    }
 }

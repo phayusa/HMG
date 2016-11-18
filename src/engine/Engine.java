@@ -240,6 +240,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
     		));
     index = 0;
     dataOfWorld.setCurrentDay(1);
+    dataOfWorld.setProgressionOfWork(0);
   }
 
   @Override
@@ -254,9 +255,14 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
   public void DayProgression(){
     int newDay = dataOfWorld.getCurrentDay() + 1;
 
-    if(newDay == dataOfWorld.getNumberOfDaysForProject() && !ContinueInOverBudget){
+    if(newDay == dataOfWorld.getNumberOfDaysForProject() + 1 && !ContinueInOverBudget){
       //TODO : open the dialog
       //ContinueInOver = DialogRes
+      return;
+    }
+    if(dataOfWorld.getProgressOfWork() >= 100){
+      //TODO : open the dialog
+      //Export or Retry
       return;
     }
     dataOfWorld.setCurrentDay(newDay);
@@ -264,27 +270,29 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
 
     int halfFactory = HardCodedParameters.FactoryHeight/3;
     System.err.println("Jour "+newDay+":");
+    int toDrawExit = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay())/dataOfWorld.getUserFactory().getNumberOfEmployee();
+    int toDrawIncrease = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()) ;
+
     for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
         //TODO : draw a number and add with a pourcent of wage. If inferior of 1 the diff is stocked in personModel and if this difference is greater than 1 -> the employee leave the factory
-//        double nextRandom = gen.nextDouble()%(dataOfWorld.getUserFactory().getAverageSalaryByDay()+1);
-      int nextRandom = gen.nextInt(((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()) + 1);
-      System.err.println(Employee.getName() + " employe "+Employee.getSalaryByDay()+" ran "+nextRandom+" factory "+dataOfWorld.getUserFactory().getAverageSalaryByDay());
-        if(nextRandom + Employee.getSalaryByDay() < dataOfWorld.getUserFactory().getAverageSalaryByDay()){
+      int nextRandom = gen.nextInt(toDrawExit);
+      if(nextRandom + Employee.getSalaryByDay() < dataOfWorld.getUserFactory().getAverageSalaryByDay()){
           Employee.setInFactory(false);
           Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
           Ui.addLineLog(Employee.getName()+" part du projet.");
         }
-        nextRandom = gen.nextInt(2);
-        if(nextRandom == 1){
-          dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + 1);
-          Ui.addLineLog(Employee.getName()+" a fait progresser le projet de 1 %");
+        nextRandom = gen.nextInt(toDrawIncrease * 2 );
+        if(nextRandom >= Employee.getSalaryByDay()){
+          int increasePourcent = ((int) Employee.getSalaryByDay())/(dataOfWorld.getNumberOfDaysForProject());
+          dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + increasePourcent);
+          Ui.addLineLog(Employee.getName()+" a fait progresser le projet de "+increasePourcent+"%");
         }
     }
   }
 
   @Override
   public void ClearEmployeeOfNotInAction(ArrayList<PersonModel> test){
-    if(test.size() != dataOfWorld.getUserFactory().getEmployeeOfFactory().size())
+    if(test.size() != dataOfWorld.getUserFactory().getNumberOfEmployee())
       dataOfWorld.setEmployeeOfFactory(test);
   }
 
