@@ -1,43 +1,59 @@
 package engine;
 
 import java.util.HashMap;
-import java.util.Timer;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import Model.FactoryModel;
 import Model.PersonModel;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import specifications.Require.RequireDataService;
 import specifications.Service.DataService;
 import specifications.Service.StatisticsService;
-import tools.HardCodedParameters;
 
 public class StatisticsController implements StatisticsService, RequireDataService {
 
 	private DataService dataOfWorld;
 	private FactoryModel factory;
-	private HashMap<String, Double> salaryByJob;
-	private Timer engineClock;
-	private Double percentSalary, totalPercentSalary, totalSalary;
+	private HashMap<String, Double> salaryByDay, salaryByJob, initDataEmployees;
+	private Double percentSalary, totalPercentSalary, totalSalary,
+				   salaryOfEmployee;
+	ObservableList<PieChart.Data> pieChartDataStatic, pieChartDataSimulate;
+	
 	public StatisticsController(){
 		
 	}
 	
 	@Override
 	public void init() {
-	    engineClock = new Timer();
-	    salaryByJob = new HashMap<>();
+		salaryByDay = new HashMap<>();
+		salaryByJob = new HashMap<>();
 	    factory = dataOfWorld.getUserFactory();
+		initDataEmployees = getSalaryByJob();
+		generateEstimateChart();
+		generateSimulateChart();
+		totalPercentSalary = 0.0;
+		percentSalary = 0.0;
+
 	}
 
 	@Override
 	public void stop() {
-		engineClock.cancel();
 	    System.exit(0);
 	}
 
 	public void resetStat() {
+		salaryByDay = new HashMap<>();
 		factory = dataOfWorld.getUserFactory();
+		initDataEmployees = getSalaryByJob();
+		generateEstimateChart();
+		generateSimulateChart();
+		totalPercentSalary = 0.0;
+		percentSalary = 0.0;
 	}
 	
 	@Override
@@ -46,31 +62,114 @@ public class StatisticsController implements StatisticsService, RequireDataServi
 	}
 	
 	public HashMap<String, Double> getSalaryByJob() {
-		totalPercentSalary = 0.0;
-		percentSalary = 0.0;
-		salaryByJob = new HashMap<>();
-		if (factory.getBudget() != 0) {
-			for (PersonModel employee : factory.getEmployeeOfFactory()) {
+	
+		//20 = 1 Month Working day
+		for (int i = 0 ; i<20; i++) {
+			totalPercentSalary = 0.0;
+			percentSalary = 0.0;
+			totalSalary = 0.0;
+			if (factory.getBudget() != 0) {
+				for (PersonModel employee : factory.getEmployeeOfFactory()) {
 				  if (salaryByJob.get(employee.getJob()) != null && salaryByJob.containsKey(employee.getJob())) {
-					  Double totalSalary = salaryByJob.get(employee.getJob()) + employee.getSalary();
-					  percentSalary = 100 * totalSalary / factory.getBudget();
-					  totalPercentSalary += percentSalary;
+					  totalSalary = (salaryByJob.get(employee.getJob()) * 100) + (employee.getSalary()/20);
+					  percentSalary = (100 * totalSalary) / factory.getBudget();
 					  salaryByJob.put(employee.getJob(), percentSalary);
 				  } else {
-					  percentSalary = 100 * employee.getSalary() / factory.getBudget();
-					  totalPercentSalary += percentSalary;
+					  percentSalary = (100 * (employee.getSalary()/20)) / factory.getBudget();
 					  salaryByJob.put(employee.getJob(), percentSalary);
 				  } 
-			  }
-			  if (totalPercentSalary < 100) {
-			    	salaryByJob.put("Restant", 100 - (Double) totalPercentSalary);
+					
+				}
+			   
+			  if (getTotalPercentEmployee(salaryByJob) < 100) {
+				  salaryByJob.put("Restant", 100 - getTotalPercentEmployee(salaryByJob));
 			  }
 			  else {
 				  salaryByJob.remove("Restant");
 			  }
-	
+			}
 		}
-		 return salaryByJob;
+		return salaryByJob;
+	}
+	
+	public HashMap<String, Double> getBudgetDay(int nbDay) {
+		salaryOfEmployee = 0.0;
+		totalSalary = 0.0;
+		totalPercentSalary = 0.0;
+		if (factory.getBudget() != 0) {
+			if (nbDay <= 1) {
+				salaryByDay.put("Restant", (double) 100);
+			}
+			else {
+				for (PersonModel employee : factory.getEmployeeOfFactory()) {
+				  if (salaryByDay.get(employee.getJob()) != null && salaryByDay.containsKey(employee.getJob())) {
+					  salaryOfEmployee = employee.getSalary()/20;
+					  totalSalary = (salaryByDay.get(employee.getJob()) * 100) + salaryOfEmployee;
+					  percentSalary = (100 * totalSalary) / factory.getBudget();
+					  salaryByDay.put(employee.getJob(), percentSalary);
+				  } else {
+					  salaryOfEmployee = employee.getSalary()/20;
+					  percentSalary = 100 * salaryOfEmployee / factory.getBudget();
+					  salaryByDay.put(employee.getJob(), percentSalary);
+				  } 
+				  
+			  }
+		    
+			if (totalPercentSalary < 100) {
+				salaryByDay.put("Restant", 100 - getTotalPercentEmployee(salaryByDay));
+			  }
+			  else {
+				  salaryByDay.remove("Restant");
+			  }
+			}
+		}
+		return salaryByDay;
+	}
+	
+	public void generateEstimateChart() {
+	    if (!initDataEmployees.isEmpty()) {
+    	  pieChartDataStatic = initDataEmployees.entrySet().stream()
+  			    .map(entry -> new PieChart.Data(entry.getKey(), entry.getValue()))
+  			    .collect(Collectors.toCollection(() -> FXCollections.observableArrayList()));
+
+    	  pieChartDataStatic.forEach(dataChart ->
+  	        dataChart.nameProperty().bind(
+  	                Bindings.concat(
+  	                		dataChart.getName(), " ",
+  	                		//IF
+  	                		dataChart.pieValueProperty().intValue() > 1?
+  	                		//THEN
+  	                		dataChart.pieValueProperty().intValue() + "%":
+  	                		//ELSE
+  	                		"< 1%"
+  			                )
+	  			        )
+	  			);
+		    }
+	    dataOfWorld.setEstimateChart(new PieChart(pieChartDataStatic));		
+	}
+	
+	public void generateSimulateChart() {
+	   
+	  pieChartDataSimulate = getBudgetDay(dataOfWorld.getCurrentDay()).entrySet().stream()
+		    .map(entry -> new PieChart.Data(entry.getKey(), entry.getValue()))
+		    .collect(Collectors.toCollection(() -> FXCollections.observableArrayList()));
+
+	  pieChartDataSimulate.forEach(dataChart ->
+        dataChart.nameProperty().bind(
+                Bindings.concat(
+                		dataChart.getName(), " ",
+                		//IF
+                		dataChart.pieValueProperty().intValue() > 1?
+                		//THEN
+                		dataChart.pieValueProperty().intValue() + "%":
+                		//ELSE
+                		"< 1%"
+		                )
+  			        )
+  			);
+    
+	   dataOfWorld.setSimulateChart(new PieChart(pieChartDataSimulate));		
 	}
 	
 	public Double getTotalSalary(){
@@ -83,7 +182,17 @@ public class StatisticsController implements StatisticsService, RequireDataServi
 		return totalSalary;
 	}
 	
-	//TODO create function when employee leave company
+	public Double getTotalPercentEmployee(HashMap allSalary) {
+		totalPercentSalary = 0.0;
+		Iterator it = allSalary.entrySet().iterator();
+		   while (it.hasNext()) {
+	         Map.Entry pair = (Map.Entry)it.next();
+	          if (pair.getKey() != "Restant") {
+	        	totalPercentSalary += (double) pair.getValue();
+		      }
+		   }
+	    return totalPercentSalary;	
+	}
 
 	@Override
 	public void bindDataService(DataService service) {

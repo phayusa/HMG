@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import Model.PersonModel;
+import data.DataOfWorld;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import engine.Engine;
@@ -227,64 +228,38 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
         panel.setMaxSize(HardCodedParameters.statSizeX,HardCodedParameters.statSizeY);
         panel.setTranslateX(HardCodedParameters.statTranslateX);
         panel.setTranslateY(HardCodedParameters.statTranslateY);
-        HashMap<String, Double> salaryByJob = statistics.getSalaryByJob();
+        
+        final PieChart chartStatic = data.getEstimateChart();
+	  	chartStatic.autosize();
+	  	chartStatic.setTitle("Budget estimé");
+	  	chartStatic.setMaxSize(400, 200);
+	  	chartStatic.setTranslateY(20);
+	  	chartStatic.setLabelLineLength(10);
+	  	chartStatic.setLegendVisible(false);
 
-	    if (!salaryByJob.isEmpty()) {
-	        ObservableList<PieChart.Data> pieChartData =
-				salaryByJob.entrySet().stream()
-			    .map(entry -> new PieChart.Data(entry.getKey(), entry.getValue()))
-			    .collect(Collectors.toCollection(() -> FXCollections.observableArrayList()));
+	  	panel.getChildren().addAll(chartStatic);
+	    	
+        final PieChart chart = data.getSimulateChart();
+        chart.autosize();
+        chart.setTitle("Budget simulé");
+        chart.setMaxSize(400, 200);
+        chart.setTranslateY(HardCodedParameters.statSizeY-250);
+        chart.setLabelLineLength(10);
+        chart.setLegendVisible(false);
 
-	        pieChartData.forEach(dataChart ->
-	        dataChart.nameProperty().bind(
-	                Bindings.concat(
-	                		dataChart.getName(), " ",
-	                		//IF
-	                		dataChart.pieValueProperty().intValue() > 1?
-	                		//THEN
-	                		dataChart.pieValueProperty().intValue() + "%":
-	                		//ELSE
-	                		"< 1%"
-			                )
-			        )
-			);
+        chart.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+            	Alert alert = new Alert(AlertType.INFORMATION);
+    	    	alert.setTitle("Information du budget");
+    	    	alert.setHeaderText("Budget initial");
+    	    	alert.setContentText(data.getUserFactory().getBudget() + " €");
+    	    	alert.showAndWait();
+            }
+        });
 
-	        final PieChart chart = new PieChart(pieChartData);
-	        chart.autosize();
-	        chart.setTitle("Budget Entreprise");
-	        chart.setMaxSize(450, 300);
-	        chart.setTranslateY(HardCodedParameters.statSizeY-400);
-	        chart.setLabelLineLength(10);
-	        chart.setLegendVisible(false);
-
-	        chart.setOnMousePressed(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	            	TextInputDialog dialog = new TextInputDialog(String.valueOf(data.getUserFactory().getBudget()));
-	            	dialog.setTitle("Budget entreprise");
-	            	dialog.setHeaderText("Entrez un nouveau budget");
-
-	            	Optional<String> result = dialog.showAndWait();
-	            	if (result.isPresent() && !result.get().isEmpty() && result.get().matches("[0-9]{1,13}(\\.[0-9]*)?") && result.get().length() > 2 ){
-	            	    if (Double.parseDouble(result.get()) < statistics.getTotalSalary()) {
-	            	    	Alert alert = new Alert(AlertType.INFORMATION);
-	            	    	alert.setTitle("Information du budget");
-	            	    	alert.setHeaderText("Budget insuffisant");
-	            	    	alert.setContentText("Minimum " + statistics.getTotalSalary() + " €");
-
-	            	    	alert.showAndWait();
-	            	    }
-	            	    else {
-	            	    	 data.getUserFactory().setBudget(Double.parseDouble(result.get()));
-	            	    }
-
-	            	}
-
-	            }
-	        });
-
-	        panel.getChildren().addAll(chart);
-        }
+	  panel.getChildren().addAll(chart);
+        
       return panel;
   }
 

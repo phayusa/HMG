@@ -7,6 +7,8 @@
 package specifications.Service;
 
 import Model.FactoryModel;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 import tools.AnimationSprite;
 import tools.Position;
 import tools.Sound;
@@ -22,4 +24,7 @@ public interface ReadService {
    public float getProgressOfWorkInFloat();
    public int getCurrentDay();
    public int getMaxProgressionByDay();
+   public PieChart getEstimateChart();
+   public PieChart getSimulateChart();
+
 }

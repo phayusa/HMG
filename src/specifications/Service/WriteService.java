@@ -6,12 +6,12 @@
  * ******************************************************/
 package specifications.Service;
 
+import java.util.ArrayList;
+
 import Model.FactoryModel;
 import Model.PersonModel;
-import tools.Position;
-import tools.Sound;
-
-import java.util.ArrayList;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
 
 public interface WriteService {
 //  public void setHeroesPosition(Position p);
@@ -29,4 +29,7 @@ public interface WriteService {
     public void setName(String name);
     public void loadCSVFile();
     public void generateCsvFile();
+    public void setEstimateChart(PieChart estimateChart);
+    public void setSimulateChart(PieChart simulateChart);
+
 }

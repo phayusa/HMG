@@ -50,6 +50,7 @@ public class Main extends Application{
     viewer = new Viewer();
 
     ((Engine)engine).bindDataService(data);
+    ((Engine)engine).bindStatisticsService(statistics);
     ((StatisticsController)statistics).bindDataService(data);
     ((Viewer)viewer).bindStatisticsService(statistics);
     ((Viewer)viewer).bindReadService(data);

@@ -6,6 +6,8 @@
  * ******************************************************/
 package tools;
 
+import java.util.HashMap;
+
 public class HardCodedParameters {
   //---HARD-CODED-PARAMETERS---//
   public static String defaultParamFileName = "in.parameters";

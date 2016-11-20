@@ -6,15 +6,15 @@
  * ******************************************************/
 package data;
 
+import java.util.ArrayList;
+
 import Model.FactoryModel;
 import Model.PersonModel;
+import javafx.scene.chart.PieChart;
 import specifications.Service.DataService;
-import tools.AnimationSprite;
 import tools.GraphicalEntity;
 import tools.HardCodedParameters;
 import tools.Position;
-
-import java.util.ArrayList;
 
 public class DataOfWorld implements DataService{
     //  private Sound.SOUND sound
@@ -22,8 +22,9 @@ public class DataOfWorld implements DataService{
     private FactoryModel userFactory;
     private int ProgressionOfWork,NumberOfDaysForProject,CurrentDay;
     private int MaxProgressionByDay;
+    private PieChart estimateChart, simulateChart;
 
-    private double budget;
+	private double budget;
 
     public DataOfWorld(){}
 
@@ -126,5 +127,21 @@ public class DataOfWorld implements DataService{
     public void setEmployeeOfFactory(ArrayList<PersonModel> employeeOfFactory) {
         userFactory.setEmployeeOfFactory(employeeOfFactory);
     }
+    
+    public PieChart getEstimateChart() {
+		return estimateChart;
+	}
+
+	public void setEstimateChart(PieChart estimateChart) {
+		this.estimateChart = estimateChart;
+	}
+	
+	public PieChart getSimulateChart() {
+		return simulateChart;
+	}
+
+	public void setSimulateChart(PieChart simulateChart) {
+		this.simulateChart = simulateChart;
+	}
 
 }

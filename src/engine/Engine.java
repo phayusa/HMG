@@ -11,21 +11,24 @@ import Model.PersonModel;
 import tools.*;
 
 import specifications.Service.EngineService;
+import specifications.Service.StatisticsService;
 import specifications.Service.DataService;
 import specifications.Require.RequireDataService;
+import specifications.Require.RequireStatisticsService;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
 
-public class Engine implements EngineService, RequireDataService{
+public class Engine implements EngineService, RequireDataService, RequireStatisticsService{
 
 
   private Timer engineClock;
   private DataService dataOfWorld;
   private Random gen;
   private boolean keyLeft, keyRight, keyUp, keyDown;
+  private StatisticsService statistics;
   private int index,FinalIndex;
   private Timer updateDay;
   private boolean InPause;
@@ -36,7 +39,12 @@ public class Engine implements EngineService, RequireDataService{
   public void bindDataService(DataService service){
     dataOfWorld=service;
   }
-
+  
+  @Override
+  public void bindStatisticsService(StatisticsService statisticsService) {
+	  statistics=statisticsService;  	
+  }
+  
   @Override
   public void init(){
     engineClock = new Timer();
@@ -243,6 +251,7 @@ public class Engine implements EngineService, RequireDataService{
 
   public void DayProgression(){
     dataOfWorld.setCurrentDay(dataOfWorld.getCurrentDay() + 1);
+	statistics.generateSimulateChart();
     int halfFactory = HardCodedParameters.FactoryHeight/3;
 //    for (int i=0;i<dataOfWorld.getMaxProgressionByDay();i++){
       for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
@@ -251,6 +260,7 @@ public class Engine implements EngineService, RequireDataService{
           if(nextRandom == 0){
             Employee.setInFactory(false);
             Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
+            
           }
           nextRandom = gen.nextInt(2);
           if(nextRandom == 1){
