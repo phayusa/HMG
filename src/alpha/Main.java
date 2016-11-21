@@ -11,6 +11,7 @@ import View.Viewer;
 import data.DataOfWorld;
 import engine.Engine;
 import engine.StatisticsController;
+import engine.UIController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -22,10 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import specifications.Service.DataService;
-import specifications.Service.EngineService;
-import specifications.Service.StatisticsService;
-import specifications.Service.ViewerService;
+import specifications.Service.*;
 import tools.HardCodedParameters;
 import tools.User_Entry;
 
@@ -39,6 +37,7 @@ public class Main extends Application{
   private static StatisticsService statistics;
   private static ViewerService viewer;
   private static AnimationTimer timer;
+  private static UIService Ui;
 
   //---EXECUTABLE---//
   public static void main(String[] args) {
@@ -47,19 +46,24 @@ public class Main extends Application{
     data = new DataOfWorld();
     engine = new Engine();
     statistics = new StatisticsController();
+    Ui = new UIController();
     viewer = new Viewer();
 
     ((Engine)engine).bindDataService(data);
     ((Engine)engine).bindStatisticsService(statistics);
     ((StatisticsController)statistics).bindDataService(data);
+    ((UIController)Ui).bindDataService(data);
     ((Viewer)viewer).bindStatisticsService(statistics);
     ((Viewer)viewer).bindReadService(data);
     ((Viewer) viewer).bindEngineService(engine);
+    ((Engine) engine).bindUiService(Ui);
+
 
     data.init();
     engine.init();
     statistics.init();
     viewer.init();
+    Ui.init();
     
     launch(args);
   }
@@ -144,6 +148,9 @@ public class Main extends Application{
             break;
           case P:
             engine.onPause();
+            break;
+          case T:
+            Ui.addLineLog("TATATA");
             break;
           case Q:
           case ESCAPE:

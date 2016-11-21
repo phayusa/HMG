@@ -71,11 +71,11 @@ public class StatisticsController implements StatisticsService, RequireDataServi
 			if (factory.getBudget() != 0) {
 				for (PersonModel employee : factory.getEmployeeOfFactory()) {
 				  if (salaryByJob.get(employee.getJob()) != null && salaryByJob.containsKey(employee.getJob())) {
-					  totalSalary = (salaryByJob.get(employee.getJob()) * 100) + (employee.getSalary()/20);
+					  totalSalary = (salaryByJob.get(employee.getJob()) * 100) + (employee.getSalaryByDay());
 					  percentSalary = (100 * totalSalary) / factory.getBudget();
 					  salaryByJob.put(employee.getJob(), percentSalary);
 				  } else {
-					  percentSalary = (100 * (employee.getSalary()/20)) / factory.getBudget();
+					  percentSalary = (100 * (employee.getSalaryByDay())) / factory.getBudget();
 					  salaryByJob.put(employee.getJob(), percentSalary);
 				  } 
 					
@@ -103,12 +103,12 @@ public class StatisticsController implements StatisticsService, RequireDataServi
 			else {
 				for (PersonModel employee : factory.getEmployeeOfFactory()) {
 				  if (salaryByDay.get(employee.getJob()) != null && salaryByDay.containsKey(employee.getJob())) {
-					  salaryOfEmployee = employee.getSalary()/20;
+					  salaryOfEmployee = employee.getSalaryByDay();
 					  totalSalary = (salaryByDay.get(employee.getJob()) * 100) + salaryOfEmployee;
 					  percentSalary = (100 * totalSalary) / factory.getBudget();
 					  salaryByDay.put(employee.getJob(), percentSalary);
 				  } else {
-					  salaryOfEmployee = employee.getSalary()/20;
+					  salaryOfEmployee = employee.getSalaryByDay();
 					  percentSalary = 100 * salaryOfEmployee / factory.getBudget();
 					  salaryByDay.put(employee.getJob(), percentSalary);
 				  } 

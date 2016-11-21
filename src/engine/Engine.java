@@ -8,6 +8,8 @@ package engine;
 
 import Model.FactoryModel;
 import Model.PersonModel;
+import specifications.Require.RequireUiService;
+import specifications.Service.UIService;
 import tools.*;
 
 import specifications.Service.EngineService;
@@ -21,17 +23,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
 
-public class Engine implements EngineService, RequireDataService, RequireStatisticsService{
-
+public class Engine implements EngineService, RequireDataService, RequireUiService, RequireStatisticsService{
 
   private Timer engineClock;
   private DataService dataOfWorld;
+  private UIService Ui;
   private Random gen;
   private boolean keyLeft, keyRight, keyUp, keyDown;
   private StatisticsService statistics;
   private int index,FinalIndex;
   private Timer updateDay;
-  private boolean InPause;
+  private boolean InPause,ContinueInOverBudget;
 
   public Engine(){}
 
@@ -44,6 +46,11 @@ public class Engine implements EngineService, RequireDataService, RequireStatist
   public void bindStatisticsService(StatisticsService statisticsService) {
 	  statistics=statisticsService;  	
   }
+
+  @Override
+  public void bindUiService(UIService service) {
+    Ui = service;
+  }
   
   @Override
   public void init(){
@@ -54,9 +61,10 @@ public class Engine implements EngineService, RequireDataService, RequireStatist
     keyUp = false;
     keyDown = false;
     index = 0;
-    FinalIndex = dataOfWorld.getUserFactory().getEmployeeOfFactory().size() * 5;
+    FinalIndex = dataOfWorld.getUserFactory().getNumberOfEmployee() * 5;
     InPause = false;
     updateDay = new Timer();
+    ContinueInOverBudget = false;
     updateDay.schedule(new TimerTask() {
       @Override
       public void run() {
@@ -238,6 +246,7 @@ public class Engine implements EngineService, RequireDataService, RequireStatist
     		));
     index = 0;
     dataOfWorld.setCurrentDay(1);
+    dataOfWorld.setProgressionOfWork(0);
   }
 
   @Override
@@ -250,29 +259,47 @@ public class Engine implements EngineService, RequireDataService, RequireStatist
   }
 
   public void DayProgression(){
-    dataOfWorld.setCurrentDay(dataOfWorld.getCurrentDay() + 1);
-	statistics.generateSimulateChart();
+    int newDay = dataOfWorld.getCurrentDay() + 1;
+
+    if(newDay == dataOfWorld.getNumberOfDaysForProject() + 1 && !ContinueInOverBudget){
+      //TODO : open the dialog
+      //ContinueInOver = DialogRes
+      return;
+    }
+    if(dataOfWorld.getProgressOfWork() >= 100){
+      //TODO : open the dialog
+      //Export or Retry
+      return;
+    }
+    dataOfWorld.setCurrentDay(newDay);
+    Ui.addLineLog("Jour "+newDay+":");
+
     int halfFactory = HardCodedParameters.FactoryHeight/3;
-//    for (int i=0;i<dataOfWorld.getMaxProgressionByDay();i++){
-      for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
-          //TODO : draw a number and add with a pourcent of wage. If inferior of 1 the diff is stocked in personModel and if this difference is greater than 1 -> the employee leave the factory
-          int nextRandom = gen.nextInt(10);
-          if(nextRandom == 0){
-            Employee.setInFactory(false);
-            Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
-            
-          }
-          nextRandom = gen.nextInt(2);
-          if(nextRandom == 1){
-            dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + 1);
-          }
-      }
-//    }
+    System.err.println("Jour "+newDay+":");
+    int toDrawExit = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay())/dataOfWorld.getUserFactory().getNumberOfEmployee();
+    int toDrawIncrease = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()) ;
+
+    for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+        //TODO : draw a number and add with a pourcent of wage. If inferior of 1 the diff is stocked in personModel and if this difference is greater than 1 -> the employee leave the factory
+      int nextRandom = gen.nextInt(toDrawExit);
+      if(nextRandom + Employee.getSalaryByDay() < dataOfWorld.getUserFactory().getAverageSalaryByDay()){
+          Employee.setInFactory(false);
+          Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
+          Ui.addLineLog(Employee.getName()+" part du projet.");
+        }
+        nextRandom = gen.nextInt(toDrawIncrease * 2 );
+        if(nextRandom >= Employee.getSalaryByDay()){
+          int increasePourcent = ((int) Employee.getSalaryByDay())/(dataOfWorld.getNumberOfDaysForProject());
+          dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + increasePourcent);
+          Ui.addLineLog(Employee.getName()+" a fait progresser le projet de "+increasePourcent+"%");
+        }
+    }
+    statistics.generateSimulateChart();
   }
 
   @Override
   public void ClearEmployeeOfNotInAction(ArrayList<PersonModel> test){
-    if(test.size() != dataOfWorld.getUserFactory().getEmployeeOfFactory().size())
+    if(test.size() != dataOfWorld.getUserFactory().getNumberOfEmployee())
       dataOfWorld.setEmployeeOfFactory(test);
   }
 

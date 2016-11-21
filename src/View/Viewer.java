@@ -58,12 +58,6 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
   private EngineService engine;
 
 
-  final ImageView pic = new ImageView();
-  final Label name = new Label();
-  final Label binName = new Label();
-  final Label description = new Label();
-  private int currentIndex = -1;
-
 
   public Viewer(){}
   
@@ -149,15 +143,12 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     }
     engine.ClearEmployeeOfNotInAction(newArray);
 
-//    Rectangle hideRooom = new Rectangle(data.getUserFactory().getHideRoom().getWidth(),data.getUserFactory().getHideRoom().getHeight(),Color.RED);
-//    hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x);
-//    hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y);
-      ImageView hideRooom = data.getUserFactory().getHideRoom().getImageOfEntity();
-      hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x);
-      hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y);
-      hideRooom.setFitWidth(data.getUserFactory().getHideRoom().getWidth());
-      hideRooom.setFitHeight(data.getUserFactory().getHideRoom().getHeight());
-      panel.getChildren().add(hideRooom);
+    ImageView hideRooom = data.getUserFactory().getHideRoom().getImageOfEntity();
+    hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x);
+    hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y);
+    hideRooom.setFitWidth(data.getUserFactory().getHideRoom().getWidth());
+    hideRooom.setFitHeight(data.getUserFactory().getHideRoom().getHeight());
+    panel.getChildren().add(hideRooom);
 
     ProgressBar progressionOfProject = new ProgressBar(data.getProgressOfWorkInFloat());
     ProgressIndicator progressIndication = new ProgressIndicator(data.getProgressOfWorkInFloat());
@@ -168,56 +159,13 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     ProgressionBox.setTranslateY(HardCodedParameters.FactoryHeight - 45);
     panel.getChildren().add(ProgressionBox);
 
-    Label DayPresentation = new Label("Jour "+data.getCurrentDay());
+    Label DayPresentation = new Label("Jour "+data.getCurrentDay()+"/"+data.getNumberOfDaysForProject());
     DayPresentation.setTextFill(Color.BLACK);
     DayPresentation.setFont(new Font("Arial",25));
     DayPresentation.setTranslateX(HardCodedParameters.FactoryStartX+15);
     DayPresentation.setTranslateY(HardCodedParameters.FactoryHeight - 45);
     panel.getChildren().add(DayPresentation);
 
-//    if(data.getUserFactory().getEmployeeOfFactory().isEmpty()){
-//        engine.onPause();
-//        Alert loose = new Alert(AlertType.CONFIRMATION);
-//        loose.setTitle("Information");
-//        loose.setHeaderText("Vous n'avez plus d'employée.");
-//        loose.setContentText("Choisissez ce que vous voulez faire");
-//        ButtonType buttonAdd = new ButtonType("Ajouter Employée");
-//        ButtonType buttonReset = new ButtonType("Relancer une simulation");
-//        ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
-//        loose.getButtonTypes().setAll(buttonAdd,buttonReset,buttonExit);
-//        Optional<ButtonType> result = loose.showAndWait();
-//        if(result.get() == buttonAdd){
-//            System.out.println("Ajouter !!!");
-//        }
-//        if(result.get() == buttonReset){
-//            engine.resetPosition();
-//        }
-//        if(result.get() == buttonExit){
-//            engine.stop();
-//        }
-//    }
-//
-//    if(data.getProgressOfWork() >= 100){
-//        engine.onPause();
-//        Alert loose = new Alert(AlertType.CONFIRMATION);
-//        loose.setTitle("Information");
-//        loose.setHeaderText("Le projet à était terminé avec succès");
-//        loose.setContentText("Que voulez-vous faire ?");
-//        ButtonType buttonExport = new ButtonType("Exporter Résultats");
-//        ButtonType buttonReset = new ButtonType("Relancer une simulation");
-//        ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
-//        loose.getButtonTypes().setAll(buttonExport,buttonReset,buttonExit);
-//        Optional<ButtonType> result = loose.showAndWait();
-//        if(result.get() == buttonReset){
-//            engine.resetPosition();
-//        }
-//        if(result.get() == buttonExit){
-//            engine.stop();
-//        }
-//        if(result.get() == buttonExport){
-//            System.out.println("Exporter");
-//        }
-//    }
 
     return panel;
   }
@@ -267,13 +215,12 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     public Parent panelBack(){
         Pane panel = new Pane();
         panel.setStyle("-fx-background-color: white;-fx-border-color: black;");
-        TextArea back = new TextArea();
+        TextArea back = new TextArea(data.getLogsInString());
         back.setMaxSize(HardCodedParameters.backSizeX, HardCodedParameters.backSizeY);
-        back.setTranslateX(HardCodedParameters.backTranslateX);
-        back.setTranslateY(HardCodedParameters.backTranslateY);
         back.setEditable(false);
-        back.setDisable(true);
-   
+        back.setWrapText(true);
+
+
         panel.setMaxSize(HardCodedParameters.backSizeX,HardCodedParameters.backSizeY);
         panel.setTranslateX(HardCodedParameters.backTranslateX);
         panel.setTranslateY(HardCodedParameters.backTranslateY);
