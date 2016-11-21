@@ -31,7 +31,8 @@ public class HardCodedParameters {
   
   public static final double startBudget = 10000;
   public static final int enginePaceMillis = 100,
-                          spriteSlowDownRate = 7;
+                          spriteSlowDownRate = 7,
+                          workDayInMonth = 20;
   
   public static final String urlBackground = "file:Ressource/images/floor.jpg";
 

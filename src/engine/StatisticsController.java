@@ -14,6 +14,7 @@ import javafx.scene.chart.PieChart;
 import specifications.Require.RequireDataService;
 import specifications.Service.DataService;
 import specifications.Service.StatisticsService;
+import tools.HardCodedParameters;
 
 public class StatisticsController implements StatisticsService, RequireDataService {
 
@@ -64,7 +65,7 @@ public class StatisticsController implements StatisticsService, RequireDataServi
 	public HashMap<String, Double> getSalaryByJob() {
 	
 		//20 = 1 Month Working day
-		for (int i = 0 ; i<20; i++) {
+		for (int i = 0 ; i<HardCodedParameters.workDayInMonth; i++) {
 			totalPercentSalary = 0.0;
 			percentSalary = 0.0;
 			totalSalary = 0.0;
