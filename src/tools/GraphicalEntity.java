@@ -9,21 +9,23 @@ import javafx.scene.image.ImageView;
 public class GraphicalEntity {
     protected Position positionOfEntity;
     protected int width,height;
+    protected  double ratioWidth,ratioHeight,ratioX,ratioY;
     // the image will be be load only once
     protected ImageView imageOfEntity;
 
     public  GraphicalEntity(){}
 
     public GraphicalEntity(Position startPosition,int width,int height){
-        positionOfEntity = startPosition;
-        this.width = width;
-        this.height = height;
+//        positionOfEntity = startPosition;
+        setPositionOfEntity(startPosition);
+        setWidth(width);
+        setHeight(height);
     }
 
     public GraphicalEntity(Position startPosition,int width,int height,String pathOfImage){
-        positionOfEntity = startPosition;
-        this.width = width;
-        this.height = height;
+        setPositionOfEntity(startPosition);
+        setWidth(width);
+        setHeight(height);
         imageOfEntity = new ImageView(new Image(pathOfImage));
     }
 
@@ -32,6 +34,10 @@ public class GraphicalEntity {
         positionOfEntity = toCopyEntity.positionOfEntity;
         width = toCopyEntity.width;
         height = toCopyEntity.height;
+        ratioX = toCopyEntity.ratioX;
+        ratioY = toCopyEntity.ratioY;
+        ratioWidth = toCopyEntity.ratioWidth;
+        ratioHeight = toCopyEntity.ratioHeight;
         imageOfEntity = toCopyEntity.imageOfEntity;
     }
 
@@ -59,6 +65,8 @@ public class GraphicalEntity {
     }
 
     public void setPositionOfEntity(Position positionOfEntity) {
+        ratioX = positionOfEntity.x/HardCodedParameters.defaultWidth;
+        ratioY = positionOfEntity.y/HardCodedParameters.defaultHeight;
         this.positionOfEntity = positionOfEntity;
     }
 
@@ -67,14 +75,33 @@ public class GraphicalEntity {
     }
 
     public void setWidth(int width) {
+        ratioWidth = ((double) width)/HardCodedParameters.defaultWidth;
         this.width = width;
     }
 
     public int getHeight() {
+        ratioHeight = ((double) height)/HardCodedParameters.defaultHeight;
         return height;
     }
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public double getRatioWidth() {
+        return ratioWidth;
+    }
+
+
+    public double getRatioHeight() {
+        return ratioHeight;
+    }
+
+    public double getRatioX() {
+        return ratioX;
+    }
+
+    public double getRatioY() {
+        return ratioY;
     }
 }

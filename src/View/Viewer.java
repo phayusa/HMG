@@ -6,39 +6,21 @@
  * ******************************************************/
 package View;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import Model.PersonModel;
-import data.DataOfWorld;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import engine.Engine;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import specifications.Require.RequireEngineService;
 import specifications.Require.RequireReadService;
 import specifications.Require.RequireStatisticsService;
@@ -48,6 +30,8 @@ import specifications.Service.StatisticsService;
 import specifications.Service.ViewerService;
 import tools.GraphicalEntity;
 import tools.HardCodedParameters;
+
+import java.util.ArrayList;
 
 public class Viewer implements ViewerService, RequireReadService, RequireStatisticsService,RequireEngineService{
   private static final int spriteSlowDownRate=HardCodedParameters.spriteSlowDownRate;
@@ -87,40 +71,44 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
   public Parent panelCompany(){
 
 	Pane panel = new Pane();
-    panel.setMaxSize((((double) HardCodedParameters.companySizeX)/ ((double) HardCodedParameters.defaultWidth)) * currentWidth,(((double) HardCodedParameters.companySizeY)/ ((double) HardCodedParameters.defaultHeight))* currentHeight);
-    panel.setTranslateX(HardCodedParameters.companyTranslateX);
-    panel.setTranslateY(HardCodedParameters.companyTranslateY);
+    panel.setMaxSize(data.getUserFactory().getRatioWidth() * currentWidth,data.getUserFactory().getRatioHeight() * currentHeight);
+    panel.setTranslateX(data.getUserFactory().getRatioX());
+    panel.setTranslateY(data.getUserFactory().getRatioY());
     ImageView factoryRepresentation = data.getUserFactory().getImageOfEntity();
-    factoryRepresentation.setTranslateX(data.getUserFactory().getPositionOfEntity().x);
-    factoryRepresentation.setTranslateY(data.getUserFactory().getPositionOfEntity().y);
-    factoryRepresentation.setFitWidth(0.546875 * currentWidth);
-    factoryRepresentation.setFitHeight(0.708333 * currentHeight);
+    factoryRepresentation.setTranslateX(data.getUserFactory().getRatioX() * currentWidth);
+    factoryRepresentation.setTranslateY(data.getUserFactory().getRatioY() * currentHeight);
+    factoryRepresentation.setFitWidth(data.getUserFactory().getRatioWidth() * currentWidth);
+    factoryRepresentation.setFitHeight(data.getUserFactory().getRatioHeight() * currentHeight);
+//      double res = data.getUserFactory().getRatioHeight() * currentHeight;
+      //To RUN FOR UNKNOWN REASON
+//      double res_bis = data.getUserFactory().getHeight()/HardCodedParameters.defaultHeight * currentHeight;
+//      System.err.println("new "+res+" old "+res_bis);
+//      factoryRepresentation.setFitHeight(res);
+//      factoryRepresentation.setFitWidth(data.getUserFactory().getWidth()/HardCodedParameters.defaultWidth * currentWidth);
+//      factoryRepresentation.setFitHeight(data.getUserFactory().getHeight()/HardCodedParameters.defaultHeight * currentHeight);
+//    factoryRepresentation.setFitHeight(data.getUserFactory().getRatioHeight() * currentHeight);
 //      System.err.println((data.getUserFactory().getWidth()/ HardCodedParameters.defaultWidth));
 //      System.err.println((data.getUserFactory().getHeight()/ HardCodedParameters.defaultHeight));
 
     panel.getChildren().add(factoryRepresentation);
     for (GraphicalEntity Office : data.getUserFactory().getOffices() ) {
       ImageView imageOfOffice = Office.getImageOfEntity();
-      imageOfOffice.setTranslateX(Office.getPositionOfEntity().x/HardCodedParameters.defaultWidth * currentWidth);
-      imageOfOffice.setTranslateY(Office.getPositionOfEntity().y/HardCodedParameters.defaultHeight * currentHeight);
-      imageOfOffice.setFitWidth(currentWidth * 0.1171875);
-      imageOfOffice.setFitHeight(currentHeight * 0.1111111);
-//        System.err.println("width "+Office.getPositionOfEntity().x/HardCodedParameters.defaultWidth);
-//        System.err.println("height "+Office.getPositionOfEntity().y/HardCodedParameters.defaultHeight);
+      imageOfOffice.setTranslateX(Office.getRatioX() * currentWidth);
+      imageOfOffice.setTranslateY(Office.getRatioY() * currentHeight);
+      imageOfOffice.setFitWidth(Office.getRatioWidth() * currentWidth);
+      imageOfOffice.setFitHeight(Office.getRatioHeight() * currentHeight);
       panel.getChildren().add(imageOfOffice);
     }
       ArrayList<PersonModel> newArray = new ArrayList<PersonModel>();
     for (PersonModel employee : data.getUserFactory().getEmployeeOfFactory()){
         if(employee.getPositionOfEntity().x < data.getUserFactory().getHideRoom().getPositionOfEntity().x && employee.getPositionOfEntity().x > data.getUserFactory().getPositionOfEntity().x){
-            Label label = new Label(employee.getName());
-            label.setTranslateX((employee.getPositionOfEntity().x + employee.getWidth()/8)/HardCodedParameters.defaultWidth * currentWidth);
-            label.setTranslateY((employee.getPositionOfEntity().y - employee.getHeight()/2 )/HardCodedParameters.defaultHeight * currentHeight);
-            label.setTextFill(Color.BLACK);
             ImageView imageOfEmployee = employee.getCurrentSprite();
-            imageOfEmployee.setTranslateX(employee.getPositionOfEntity().x/HardCodedParameters.defaultWidth * currentWidth);
-            imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y/HardCodedParameters.defaultHeight * currentHeight);
-            imageOfEmployee.setFitWidth(employee.getWidth()/HardCodedParameters.defaultWidth * currentWidth);
-            imageOfEmployee.setFitHeight(employee.getHeight()/HardCodedParameters.defaultHeight * currentHeight);
+            imageOfEmployee.setTranslateX(employee.getRatioX() * currentWidth);
+            imageOfEmployee.setTranslateY(employee.getRatioY() * currentHeight);
+            imageOfEmployee.setFitWidth(employee.getRatioWidth() * currentWidth);
+            imageOfEmployee.setFitHeight(employee.getRatioHeight() * currentHeight);
+//            res_bis = employee.getHeight()/HardCodedParameters.defaultHeight * currentHeight;
+//            res_bis = employee.getWidth()/HardCodedParameters.defaultWidth * currentWidth;
             //Example of Mouse Event
             imageOfEmployee.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
@@ -131,7 +119,7 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
 
                 }
             });
-            panel.getChildren().addAll(label, imageOfEmployee);
+            panel.getChildren().addAll(employee.getLabelOfEmployee(currentWidth,currentHeight), imageOfEmployee);
 
         }
         if(employee.isInFactory())
@@ -149,10 +137,10 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     engine.ClearEmployeeOfNotInAction(newArray);
 
     ImageView hideRooom = data.getUserFactory().getHideRoom().getImageOfEntity();
-    hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x/HardCodedParameters.defaultWidth * currentWidth);
-    hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y/HardCodedParameters.defaultHeight * currentHeight);
-    hideRooom.setFitWidth(data.getUserFactory().getHideRoom().getWidth()/HardCodedParameters.defaultWidth * currentWidth);
-    hideRooom.setFitHeight(data.getUserFactory().getHideRoom().getHeight()/HardCodedParameters.defaultHeight * currentHeight);
+    hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getRatioX() * currentWidth);
+    hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getRatioY() * currentHeight);
+    hideRooom.setFitWidth(data.getUserFactory().getHideRoom().getRatioWidth() * currentWidth);
+    hideRooom.setFitHeight(data.getUserFactory().getHideRoom().getRatioHeight() * currentHeight);
     panel.getChildren().add(hideRooom);
 
     ProgressBar progressionOfProject = new ProgressBar(data.getProgressOfWorkInFloat());

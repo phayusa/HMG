@@ -11,11 +11,11 @@ import java.util.HashMap;
 public class HardCodedParameters {
   //---HARD-CODED-PARAMETERS---//
   public static String defaultParamFileName = "in.parameters";
-  public static final double defaultWidth = 1280, defaultHeight = 720;
+  public static final double defaultWidth = 1280.0, defaultHeight = 720.0;
     public static final int FactoryWidth = 700, FactoryHeight = 510,
                           OfficeWidth = 150,OfficeHeight = 80,numberOfficeInFactory=6,
                           EmployeeStartX = -260;
-    public static final double FactoryStartX = 0, FactoryStartY = 0;
+    public static final double FactoryStartX = 20, FactoryStartY = 20;
     public static final int TimeBetweenDaysInMilli = 10000;
 
     // ---- UI Dimension---//

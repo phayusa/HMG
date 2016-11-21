@@ -20,7 +20,6 @@ public class AnimationSprite extends GraphicalEntity {
     private int endIndex;
     private int sizeOfLine;
     private boolean inMovement;
-    private int leftAnim,rightAnim, upAnim,downAnim;
     private boolean left,right,up,down;
     private Position newPosition;
     private boolean inFactory;

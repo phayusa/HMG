@@ -35,7 +35,7 @@ public class DataOfWorld implements DataService{
     public void init(){
         userFactory = new FactoryModel(
         		new GraphicalEntity(
-        				new Position(HardCodedParameters.FactoryStartX,HardCodedParameters.FactoryStartY), 
+        				new Position(HardCodedParameters.FactoryStartX,HardCodedParameters.FactoryStartY),
         				HardCodedParameters.FactoryWidth,
         				HardCodedParameters.FactoryHeight,
         				HardCodedParameters.urlBackground
