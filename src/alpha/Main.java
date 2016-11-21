@@ -15,6 +15,7 @@ import engine.UIController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -69,7 +70,7 @@ public class Main extends Application{
   }
 
   @Override public void start(Stage stage) {
-    final Scene scene = new Scene(((Viewer)viewer).getMainPanel());
+    final Scene scene = new Scene(((Viewer)viewer).getMainPanel(stage.getWidth(),stage.getHeight()));
        
     scene.setFill(Color.CORNFLOWERBLUE);
 
@@ -163,12 +164,16 @@ public class Main extends Application{
       }
     });
 
+    stage.setResizable(true);
     stage.setTitle("Company Manager");
     stage.show();
     
     timer = new AnimationTimer() {
       @Override public void handle(long l) {
-        scene.setRoot(((Viewer)viewer).getMainPanel());
+        Parent newPanel = ((Viewer)viewer).getMainPanel(stage.getWidth(),stage.getHeight());
+        newPanel.prefWidth(stage.getWidth());
+        newPanel.prefHeight(stage.getHeight());
+        scene.setRoot(newPanel);
 //        switch (data.getSoundEffect()){
 //          case PhantomDestroyed:
 //            new MediaPlayer(new Media(getHostServices().getDocumentBase()+"src/sound/waterdrip.mp3")).play();
