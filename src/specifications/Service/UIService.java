@@ -9,4 +9,8 @@ package specifications.Service;
 public interface UIService{
   public void init();
   public void addLineLog(String line);
+  public void dialogEndProject();
+  public void dialogEndDay();
+  public String getResult();
+  public void setResult(String result);
 }

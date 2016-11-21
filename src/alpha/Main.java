@@ -7,7 +7,6 @@
 package alpha;
 
 import View.Viewer;
-//import algorithm.RandomWalker;
 import data.DataOfWorld;
 import engine.Engine;
 import engine.StatisticsController;
@@ -16,16 +15,15 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import specifications.Service.*;
 import tools.HardCodedParameters;
 import tools.User_Entry;
+
+//import algorithm.RandomWalker;
 
 public class Main extends Application{
   //---HARD-CODED-PARAMETERS---//
@@ -152,6 +150,12 @@ public class Main extends Application{
           case T:
             Ui.addLineLog("TATATA");
             break;
+          case SPACE:
+            data.setProgressionOfWork(data.getProgressOfWork() + 1);
+            break;
+          case V:
+            data.setCurrentDay(data.getCurrentDay() + 1);
+            break;
           case Q:
           case ESCAPE:
             System.exit(0);
@@ -165,11 +169,10 @@ public class Main extends Application{
 
     stage.setTitle("Company Manager");
     stage.show();
-    
     timer = new AnimationTimer() {
       @Override public void handle(long l) {
         scene.setRoot(((Viewer)viewer).getMainPanel());
-//        switch (data.getSoundEffect()){
+        //        switch (data.getSoundEffect()){
 //          case PhantomDestroyed:
 //            new MediaPlayer(new Media(getHostServices().getDocumentBase()+"src/sound/waterdrip.mp3")).play();
 //            break;
