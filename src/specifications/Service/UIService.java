@@ -10,4 +10,9 @@ public interface UIService{
   public void init();
   public void addLineLog(String line);
   public void addEmployeeDialog();
+  public void dialogEndProject();
+  public void dialogEndDay();
+  public String getResult();
+  public void setResult(String result);
+  public void dialogClearExport();
 }

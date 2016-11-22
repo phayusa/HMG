@@ -2,7 +2,6 @@ package engine;
 
 import java.util.ArrayList;
 import java.util.Optional;
-
 import Model.PersonModel;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -15,12 +14,11 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.ButtonBar;
 import specifications.Require.RequireDataService;
 import specifications.Service.DataService;
 import specifications.Service.UIService;
-import tools.GraphicalEntity;
 import tools.HardCodedParameters;
-import tools.Position;
 
 /**
  * Created by sokomo on 18/11/16.
@@ -28,6 +26,7 @@ import tools.Position;
 public class UIController implements RequireDataService, UIService{
 
     private DataService data;
+    private String result;
 
     @Override
     public void bindDataService(DataService service) {
@@ -37,7 +36,7 @@ public class UIController implements RequireDataService, UIService{
 
     @Override
     public void init() {
-
+        result = "none";
     }
 
     @Override
@@ -144,6 +143,103 @@ public class UIController implements RequireDataService, UIService{
     	});
     }
 
+    @Override
+    public void dialogEndProject() {
+        result = "check";
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alert loose = new Alert(Alert.AlertType.CONFIRMATION);
+                loose.setTitle("Information");
+                loose.setHeaderText("Le projet à était terminé avec succès");
+                loose.setContentText("Que voulez-vous faire ?");
+                ButtonType buttonExport = new ButtonType("Exporter Résultats");
+                ButtonType buttonReset = new ButtonType("Relancer une simulation");
+                ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
+                loose.getButtonTypes().setAll(buttonExport,buttonReset,buttonExit);
+                Optional<ButtonType> UserResult = loose.showAndWait();
+                if(UserResult.get() == buttonExport){
+                    result = "export";
+                }
+                if(UserResult.get() == buttonReset){
+                    result = "reset";
+                }
+                if(UserResult.get() == buttonExit){
+                    result = "exit";
+                }
+            }
+        });
+    }
+
+    @Override
+    public void dialogEndDay() {
+        result = "check";
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alert loose = new Alert(Alert.AlertType.CONFIRMATION);
+                loose.setTitle("Information");
+                loose.setHeaderText("Vous avez dépassé le nombre de jour prévu.");
+                loose.setContentText("Que voulez-vous faire ?");
+                ButtonType buttonContinue = new ButtonType("Continuer");
+                ButtonType buttonReset = new ButtonType("Relancer une simulation");
+                ButtonType buttonExport = new ButtonType("Exporter Résultats");
+                ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
+                loose.getButtonTypes().setAll(buttonContinue,buttonExport,buttonReset,buttonExit);
+                Optional<ButtonType> UserResult = loose.showAndWait();
+                if(UserResult.get() == buttonExport){
+                    result = "continue";
+                }
+                if(UserResult.get() == buttonExport){
+                    result = "export";
+                }
+                if(UserResult.get() == buttonReset){
+                    result = "reset";
+                }
+                if(UserResult.get() == buttonExit){
+                    result = "exit";
+                }
+                return;
+            }
+        });
+    }
+
+
+    @Override
+    public void dialogClearExport() {
+        result = "clear";
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alert loose = new Alert(Alert.AlertType.CONFIRMATION);
+                loose.setTitle("Information");
+                loose.setHeaderText("L'exportation est un succès.");
+                loose.setContentText("Que voulez-vous faire ?");
+                ButtonType buttonReset = new ButtonType("Relancer une simulation");
+                ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
+                loose.getButtonTypes().setAll(buttonReset,buttonExit);
+                Optional<ButtonType> UserResult = loose.showAndWait();
+                if(UserResult.get() == buttonReset){
+                    result = "reset";
+                }
+                if(UserResult.get() == buttonExit){
+                    result = "exit";
+                }
+                return;
+            }
+        });
+    }
+
+    @Override
+    public String getResult() {
+        return result;
+    }
+
+    @Override
+    public void setResult(String result) {
+        this.result = result;
+    }
+
     //    if(data.getUserFactory().getEmployeeOfFactory().isEmpty()){
 //        engine.onPause();
 //        Alert loose = new Alert(AlertType.CONFIRMATION);
@@ -163,28 +259,6 @@ public class UIController implements RequireDataService, UIService{
 //        }
 //        if(result.get() == buttonExit){
 //            engine.stop();
-//        }
-//    }
-//
-//    if(data.getProgressOfWork() >= 100){
-//        engine.onPause();
-//        Alert loose = new Alert(AlertType.CONFIRMATION);
-//        loose.setTitle("Information");
-//        loose.setHeaderText("Le projet à était terminé avec succès");
-//        loose.setContentText("Que voulez-vous faire ?");
-//        ButtonType buttonExport = new ButtonType("Exporter Résultats");
-//        ButtonType buttonReset = new ButtonType("Relancer une simulation");
-//        ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
-//        loose.getButtonTypes().setAll(buttonExport,buttonReset,buttonExit);
-//        Optional<ButtonType> result = loose.showAndWait();
-//        if(result.get() == buttonReset){
-//            engine.resetPosition();
-//        }
-//        if(result.get() == buttonExit){
-//            engine.stop();
-//        }
-//        if(result.get() == buttonExport){
-//            System.out.println("Exporter");
 //        }
 //    }
 }

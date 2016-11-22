@@ -9,6 +9,7 @@ package engine;
 import Model.FactoryModel;
 import Model.OfficeModel;
 import Model.PersonModel;
+import data.DataOfWorld;
 import specifications.Require.RequireUiService;
 import specifications.Service.UIService;
 import tools.*;
@@ -87,6 +88,63 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
 //          DayProgression();
           }
         }
+
+        if(dataOfWorld.getNumberOfDaysForProject() <= dataOfWorld.getCurrentDay() && !ContinueInOverBudget){
+          String resultAnwser = Ui.getResult();
+          if (resultAnwser == "none") {
+            Ui.dialogEndDay();
+          }else{
+            switch (resultAnwser){
+              case "reset":
+                resetPosition();
+                return;
+              case "exit":
+                stop();
+                return;
+              case "export":
+                System.err.println("export");
+                return;
+              case "continue":
+                ContinueInOverBudget = true;
+                break;
+            }
+//            Ui.setResult("none");
+          }
+        }
+        if(dataOfWorld.getProgressOfWork() >= 100){
+          String resultAnwser = Ui.getResult();
+          if (resultAnwser == "none") {
+            Ui.dialogEndProject();
+          }else{
+            switch (resultAnwser){
+              case "reset":
+                resetPosition();
+                break;
+              case "exit":
+                stop();
+                break;
+              case "export":
+                dataOfWorld.getUserFactory().generateCSVFile();
+                Ui.dialogClearExport();
+                System.err.println("export");
+                break;
+            }
+//            Ui.setResult("none");
+          }
+          return;
+        }
+
+        if(Ui.getResult() == "clear"){
+          String resultAnwser = Ui.getResult();
+          switch (resultAnwser){
+            case "reset":
+              resetPosition();
+              break;
+            case "exit":
+              stop();
+              break;
+          }
+        }
 //      data.setSoundEffect(Sound.SOUND.None);
       }
     },0,HardCodedParameters.enginePaceMillis);
@@ -142,7 +200,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
     }
   }
 
-  private void updateMoveHeroeGeneral(PersonModel objectToMove){
+  private void updateMoveHeroeGeneral(AnimationSprite objectToMove){
     if(objectToMove.isRight()) {
       objectToMove.setNbAnim(2);
       objectToMove.setPositionWithSpeed(10,0);
@@ -245,6 +303,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
     index = 0;
     dataOfWorld.setCurrentDay(1);
     dataOfWorld.setProgressionOfWork(0);
+    Ui.setResult("none");
   }
 
   @Override
@@ -267,54 +326,59 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
       }
       dataOfWorld.getUserFactory().setOffices(newOffice);
       Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
+      Employee.setInFactory(false);
     }
   }
 
   public void DayProgression() {
     int newDay = dataOfWorld.getCurrentDay() + 1;
 
-    if (newDay == dataOfWorld.getNumberOfDaysForProject() + 1 && !ContinueInOverBudget) {
-      //ContinueInOver = DialogRes
+    if(newDay == dataOfWorld.getNumberOfDaysForProject() + 1 && !ContinueInOverBudget){
       return;
     }
-    if (dataOfWorld.getProgressOfWork() >= 100) {
-      //Export or Retry
+    if(dataOfWorld.getProgressOfWork() >= 100){
       return;
     }
     dataOfWorld.setCurrentDay(newDay);
-    Ui.addLineLog("Jour " + newDay + ":");
+    Ui.addLineLog("Jour "+newDay+":");
 
-    int halfFactory = HardCodedParameters.FactoryHeight / 3;
-    System.err.println("Jour " + newDay + ":");
-    int toDrawExit = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()) / dataOfWorld.getUserFactory().getNumberOfEmployee();
-    int toDrawIncrease = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay());
 
-    for (PersonModel Employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
-      int nextRandom = gen.nextInt(toDrawExit);
-      if (nextRandom + Employee.getSalaryByDay() < dataOfWorld.getUserFactory().getAverageSalaryByDay()) {
+      int halfFactory = HardCodedParameters.FactoryHeight/3;
+//    int toDrawExit = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay())/dataOfWorld.getUserFactory().getNumberOfEmployee();
+//    int toDrawIncrease = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()) ;
+
+      for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+          //      int nextRandom = gen.nextInt(toDrawExit);
+          int nextRandom = gen.nextInt(((int) Employee.getSalaryByDay()));
+//      if(nextRandom + Employee.getSalaryByDay() < dataOfWorld.getUserFactory().getAverageSalaryByDay()){
         Employee.setInFactory(false);
-        ArrayList<OfficeModel> newOffice = dataOfWorld.getUserFactory().getOffices();
-        for (OfficeModel office : newOffice) {
-          if (office.isOccupiedLeft())
-            if (office.getPositionLeft().x == Employee.getAssignedOffice().x && office.getPositionLeft().y == Employee.getAssignedOffice().y) {
-              office.setOccupiedLeft(false);
-              break;
-            }
+          if(nextRandom == 1) {
+              ArrayList<OfficeModel> newOffice = dataOfWorld.getUserFactory().getOffices();
+              for (OfficeModel office : newOffice) {
+                  if (office.isOccupiedLeft())
+                      if (office.getPositionLeft().x == Employee.getAssignedOffice().x && office.getPositionLeft().y == Employee.getAssignedOffice().y) {
+                          office.setOccupiedLeft(false);
+                          break;
+                      }
 
-          if (office.isOccupiedRight())
-            if (office.getPositionRight().x == Employee.getAssignedOffice().x && office.getPositionRight().y == Employee.getAssignedOffice().y) {
-              office.setOccupiedRight(false);
-              break;
-            }
-        }
-        dataOfWorld.getUserFactory().setOffices(newOffice);
-        Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX, HardCodedParameters.FactoryStartY + halfFactory));
-        Ui.addLineLog(Employee.getName() + " part du projet.");
-        nextRandom = gen.nextInt(toDrawIncrease * 2);
-        if (nextRandom >= Employee.getSalaryByDay()) {
-          int increasePourcent = ((int) Employee.getSalaryByDay()) / (dataOfWorld.getNumberOfDaysForProject());
-          dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + increasePourcent);
-          Ui.addLineLog(Employee.getName() + " a fait progresser le projet de " + increasePourcent + "%");
+                  if (office.isOccupiedRight())
+                      if (office.getPositionRight().x == Employee.getAssignedOffice().x && office.getPositionRight().y == Employee.getAssignedOffice().y) {
+                          office.setOccupiedRight(false);
+                          break;
+                      }
+              }
+              dataOfWorld.getUserFactory().setOffices(newOffice);
+              Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX, HardCodedParameters.FactoryStartY + halfFactory));
+              Ui.addLineLog(Employee.getName() + " part du projet.");
+          }
+//        nextRandom = gen.nextInt(toDrawIncrease * 2 );
+          nextRandom = gen.nextInt(((int) Employee.getSalaryByDay()) + ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()));
+          if(nextRandom >= Employee.getSalaryByDay()){
+              //          int increasePourcent = ((int) Employee.getSalaryByDay())/(dataOfWorld.getNumberOfDaysForProject());
+              //          int increasePourcent = ((int) Employee.getSalaryByDay())%20 + 1;
+              int increasePourcent = ((int) Employee.getSalaryByDay()) / (dataOfWorld.getNumberOfDaysForProject());
+              dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + increasePourcent);
+              Ui.addLineLog(Employee.getName() + " a fait progresser le projet de " + increasePourcent + "%");
         }
       }
     }

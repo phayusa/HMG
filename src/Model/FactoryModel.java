@@ -201,6 +201,11 @@ public class FactoryModel extends GraphicalEntity {
     	CSVReader.generateCsvFile(csvFile, this.EmployeeOfFactory);
     	
     }
+    public void generateCSVFile (String filename) {
+//    	String csvFile = "Ressource/files/res "+dateFormat.format(date)+".csv";
+        CSVReader.generateCsvFile(filename, this.EmployeeOfFactory);
+
+    }
 
     public GraphicalEntity getHideRoom() {
         return HideRoom;
