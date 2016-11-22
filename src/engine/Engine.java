@@ -7,6 +7,7 @@
 package engine;
 
 import Model.FactoryModel;
+import Model.OfficeModel;
 import Model.PersonModel;
 import specifications.Require.RequireUiService;
 import specifications.Service.UIService;
@@ -18,10 +19,7 @@ import specifications.Service.DataService;
 import specifications.Require.RequireDataService;
 import specifications.Require.RequireStatisticsService;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.Random;
+import java.util.*;
 
 public class Engine implements EngineService, RequireDataService, RequireUiService, RequireStatisticsService{
 
@@ -144,7 +142,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
     }
   }
 
-  private void updateMoveHeroeGeneral(AnimationSprite objectToMove){
+  private void updateMoveHeroeGeneral(PersonModel objectToMove){
     if(objectToMove.isRight()) {
       objectToMove.setNbAnim(2);
       objectToMove.setPositionWithSpeed(10,0);
@@ -251,53 +249,77 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
 
   @Override
   public void allLeave() {
+    ArrayList<OfficeModel> newOffice = dataOfWorld.getUserFactory().getOffices();
     int halfFactory = HardCodedParameters.FactoryHeight/3;
     for (PersonModel Employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+      for (OfficeModel office : newOffice) {
+        if (office.isOccupiedLeft())
+          if (office.getPositionLeft().x == Employee.getAssignedOffice().x && office.getPositionLeft().y == Employee.getAssignedOffice().y) {
+            office.setOccupiedLeft(false);
+            break;
+          }
+
+        if (office.isOccupiedRight())
+          if (office.getPositionRight().x == Employee.getAssignedOffice().x && office.getPositionRight().y == Employee.getAssignedOffice().y) {
+            office.setOccupiedRight(false);
+            break;
+          }
+      }
+      dataOfWorld.getUserFactory().setOffices(newOffice);
       Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
-      Employee.setInFactory(false);
     }
   }
 
-  public void DayProgression(){
+  public void DayProgression() {
     int newDay = dataOfWorld.getCurrentDay() + 1;
 
-    if(newDay == dataOfWorld.getNumberOfDaysForProject() + 1 && !ContinueInOverBudget){
-      //TODO : open the dialog
+    if (newDay == dataOfWorld.getNumberOfDaysForProject() + 1 && !ContinueInOverBudget) {
       //ContinueInOver = DialogRes
       return;
     }
-    if(dataOfWorld.getProgressOfWork() >= 100){
-      //TODO : open the dialog
+    if (dataOfWorld.getProgressOfWork() >= 100) {
       //Export or Retry
       return;
     }
     dataOfWorld.setCurrentDay(newDay);
-    Ui.addLineLog("Jour "+newDay+":");
+    Ui.addLineLog("Jour " + newDay + ":");
 
-    int halfFactory = HardCodedParameters.FactoryHeight/3;
-    System.err.println("Jour "+newDay+":");
-    int toDrawExit = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay())/dataOfWorld.getUserFactory().getNumberOfEmployee();
-    int toDrawIncrease = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()) ;
+    int halfFactory = HardCodedParameters.FactoryHeight / 3;
+    System.err.println("Jour " + newDay + ":");
+    int toDrawExit = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()) / dataOfWorld.getUserFactory().getNumberOfEmployee();
+    int toDrawIncrease = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay());
 
-    for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
-        //TODO : draw a number and add with a pourcent of wage. If inferior of 1 the diff is stocked in personModel and if this difference is greater than 1 -> the employee leave the factory
+    for (PersonModel Employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
       int nextRandom = gen.nextInt(toDrawExit);
-      if(nextRandom + Employee.getSalaryByDay() < dataOfWorld.getUserFactory().getAverageSalaryByDay()){
-          Employee.setInFactory(false);
-          Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
-          Ui.addLineLog(Employee.getName()+" part du projet.");
+      if (nextRandom + Employee.getSalaryByDay() < dataOfWorld.getUserFactory().getAverageSalaryByDay()) {
+        Employee.setInFactory(false);
+        ArrayList<OfficeModel> newOffice = dataOfWorld.getUserFactory().getOffices();
+        for (OfficeModel office : newOffice) {
+          if (office.isOccupiedLeft())
+            if (office.getPositionLeft().x == Employee.getAssignedOffice().x && office.getPositionLeft().y == Employee.getAssignedOffice().y) {
+              office.setOccupiedLeft(false);
+              break;
+            }
+
+          if (office.isOccupiedRight())
+            if (office.getPositionRight().x == Employee.getAssignedOffice().x && office.getPositionRight().y == Employee.getAssignedOffice().y) {
+              office.setOccupiedRight(false);
+              break;
+            }
         }
-        nextRandom = gen.nextInt(toDrawIncrease * 2 );
-        if(nextRandom >= Employee.getSalaryByDay()){
-          int increasePourcent = ((int) Employee.getSalaryByDay())/(dataOfWorld.getNumberOfDaysForProject());
+        dataOfWorld.getUserFactory().setOffices(newOffice);
+        Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX, HardCodedParameters.FactoryStartY + halfFactory));
+        Ui.addLineLog(Employee.getName() + " part du projet.");
+        nextRandom = gen.nextInt(toDrawIncrease * 2);
+        if (nextRandom >= Employee.getSalaryByDay()) {
+          int increasePourcent = ((int) Employee.getSalaryByDay()) / (dataOfWorld.getNumberOfDaysForProject());
           dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + increasePourcent);
-          Ui.addLineLog(Employee.getName()+" a fait progresser le projet de "+increasePourcent+"%");
+          Ui.addLineLog(Employee.getName() + " a fait progresser le projet de " + increasePourcent + "%");
         }
+      }
     }
     statistics.generateSimulateChart();
- 
-    
-    
+
   }
 
   @Override
