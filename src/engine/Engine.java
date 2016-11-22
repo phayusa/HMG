@@ -90,6 +90,63 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
 //          DayProgression();
           }
         }
+
+        if(dataOfWorld.getNumberOfDaysForProject() <= dataOfWorld.getCurrentDay() && !ContinueInOverBudget){
+          String resultAnwser = Ui.getResult();
+          if (resultAnwser == "none") {
+            Ui.dialogEndDay();
+          }else{
+            switch (resultAnwser){
+              case "reset":
+                resetPosition();
+                return;
+              case "exit":
+                stop();
+                return;
+              case "export":
+                System.err.println("export");
+                return;
+              case "continue":
+                ContinueInOverBudget = true;
+                break;
+            }
+//            Ui.setResult("none");
+          }
+        }
+        if(dataOfWorld.getProgressOfWork() >= 100){
+          String resultAnwser = Ui.getResult();
+          if (resultAnwser == "none") {
+            Ui.dialogEndProject();
+          }else{
+            switch (resultAnwser){
+              case "reset":
+                resetPosition();
+                break;
+              case "exit":
+                stop();
+                break;
+              case "export":
+                dataOfWorld.getUserFactory().generateCSVFile();
+                Ui.dialogClearExport();
+                System.err.println("export");
+                break;
+            }
+//            Ui.setResult("none");
+          }
+          return;
+        }
+
+        if(Ui.getResult() == "clear"){
+          String resultAnwser = Ui.getResult();
+          switch (resultAnwser){
+            case "reset":
+              resetPosition();
+              break;
+            case "exit":
+              stop();
+              break;
+          }
+        }
 //      data.setSoundEffect(Sound.SOUND.None);
       }
     },0,HardCodedParameters.enginePaceMillis);
@@ -264,45 +321,9 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
     int newDay = dataOfWorld.getCurrentDay() + 1;
 
     if(newDay == dataOfWorld.getNumberOfDaysForProject() + 1 && !ContinueInOverBudget){
-      //TODO : open the dialog
-      String resultAnwser = Ui.getResult();
-      if (resultAnwser == "none") {
-        Ui.dialogEndDay();
-      }else{
-        switch (resultAnwser){
-          case "reset":
-            resetPosition();
-            return;
-          case "exit":
-            stop();
-            return;
-          case "export":
-            System.err.println("export");
-            return;
-          case "continue":
-            ContinueInOverBudget = true;
-            break;
-        }
-      }
+      return;
     }
     if(dataOfWorld.getProgressOfWork() >= 100){
-      String resultAnwser = Ui.getResult();
-      if (resultAnwser == "none") {
-        Ui.dialogEndProject();
-      }else{
-        switch (resultAnwser){
-          case "reset":
-            resetPosition();
-            break;
-          case "exit":
-            stop();
-            break;
-          case "export":
-            System.err.println("export");
-            break;
-        }
-      }
-      //Export or Retry
       return;
     }
     dataOfWorld.setCurrentDay(newDay);

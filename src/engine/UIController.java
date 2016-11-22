@@ -1,6 +1,7 @@
 package engine;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -64,6 +65,7 @@ public class UIController implements RequireDataService, UIService{
 //        }
 //  ...
 //    }
+
     @Override
     public void dialogEndProject() {
         result = "check";
@@ -120,6 +122,33 @@ public class UIController implements RequireDataService, UIService{
                 if(UserResult.get() == buttonExit){
                     result = "exit";
                 }
+                return;
+            }
+        });
+    }
+
+
+    @Override
+    public void dialogClearExport() {
+        result = "clear";
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alert loose = new Alert(Alert.AlertType.CONFIRMATION);
+                loose.setTitle("Information");
+                loose.setHeaderText("L'exportation est un succès.");
+                loose.setContentText("Que voulez-vous faire ?");
+                ButtonType buttonReset = new ButtonType("Relancer une simulation");
+                ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
+                loose.getButtonTypes().setAll(buttonReset,buttonExit);
+                Optional<ButtonType> UserResult = loose.showAndWait();
+                if(UserResult.get() == buttonReset){
+                    result = "reset";
+                }
+                if(UserResult.get() == buttonExit){
+                    result = "exit";
+                }
+                return;
             }
         });
     }
