@@ -381,7 +381,6 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
               Ui.addLineLog(Employee.getName() + " a fait progresser le projet de " + increasePourcent + "%");
         }
       }
-    }
     statistics.generateSimulateChart();
 
   }

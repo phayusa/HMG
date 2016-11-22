@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="project_alpha" default="compile" basedir=".">
+<project name="Company Manager" default="compile" basedir=".">
   <description> The build file for the coffee break </description>
   <property name="src" location="src"/>
   <property name="build" location="beans"/>
