@@ -43,29 +43,6 @@ public class UIController implements RequireDataService, UIService{
         data.setCurrentLog(copyOfLogs);
     }
 
-//
-//    String nextText = readLineFromSource();
-//if ("MISSING".equals(nextText)) {
-//        updateMessage("Prompting for missing text");
-//        FutureTask<String> futureTask = new FutureTask(
-//                new MissingTextPrompt()
-//        );
-//        Platform.runLater(futureTask);
-//        nextText = futureTask.get();
-//    }
-//...
-//    class MissingTextPrompt implements Callable<String> {
-//        private TextField textField;
-//
-//        @Override public String call() throws Exception {
-//            final Stage dialog = new Stage();
-//            dialog.setScene(createDialogScene());
-//            dialog.showAndWait();
-//            return textField.getText();
-//        }
-//  ...
-//    }
-
     @Override
     public void dialogEndProject() {
         result = "check";
@@ -183,28 +160,6 @@ public class UIController implements RequireDataService, UIService{
 //        }
 //        if(result.get() == buttonExit){
 //            engine.stop();
-//        }
-//    }
-//
-//    if(data.getProgressOfWork() >= 100){
-//        engine.onPause();
-//        Alert loose = new Alert(AlertType.CONFIRMATION);
-//        loose.setTitle("Information");
-//        loose.setHeaderText("Le projet à était terminé avec succès");
-//        loose.setContentText("Que voulez-vous faire ?");
-//        ButtonType buttonExport = new ButtonType("Exporter Résultats");
-//        ButtonType buttonReset = new ButtonType("Relancer une simulation");
-//        ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
-//        loose.getButtonTypes().setAll(buttonExport,buttonReset,buttonExit);
-//        Optional<ButtonType> result = loose.showAndWait();
-//        if(result.get() == buttonReset){
-//            engine.resetPosition();
-//        }
-//        if(result.get() == buttonExit){
-//            engine.stop();
-//        }
-//        if(result.get() == buttonExport){
-//            System.out.println("Exporter");
 //        }
 //    }
 }
