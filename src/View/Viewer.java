@@ -7,58 +7,46 @@
 package View;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import Model.PersonModel;
-import data.DataOfWorld;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import engine.Engine;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import specifications.Require.RequireEngineService;
 import specifications.Require.RequireReadService;
 import specifications.Require.RequireStatisticsService;
+import specifications.Require.RequireUiService;
 import specifications.Service.EngineService;
 import specifications.Service.ReadService;
 import specifications.Service.StatisticsService;
+import specifications.Service.UIService;
 import specifications.Service.ViewerService;
 import tools.GraphicalEntity;
 import tools.HardCodedParameters;
 
-public class Viewer implements ViewerService, RequireReadService, RequireStatisticsService,RequireEngineService{
+public class Viewer implements ViewerService, RequireReadService, RequireStatisticsService, RequireEngineService, RequireUiService{
   private static final int spriteSlowDownRate=HardCodedParameters.spriteSlowDownRate;
   private static final double defaultMainWidth=HardCodedParameters.defaultWidth,
                               defaultMainHeight=HardCodedParameters.defaultHeight;
   private ReadService data;
   private StatisticsService statistics;
   private EngineService engine;
-
-
-
+  private UIService UIService;
+  
   public Viewer(){}
   
   @Override
@@ -76,6 +64,10 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     engine = service;
   }
 
+	@Override
+	public void bindUiService(UIService service) {
+		UIService = service;
+	}
 
   @Override
   public void init(){
@@ -94,6 +86,13 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     factoryRepresentation.setTranslateY(data.getUserFactory().getPositionOfEntity().y);
     factoryRepresentation.setFitWidth(data.getUserFactory().getWidth());
     factoryRepresentation.setFitHeight(data.getUserFactory().getHeight());
+    factoryRepresentation.setOnMousePressed(new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+        	UIService.addEmployeeDialog();
+        }
+    });
+    
 
     panel.getChildren().add(factoryRepresentation);
     for (GraphicalEntity Office : data.getUserFactory().getOffices() ) {
@@ -116,16 +115,6 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
             imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y);
             imageOfEmployee.setFitWidth(employee.getWidth());
             imageOfEmployee.setFitHeight(employee.getHeight());
-            //Example of Mouse Event
-            imageOfEmployee.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    System.out.println("Name: " + employee.getName() +
-                                        "\nJob: " + employee.getJob() +
-                                        "\nSalary: " + (int) employee.getSalary() + "€");
-
-                }
-            });
             panel.getChildren().addAll(label, imageOfEmployee);
 
         }

@@ -55,6 +55,7 @@ public class Main extends Application{
     ((UIController)Ui).bindDataService(data);
     ((Viewer)viewer).bindStatisticsService(statistics);
     ((Viewer)viewer).bindReadService(data);
+    ((Viewer)viewer).bindUiService(Ui);
     ((Viewer) viewer).bindEngineService(engine);
     ((Engine) engine).bindUiService(Ui);
 

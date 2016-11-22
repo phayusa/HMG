@@ -1,11 +1,26 @@
 package engine;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
+import Model.PersonModel;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import specifications.Require.RequireDataService;
 import specifications.Service.DataService;
 import specifications.Service.UIService;
+import tools.GraphicalEntity;
 import tools.HardCodedParameters;
-
-import java.util.ArrayList;
+import tools.Position;
 
 /**
  * Created by sokomo on 18/11/16.
@@ -35,7 +50,99 @@ public class UIController implements RequireDataService, UIService{
         data.setTotalLog(data.getTotalLog().append(line));
         data.setCurrentLog(copyOfLogs);
     }
+    
+    public void addEmployeeDialog() {
+    	Dialog<ArrayList<String>> dialog = new Dialog<>();
+    	dialog.setTitle("Employee manager");
+    	dialog.setHeaderText("Add employee");
 
+   
+    	// Set the button types.
+    	ButtonType loginButtonType = new ButtonType("Ajouter", ButtonData.OK_DONE);
+    	dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+    	// Create the username and password labels and fields.
+    	GridPane grid = new GridPane();
+    	grid.setHgap(10);
+    	grid.setVgap(10);
+    	grid.setPadding(new Insets(20, 150, 10, 10));
+
+    	TextField employeeName = new TextField();
+    	employeeName.setPromptText("Nom");
+    	TextField employeeJob = new TextField();
+    	employeeJob.setPromptText("Fonction");
+    	TextField employeeSalary = new TextField();
+    	employeeSalary.setPromptText("Salaire");
+
+    	grid.add(new Label("Nom :"), 0, 0);
+    	grid.add(employeeName, 1, 0);
+    	grid.add(new Label("Fonction :"), 0, 1);
+    	grid.add(employeeJob, 1, 1);
+      	grid.add(new Label("Salaire :"), 0, 2);
+    	grid.add(employeeSalary, 1, 2);
+
+    	// Enable/Disable login button depending on whether a username was entered.
+    	Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+    	loginButton.setDisable(true);    	
+    	
+    	// Do some validation (using the Java 8 lambda syntax).
+    	employeeJob.textProperty().addListener((observable, oldValue, newValue) -> {
+    		if (newValue.trim().isEmpty()) {
+    			loginButton.setDisable(true);
+    		}
+    	});
+    	employeeSalary.textProperty().addListener((test, test1, test2) -> {
+		      
+            if (!test2.matches("\\d*")) {
+            	employeeSalary.setText(test2.replaceAll("[^\\d.]", ""));
+            }
+            else{
+            	if (test2.trim().isEmpty()) {
+					loginButton.setDisable(true);
+				}
+				else {
+					loginButton.setDisable(false);
+				}
+            }
+		});
+
+    	dialog.getDialogPane().setContent(grid);
+    	ArrayList<String> newEmployee = new ArrayList<>();
+    	
+    	// Request focus on the username field by default.
+    	Platform.runLater(() -> employeeName.requestFocus());
+
+    	// Convert the result to a username-password-pair when the login button is clicked.
+    	dialog.setResultConverter(dialogButton -> {
+    	    if (dialogButton == loginButtonType) {
+    	    	newEmployee.add(employeeName.getText());
+    	    	newEmployee.add(employeeJob.getText());
+    	    	newEmployee.add(employeeSalary.getText());
+    	        return newEmployee;
+    	    }
+    	    return null;
+    	});
+
+    	Optional<ArrayList<String>> result = dialog.showAndWait();
+
+    	result.ifPresent(employee -> {
+    		if (!employee.get(2).isEmpty() && employee.get(2).matches("[0-9]{1,13}(\\.[0-9]*)?")
+    				&& employee.get(2).length() > 2 ){
+    		
+    		  	data.getUserFactory().addNewEmployeePosition(employee.get(0), employee.get(1), Double.parseDouble(employee.get(2)));
+    		   
+         	    }
+	           	else {
+	           		Alert alert = new Alert(AlertType.INFORMATION);
+        	    	alert.setTitle("Information du budget");
+        	    	alert.setHeaderText("Budget insuffisant");
+        	    	alert.setContentText("Salaire Faux !");
+        	    	alert.showAndWait();
+        	    
+	          	}
+    		
+    	});
+    }
 
     //    if(data.getUserFactory().getEmployeeOfFactory().isEmpty()){
 //        engine.onPause();

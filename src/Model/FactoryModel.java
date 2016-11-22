@@ -39,6 +39,7 @@ public class FactoryModel extends GraphicalEntity {
             else
                 Offices.add(new GraphicalEntity(new Position(positionOfEntity.x + (i-halfOffice) * deltaToMove,positionOfEntity.y + height - deltaHeight * 4), HardCodedParameters.OfficeWidth,HardCodedParameters.OfficeHeight,"file:Ressource/images/tableBack.png"));
         }
+        
 
         numberOfEmployee = EmployeeOfFactory.size();
         HideRoom = new GraphicalEntity(new Position(positionOfEntity.x + width - 100,HardCodedParameters.FactoryStartY+HardCodedParameters.FactoryHeight/2-50),100,100,"file:Ressource/images/Door.png");
@@ -59,9 +60,7 @@ public class FactoryModel extends GraphicalEntity {
                 }
                 numberIterate++;
             }else{
-//                System.err.println("C superieur");
                 e.setNewPosition(new Position(HideRoom.getPositionOfEntity().x+ HideRoom.getWidth(),HideRoom.getPositionOfEntity().y+HideRoom.getHeight()/2));
-
             }
             averageSalaryByDay += e.getSalaryByDay();
         }
@@ -98,6 +97,35 @@ public class FactoryModel extends GraphicalEntity {
         numberOfEmployee = EmployeeOfFactory.size();
         averageSalaryByDay/=numberOfEmployee;
         EmployeeOfFactory = employeeOfFactory;
+    }
+    
+    public void addNewEmployeePosition(String employeeName, String employeeJob, Double employeeSalary) {	  	
+	  	PersonModel newEmployeeItem = new PersonModel(employeeName,employeeJob, employeeSalary, new GraphicalEntity(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+(HardCodedParameters.FactoryHeight/2)),50,50),"file:Ressource/images/test2.png",4,3,32,32,8); 
+	  	
+	  	int i = 0;
+        int numberIterate = 1;
+        averageSalaryByDay = 0;
+        int numberOfPlace = HardCodedParameters.numberOfficeInFactory * 2;
+        EmployeeOfFactory.add(newEmployeeItem);
+        for (PersonModel e : EmployeeOfFactory) {
+
+        	if(numberIterate <= numberOfPlace){
+                if (numberIterate % 2 == 1) {
+                	e.setNewPosition(new Position(Offices.get(i).getPositionOfEntity().x + Offices.get(i).getWidth() / 3, Offices.get(i).getPositionOfEntity().y));
+
+                } else {
+                	e.setNewPosition(new Position(Offices.get(i).getPositionOfEntity().x + Offices.get(i).getWidth() - Offices.get(i).getWidth() / 16, Offices.get(i).getPositionOfEntity().y));
+                    i++;
+                }
+                numberIterate++;
+            }else{
+//	                System.err.println("C superieur");
+            	e.setNewPosition(new Position(HideRoom.getPositionOfEntity().x+ HideRoom.getWidth(),HideRoom.getPositionOfEntity().y+HideRoom.getHeight()/2));
+
+            }
+            averageSalaryByDay += e.getSalaryByDay();
+        }
+        averageSalaryByDay/=EmployeeOfFactory.size();	  	
     }
     
     public void loadCSVFile () {

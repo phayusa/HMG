@@ -295,6 +295,9 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
         }
     }
     statistics.generateSimulateChart();
+ 
+    
+    
   }
 
   @Override

@@ -46,7 +46,7 @@ public class DataOfWorld implements DataService{
         TotalLog = new StringBuilder();
         TotalLog.append("Jour1 :");
         ProgressionOfWork = 0;
-        setNumberOfDaysForProject(20);
+        setNumberOfDaysForProject(HardCodedParameters.workDayInMonth);
     }
 
 

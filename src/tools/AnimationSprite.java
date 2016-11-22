@@ -83,6 +83,7 @@ public class AnimationSprite extends GraphicalEntity {
         inMovement = false;
         indexOfSprite = 0;
         inFactory = true;
+        newPosition = positionOfEntity;
         timeToUpdateFrame = new Timer();
         timeToUpdateFrame.schedule(new TimerTask() {
             @Override

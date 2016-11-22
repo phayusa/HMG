@@ -9,4 +9,5 @@ package specifications.Service;
 public interface UIService{
   public void init();
   public void addLineLog(String line);
+  public void addEmployeeDialog();
 }

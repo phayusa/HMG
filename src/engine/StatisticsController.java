@@ -61,6 +61,7 @@ public class StatisticsController implements StatisticsService, RequireDataServi
 		
 	}
 	
+	//Data for estimate chart
 	public HashMap<String, Double> getSalaryByJob() {
 	
 		//20 = 1 Month Working day
@@ -92,6 +93,7 @@ public class StatisticsController implements StatisticsService, RequireDataServi
 		return salaryByJob;
 	}
 	
+	//Data for simulate chart
 	public HashMap<String, Double> getBudgetDay(int nbDay) {
 		salaryOfEmployee = 0.0;
 		totalSalary = 0.0;
