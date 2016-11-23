@@ -6,23 +6,27 @@
  * ******************************************************/
 package engine;
 
-import Model.FactoryModel;
-import Model.PersonModel;
-import data.DataOfWorld;
-import specifications.Require.RequireUiService;
-import specifications.Service.UIService;
-import tools.*;
-
-import specifications.Service.EngineService;
-import specifications.Service.StatisticsService;
-import specifications.Service.DataService;
-import specifications.Require.RequireDataService;
-import specifications.Require.RequireStatisticsService;
-
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Random;
+
+import Model.FactoryModel;
+import Model.PersonModel;
+import javafx.application.Application;
+import specifications.Require.RequireDataService;
+import specifications.Require.RequireStatisticsService;
+import specifications.Require.RequireUiService;
+import specifications.Service.DataService;
+import specifications.Service.EngineService;
+import specifications.Service.StatisticsService;
+import specifications.Service.UIService;
+import tools.AnimationSprite;
+import tools.GraphicalEntity;
+import tools.HardCodedParameters;
+import tools.Position;
+import tools.Sound.SOUND;
+import tools.User_Entry;
 
 public class Engine implements EngineService, RequireDataService, RequireUiService, RequireStatisticsService{
 
@@ -35,6 +39,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
   private int index,FinalIndex;
   private Timer updateDay;
   private boolean InPause,ContinueInOverBudget;
+  private Application application;
 
   public Engine(){}
 
@@ -147,7 +152,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
               break;
           }
         }
-//      data.setSoundEffect(Sound.SOUND.None);
+      dataOfWorld.setSound(SOUND.None);
       }
     },0,HardCodedParameters.enginePaceMillis);
   }
@@ -310,6 +315,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
 
   @Override
   public void allLeave() {
+	dataOfWorld.setSound(SOUND.EmployeeLeave);
     int halfFactory = HardCodedParameters.FactoryHeight/3;
     for (PersonModel Employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
       Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
@@ -341,6 +347,8 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
           Employee.setInFactory(false);
           Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
           Ui.addLineLog(Employee.getName()+" part du projet.");
+    	  dataOfWorld.setSound(SOUND.EmployeeLeave);
+
         }
 //        nextRandom = gen.nextInt(toDrawIncrease * 2 );
         nextRandom = gen.nextInt(((int) Employee.getSalaryByDay()) + ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()));
@@ -353,9 +361,6 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
         }
     }
     statistics.generateSimulateChart();
- 
-    
-    
   }
 
   @Override

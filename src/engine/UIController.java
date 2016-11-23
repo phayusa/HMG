@@ -19,6 +19,7 @@ import specifications.Require.RequireDataService;
 import specifications.Service.DataService;
 import specifications.Service.UIService;
 import tools.HardCodedParameters;
+import tools.Sound.SOUND;
 
 /**
  * Created by sokomo on 18/11/16.
@@ -129,7 +130,7 @@ public class UIController implements RequireDataService, UIService{
     				&& employee.get(2).length() > 2 ){
     		
     		  	data.getUserFactory().addNewEmployeePosition(employee.get(0), employee.get(1), Double.parseDouble(employee.get(2)));
-    		   
+    		  	data.setSound(SOUND.EmployeeAdd);
          	    }
 	           	else {
 	           		Alert alert = new Alert(AlertType.INFORMATION);

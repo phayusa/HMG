@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import Model.FactoryModel;
 import Model.PersonModel;
-import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
+import tools.Sound;
 
 public interface WriteService {
     public void setBudget(double budget);
@@ -27,5 +27,6 @@ public interface WriteService {
     public void setCurrentLog(ArrayList<String> currentLog);
     public void setTotalLog(StringBuilder totalLog);
     public void setNumberOfDaysForProject(int numberOfDaysForProject);
+    public void setSound(Sound.SOUND sound);
 
 }
