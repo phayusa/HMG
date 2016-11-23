@@ -157,6 +157,9 @@ public class Main extends Application{
           case V:
             data.setCurrentDay(data.getCurrentDay() + 1);
             break;
+          case F:
+            engine.RemoveFirst();
+            break;
           case Q:
           case ESCAPE:
             System.exit(0);
@@ -187,33 +190,4 @@ public class Main extends Application{
     };
     timer.start();
   }
-
-//  //---ARGUMENTS---//
-//  private static void readArguments(String[] args){
-//    if (args.length>0 && args[0].charAt(0)!='-'){
-//      System.err.println("Syntax error: use option -h for help.");
-//      return;
-//    }
-//    for (int i=0;i<args.length;i++){
-//      if (args[i].charAt(0)=='-'){
-//	if (args[i+1].charAt(0)=='-'){
-//	  System.err.println("Option "+args[i]+" expects an argument but received none.");
-//	  return;
-//	}
-//	switch (args[i]){
-//	  case "-inFile":
-//	    fileName=args[i+1];
-//	    break;
-//	  case "-h":
-//	    System.out.println("Options:");
-//	    System.out.println(" -inFile FILENAME: (UNUSED AT THE MOMENT) set file name for input parameters. Default name is"+HardCodedParameters.defaultParamFileName+".");
-//	    break;
-//	  default:
-//	    System.err.println("Unknown option "+args[i]+".");
-//	    return;
-//	}
-//	i++;
-//      }
-//    }
-//  }
 }

@@ -1,5 +1,8 @@
 package engine;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 import Model.PersonModel;
@@ -41,19 +44,33 @@ public class UIController implements RequireDataService, UIService{
 
     @Override
     public void addLineLog(String line) {
-        ArrayList<String> copyOfLogs = data.getCurrentLog();
-        if(copyOfLogs.size() >= HardCodedParameters.maxLines){
-            copyOfLogs.remove(0);
-        }
-        copyOfLogs.add(line);
-        data.setTotalLog(data.getTotalLog().append(line));
-        data.setCurrentLog(copyOfLogs);
+        data.addLineCurrentLog(line);
+        data.addLineTotalLog(line);
     }
-    
+
+    @Override
+    public void clearLog() {
+        data.getCurrentLog().clear();
+        data.addLineTotalLog("Nouvelle simulation : ");
+
+    }
+
+    @Override
+    public void exportLog(String path) {
+        File exportFile = new File(path);
+        try {
+            FileWriter writerOfFile = new FileWriter(exportFile,false);
+            writerOfFile.write(String.join("\n",data.getTotalLog()));
+            writerOfFile.close();
+        }catch (IOException e){
+            System.err.println("Erreur lors de l'écriture de "+path+" "+e.getMessage());
+        }
+    }
+
     public void addEmployeeDialog() {
     	Dialog<ArrayList<String>> dialog = new Dialog<>();
-    	dialog.setTitle("Employee manager");
-    	dialog.setHeaderText("Add employee");
+    	dialog.setTitle("Gestion d'employée");
+    	dialog.setHeaderText("Ajouter un employée");
 
    
     	// Set the button types.
@@ -129,7 +146,7 @@ public class UIController implements RequireDataService, UIService{
     				&& employee.get(2).length() > 2 ){
     		
     		  	data.getUserFactory().addNewEmployeePosition(employee.get(0), employee.get(1), Double.parseDouble(employee.get(2)));
-    		   
+    		    addLineLog(employee.get(0) + " rejoint le projet.");
          	    }
 	           	else {
 	           		Alert alert = new Alert(AlertType.INFORMATION);

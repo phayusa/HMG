@@ -24,7 +24,8 @@ public class DataOfWorld implements DataService{
     private int MaxProgressionByDay;
     private PieChart estimateChart, simulateChart;
     private ArrayList<String> CurrentLog;
-    private StringBuilder TotalLog;
+    private ArrayList<String> TotalLog;
+    private double EmployeeStartY;
 
 
 	private double budget;
@@ -43,9 +44,10 @@ public class DataOfWorld implements DataService{
         		);
         CurrentDay = 1;
         CurrentLog = new ArrayList<String>(HardCodedParameters.maxLines);
-        TotalLog = new StringBuilder();
-        TotalLog.append("Jour1 :");
+        TotalLog = new ArrayList<String>();
+        TotalLog.add("Jour1 :");
         ProgressionOfWork = 0;
+        EmployeeStartY = HardCodedParameters.FactoryStartY+HardCodedParameters.FactoryHeight/3;
         setNumberOfDaysForProject(HardCodedParameters.workDayInMonth);
     }
 
@@ -159,22 +161,30 @@ public class DataOfWorld implements DataService{
     }
 
     @Override
-    public void setCurrentLog(ArrayList<String> currentLog) {
-        CurrentLog = currentLog;
-    }
-
-    @Override
-    public StringBuilder getTotalLog() {
+    public ArrayList<String> getTotalLog() {
         return TotalLog;
     }
 
     @Override
-    public void setTotalLog(StringBuilder totalLog) {
-        TotalLog = totalLog;
+    public void addLineCurrentLog(String line) {
+        if(CurrentLog.size() >= HardCodedParameters.maxLines){
+            CurrentLog.remove(0);
+        }
+        CurrentLog.add(line);
+    }
+
+    @Override
+    public void addLineTotalLog(String line) {
+        TotalLog.add(line);
     }
 
     @Override
     public String getLogsInString() {
         return String.join("\n", CurrentLog);
+    }
+
+    @Override
+    public double getEmployeeStartY() {
+        return EmployeeStartY;
     }
 }

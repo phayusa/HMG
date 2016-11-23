@@ -21,5 +21,5 @@ public interface EngineService{
   public void resetPosition();
   public void allLeave();
   public void ClearEmployeeOfNotInAction(ArrayList<PersonModel> test);
-  public int getIndex();
+  public void RemoveFirst();
 }

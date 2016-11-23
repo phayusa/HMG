@@ -27,9 +27,10 @@ public interface ReadService {
     public int getMaxProgressionByDay();
     public String getLogsInString();
     public ArrayList<String> getCurrentLog();
-    public StringBuilder getTotalLog();
+    public ArrayList<String> getTotalLog();
     public int getNumberOfDaysForProject();
     public PieChart getEstimateChart();
     public PieChart getSimulateChart();
+    public double getEmployeeStartY();
 
 }

@@ -24,8 +24,8 @@ public interface WriteService {
     public void generateCsvFile();
     public void setEstimateChart(PieChart estimateChart);
     public void setSimulateChart(PieChart simulateChart);
-    public void setCurrentLog(ArrayList<String> currentLog);
-    public void setTotalLog(StringBuilder totalLog);
+    public void addLineCurrentLog(String line);
+    public void addLineTotalLog(String line);
     public void setNumberOfDaysForProject(int numberOfDaysForProject);
 
 }
