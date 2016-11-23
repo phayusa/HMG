@@ -12,6 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import Model.FactoryModel;
+import Model.OfficeModel;
 import Model.PersonModel;
 import javafx.application.Application;
 import specifications.Require.RequireDataService;
@@ -39,7 +40,6 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
   private int index,FinalIndex;
   private Timer updateDay;
   private boolean InPause,ContinueInOverBudget;
-  private Application application;
 
   public Engine(){}
 
@@ -316,14 +316,30 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
   @Override
   public void allLeave() {
 	dataOfWorld.setSound(SOUND.EmployeeLeave);
+    ArrayList<OfficeModel> newOffice = dataOfWorld.getUserFactory().getOffices();
+
     int halfFactory = HardCodedParameters.FactoryHeight/3;
     for (PersonModel Employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+      for (OfficeModel office : newOffice) {
+        if (office.isOccupiedLeft())
+          if (office.getPositionLeft().x == Employee.getAssignedOffice().x && office.getPositionLeft().y == Employee.getAssignedOffice().y) {
+            office.setOccupiedLeft(false);
+            break;
+          }
+
+        if (office.isOccupiedRight())
+          if (office.getPositionRight().x == Employee.getAssignedOffice().x && office.getPositionRight().y == Employee.getAssignedOffice().y) {
+            office.setOccupiedRight(false);
+            break;
+          }
+      }
+      dataOfWorld.getUserFactory().setOffices(newOffice);
       Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
       Employee.setInFactory(false);
     }
   }
 
-  public void DayProgression(){
+  public void DayProgression() {
     int newDay = dataOfWorld.getCurrentDay() + 1;
 
     if(newDay == dataOfWorld.getNumberOfDaysForProject() + 1 && !ContinueInOverBudget){
@@ -335,32 +351,50 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
     dataOfWorld.setCurrentDay(newDay);
     Ui.addLineLog("Jour "+newDay+":");
 
-    int halfFactory = HardCodedParameters.FactoryHeight/3;
+
+      int halfFactory = HardCodedParameters.FactoryHeight/3;
 //    int toDrawExit = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay())/dataOfWorld.getUserFactory().getNumberOfEmployee();
 //    int toDrawIncrease = ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()) ;
 
-    for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
-   //      int nextRandom = gen.nextInt(toDrawExit);
-      int nextRandom = gen.nextInt(((int) Employee.getSalaryByDay()));
+      for (PersonModel Employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+          //      int nextRandom = gen.nextInt(toDrawExit);
+          int nextRandom = gen.nextInt(((int) Employee.getSalaryByDay()));
 //      if(nextRandom + Employee.getSalaryByDay() < dataOfWorld.getUserFactory().getAverageSalaryByDay()){
-      if(nextRandom == 1){
-          Employee.setInFactory(false);
-          Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory));
-          Ui.addLineLog(Employee.getName()+" part du projet.");
-    	  dataOfWorld.setSound(SOUND.EmployeeLeave);
 
-        }
+        Employee.setInFactory(false);
+          if(nextRandom == 1) {
+              ArrayList<OfficeModel> newOffice = dataOfWorld.getUserFactory().getOffices();
+              for (OfficeModel office : newOffice) {
+                  if (office.isOccupiedLeft())
+                      if (office.getPositionLeft().x == Employee.getAssignedOffice().x && office.getPositionLeft().y == Employee.getAssignedOffice().y) {
+                          office.setOccupiedLeft(false);
+                          break;
+                      }
+
+                  if (office.isOccupiedRight())
+                      if (office.getPositionRight().x == Employee.getAssignedOffice().x && office.getPositionRight().y == Employee.getAssignedOffice().y) {
+                          office.setOccupiedRight(false);
+                          break;
+                      }
+              }
+              dataOfWorld.getUserFactory().setOffices(newOffice);
+              Employee.setNewPosition(new Position(HardCodedParameters.EmployeeStartX, HardCodedParameters.FactoryStartY + halfFactory));
+              Ui.addLineLog(Employee.getName() + " part du projet.");
+              dataOfWorld.setSound(SOUND.EmployeeLeave);
+
+          }
 //        nextRandom = gen.nextInt(toDrawIncrease * 2 );
-        nextRandom = gen.nextInt(((int) Employee.getSalaryByDay()) + ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()));
-        if(nextRandom >= Employee.getSalaryByDay()){
-//          int increasePourcent = ((int) Employee.getSalaryByDay())/(dataOfWorld.getNumberOfDaysForProject());
-//          int increasePourcent = ((int) Employee.getSalaryByDay())%20 + 1;
-          nextRandom = gen.nextInt(((int) Employee.getSalaryByDay())/100 + 1);
-          dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + nextRandom);
-          Ui.addLineLog(Employee.getName()+" a fait progresser le projet de "+nextRandom+"%");
+          nextRandom = gen.nextInt(((int) Employee.getSalaryByDay()) + ((int) dataOfWorld.getUserFactory().getAverageSalaryByDay()));
+          if(nextRandom >= Employee.getSalaryByDay()){
+              //          int increasePourcent = ((int) Employee.getSalaryByDay())/(dataOfWorld.getNumberOfDaysForProject());
+              //          int increasePourcent = ((int) Employee.getSalaryByDay())%20 + 1;
+              int increasePourcent = ((int) Employee.getSalaryByDay()) / (dataOfWorld.getNumberOfDaysForProject());
+              dataOfWorld.setProgressionOfWork(dataOfWorld.getProgressOfWork() + increasePourcent);
+              Ui.addLineLog(Employee.getName() + " a fait progresser le projet de " + increasePourcent + "%");
         }
-    }
+      }
     statistics.generateSimulateChart();
+    dataOfWorld.setSound(SOUND.Keyboard);
   }
 
   @Override

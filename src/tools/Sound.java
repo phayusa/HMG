@@ -7,5 +7,5 @@
 package tools;
 
 public class Sound {
-  public static enum SOUND { EmployeeLeave, EmployeeAdd, None };
+  public static enum SOUND { EmployeeLeave, EmployeeAdd, Keyboard, None };
 }
