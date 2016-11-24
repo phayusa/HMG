@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import specifications.Service.*;
 import tools.HardCodedParameters;
+import tools.Sound;
 import tools.User_Entry;
 
 //import algorithm.RandomWalker;
@@ -185,15 +186,16 @@ public class Main extends Application{
 	          break;
 	        case EmployeeAdd:
 	          new MediaPlayer(new Media(getHostServices().getDocumentBase()+"Ressource/sound/hello.mp3")).play();
-	     
+
 	          break;
 	        case Keyboard:
 	          new MediaPlayer(new Media(getHostServices().getDocumentBase()+"Ressource/sound/keyboard.mp3")).play();
 	          break;
-	       
+
 	        default:
 	          break;
 	    }
+	    data.setSound(Sound.SOUND.None);
    
       }
     };

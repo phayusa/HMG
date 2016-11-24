@@ -153,7 +153,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
               break;
           }
         }
-      dataOfWorld.setSound(SOUND.None);
+//      dataOfWorld.setSound(SOUND.None);
       }
     },0,HardCodedParameters.enginePaceMillis);
   }
