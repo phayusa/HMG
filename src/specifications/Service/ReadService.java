@@ -31,6 +31,7 @@ public interface ReadService {
     public int getNumberOfDaysForProject();
     public PieChart getEstimateChart();
     public PieChart getSimulateChart();
+    public Sound.SOUND getSound();
     public double getEmployeeStartY();
 
 }

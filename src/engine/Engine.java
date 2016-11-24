@@ -6,21 +6,28 @@
  * ******************************************************/
 package engine;
 
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import Model.FactoryModel;
 import Model.OfficeModel;
 import Model.PersonModel;
-import data.DataOfWorld;
-import specifications.Require.RequireUiService;
-import specifications.Service.UIService;
-import tools.*;
-
-import specifications.Service.EngineService;
-import specifications.Service.StatisticsService;
-import specifications.Service.DataService;
+import javafx.application.Application;
 import specifications.Require.RequireDataService;
 import specifications.Require.RequireStatisticsService;
-
-import java.util.*;
+import specifications.Require.RequireUiService;
+import specifications.Service.DataService;
+import specifications.Service.EngineService;
+import specifications.Service.StatisticsService;
+import specifications.Service.UIService;
+import tools.AnimationSprite;
+import tools.GraphicalEntity;
+import tools.HardCodedParameters;
+import tools.Position;
+import tools.Sound.SOUND;
+import tools.User_Entry;
 
 public class Engine implements EngineService, RequireDataService, RequireUiService, RequireStatisticsService{
 
@@ -149,7 +156,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
               break;
           }
         }
-//      data.setSoundEffect(Sound.SOUND.None);
+      dataOfWorld.setSound(SOUND.None);
       }
     },0,HardCodedParameters.enginePaceMillis);
   }
@@ -313,9 +320,10 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
 
   @Override
   public void allLeave() {
-    for (PersonModel Employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
-      DeleteEmployeeFromOffice(Employee);
-    }
+	dataOfWorld.setSound(SOUND.EmployeeLeave);
+      for (PersonModel Employee : dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
+          DeleteEmployeeFromOffice(Employee);
+      }
   }
 
   private void DeleteEmployeeFromOffice(PersonModel Employee){
@@ -372,7 +380,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
         }
       }
     statistics.generateSimulateChart();
-
+    dataOfWorld.setSound(SOUND.Keyboard);
   }
 
   @Override

@@ -5,7 +5,15 @@ import tools.GraphicalEntity;
 import tools.HardCodedParameters;
 import tools.Position;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import tools.CSVReader;
+import tools.GraphicalEntity;
+import tools.HardCodedParameters;
+import tools.Position;
+import java.util.HashMap;
 
 /**
  * Created by Micdu95 on 11/11/2016.
@@ -19,7 +27,6 @@ public class FactoryModel extends GraphicalEntity {
     private ArrayList<PersonModel> EmployeeOfFactory;
     private ArrayList<OfficeModel> Offices;
     private GraphicalEntity HideRoom;
-
 
     public FactoryModel(GraphicalEntity factoryEntity){
         super(factoryEntity);

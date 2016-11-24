@@ -15,9 +15,10 @@ import specifications.Service.DataService;
 import tools.GraphicalEntity;
 import tools.HardCodedParameters;
 import tools.Position;
+import tools.Sound;
 
 public class DataOfWorld implements DataService{
-    //  private Sound.SOUND sound
+    private Sound.SOUND sound;
     private String name;
     private FactoryModel userFactory;
     private int ProgressionOfWork,NumberOfDaysForProject,CurrentDay;
@@ -49,6 +50,7 @@ public class DataOfWorld implements DataService{
         ProgressionOfWork = 0;
         EmployeeStartY = HardCodedParameters.FactoryStartY+HardCodedParameters.FactoryHeight/3;
         setNumberOfDaysForProject(HardCodedParameters.workDayInMonth);
+        sound = Sound.SOUND.None;
     }
 
 
@@ -182,6 +184,14 @@ public class DataOfWorld implements DataService{
     public String getLogsInString() {
         return String.join("\n", CurrentLog);
     }
+
+	public Sound.SOUND getSound() {
+		return sound;
+	}
+
+	public void setSound(Sound.SOUND sound) {
+		this.sound = sound;
+	}
 
     @Override
     public double getEmployeeStartY() {

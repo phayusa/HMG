@@ -16,6 +16,8 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -64,6 +66,7 @@ public class Main extends Application{
     viewer.init();
     Ui.init();
     
+    
     launch(args);
   }
 
@@ -102,8 +105,8 @@ public class Main extends Application{
 //          viewer.setMainWindowHeight(newSceneHeight.doubleValue());
 //        }
 //    });
-    
 
+    
     stage.setScene(scene);
     stage.setWidth(HardCodedParameters.defaultWidth);
     stage.setHeight(HardCodedParameters.defaultHeight);
@@ -176,16 +179,22 @@ public class Main extends Application{
     timer = new AnimationTimer() {
       @Override public void handle(long l) {
         scene.setRoot(((Viewer)viewer).getMainPanel());
-        //        switch (data.getSoundEffect()){
-//          case PhantomDestroyed:
-//            new MediaPlayer(new Media(getHostServices().getDocumentBase()+"src/sound/waterdrip.mp3")).play();
-//            break;
-//          case HeroesGotHit:
-//            new MediaPlayer(new Media(getHostServices().getDocumentBase()+"src/sound/waterdrip.mp3")).play();
-//            break;
-//          default:
-//            break;
-//        }
+        switch (data.getSound()){
+	        case EmployeeLeave:
+	          new MediaPlayer(new Media(getHostServices().getDocumentBase()+"Ressource/sound/OUH.mp3")).play();
+	          break;
+	        case EmployeeAdd:
+	          new MediaPlayer(new Media(getHostServices().getDocumentBase()+"Ressource/sound/hello.mp3")).play();
+	     
+	          break;
+	        case Keyboard:
+	          new MediaPlayer(new Media(getHostServices().getDocumentBase()+"Ressource/sound/keyboard.mp3")).play();
+	          break;
+	       
+	        default:
+	          break;
+	    }
+   
       }
     };
     timer.start();
