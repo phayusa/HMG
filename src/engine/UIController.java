@@ -1,28 +1,26 @@
 package engine;
 
+import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.GridPane;
+import specifications.Require.RequireDataService;
+import specifications.Service.DataService;
+import specifications.Service.UIService;
+import tools.Sound.SOUND;
+
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
-import Model.PersonModel;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.control.ButtonBar;
-import specifications.Require.RequireDataService;
-import specifications.Service.DataService;
-import specifications.Service.UIService;
-import tools.HardCodedParameters;
-import tools.Sound.SOUND;
 
 /**
  * Created by sokomo on 18/11/16.
@@ -245,6 +243,25 @@ public class UIController implements RequireDataService, UIService{
                     result = "exit";
                 }
                 return;
+            }
+        });
+    }
+
+    @Override
+    public void exportCharts() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                WritableImage imageEstimate = data.getEstimateChart().snapshot(new SnapshotParameters(),null);
+                WritableImage imageSimulate = data.getSimulateChart().snapshot(new SnapshotParameters(),null);
+                File fileEstimate = new File("Ressource/files/chart_estimate.png");
+                File fileSimulate = new File("Ressource/files/chart_simulate.png");
+                try {
+                    ImageIO.write(SwingFXUtils.fromFXImage(imageEstimate,null),"png",fileEstimate);
+                    ImageIO.write(SwingFXUtils.fromFXImage(imageSimulate,null),"png",fileSimulate);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
             }
         });
     }

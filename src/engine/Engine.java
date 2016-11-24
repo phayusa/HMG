@@ -6,15 +6,9 @@
  * ******************************************************/
 package engine;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import Model.FactoryModel;
 import Model.OfficeModel;
 import Model.PersonModel;
-import javafx.application.Application;
 import specifications.Require.RequireDataService;
 import specifications.Require.RequireStatisticsService;
 import specifications.Require.RequireUiService;
@@ -22,12 +16,13 @@ import specifications.Service.DataService;
 import specifications.Service.EngineService;
 import specifications.Service.StatisticsService;
 import specifications.Service.UIService;
-import tools.AnimationSprite;
-import tools.GraphicalEntity;
-import tools.HardCodedParameters;
-import tools.Position;
+import tools.*;
 import tools.Sound.SOUND;
-import tools.User_Entry;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Engine implements EngineService, RequireDataService, RequireUiService, RequireStatisticsService{
 
@@ -137,6 +132,8 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
                 dataOfWorld.getUserFactory().generateCSVFile();
                 Ui.exportLog("Ressource/files/log.txt");
                 Ui.dialogClearExport();
+                Ui.exportCharts();
+
                 System.err.println("export");
                 break;
             }

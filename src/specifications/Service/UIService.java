@@ -17,4 +17,5 @@ public interface UIService{
   public String getResult();
   public void setResult(String result);
   public void dialogClearExport();
+  public void exportCharts();
 }
