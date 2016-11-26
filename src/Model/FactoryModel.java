@@ -32,8 +32,7 @@ public class FactoryModel extends GraphicalEntity {
         super(factoryEntity);
         budget = HardCodedParameters.startBudget;
         EmployeeOfFactory = new ArrayList<PersonModel>();
-        loadCSVFile();
-        generateCSVFile();
+        loadCSVFile(HardCodedParameters.csvPath);
         Offices = new ArrayList<OfficeModel>();
         double deltaToMove = width/5;
         double deltaHeight = height/12;
@@ -160,17 +159,19 @@ public class FactoryModel extends GraphicalEntity {
         updateOfficesOfFactory();
     }
     
-    public void loadCSVFile () {
-    	String csvFile = "Ressource/files/test.csv";
-    	ArrayList<PersonModel> employeeOfFactory = CSVReader.getCSVFile(csvFile, this.EmployeeOfFactory);
-        this.EmployeeOfFactory = employeeOfFactory;
+    public void loadCSVFile (String csvPath) {
+    	if (!csvPath.isEmpty()) {
+    		ArrayList<PersonModel> employeeOfFactory = CSVReader.getCSVFile(csvPath, this.EmployeeOfFactory);
+    		this.EmployeeOfFactory = employeeOfFactory;
+    	}
+    	
     }
     
     public void generateCSVFile () {
 //    	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH mm ss");
 //    	Date date = new Date();
 //    	String csvFile = "Ressource/files/res "+dateFormat.format(date)+".csv";
-        String csvFile = "Ressource/files/res.csv";
+        String csvFile = "Ressource/files/resultats.csv";
     	CSVReader.generateCsvFile(csvFile, this.EmployeeOfFactory);
     	
     }

@@ -1,26 +1,45 @@
 package engine;
 
-import javafx.application.Platform;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.image.WritableImage;
-import javafx.scene.layout.GridPane;
-import specifications.Require.RequireDataService;
-import specifications.Service.DataService;
-import specifications.Service.UIService;
-import tools.Sound.SOUND;
-
-import javax.imageio.ImageIO;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
+
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import javafx.util.Pair;
+import specifications.Require.RequireDataService;
+import specifications.Service.DataService;
+import specifications.Service.UIService;
+import tools.HardCodedParameters;
+import tools.Sound.SOUND;
 
 /**
  * Created by sokomo on 18/11/16.
@@ -29,13 +48,16 @@ public class UIController implements RequireDataService, UIService{
 
     private DataService data;
     private String result;
+    String csvPath = "";
+	final FileChooser fileChooser = new FileChooser();
+	Boolean isOk = false;
+	final Button openButton = new Button("Importer fichier CSV ...");
 
     @Override
     public void bindDataService(DataService service) {
         data = service;
     }
-
-
+    
     @Override
     public void init() {
         result = "none";
@@ -275,7 +297,95 @@ public class UIController implements RequireDataService, UIService{
     public void setResult(String result) {
         this.result = result;
     }
+    
+    @Override
+    public boolean getStartPanel(Stage stage) {
+    	openButton.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                    	 FileChooser fileChooser = new FileChooser();
+                    	 fileChooser.setTitle("Importer CSV");
+                    	 fileChooser.getExtensionFilters().addAll(
+                    	         new ExtensionFilter("CSV Files", "*.csv"));
+                    	 File selectedFile = fileChooser.showOpenDialog(stage);
+                    	 if (selectedFile != null) {
+                    		 csvPath = selectedFile.getPath();
+                    	 }
+                    }
+                });
+    	
+    	Dialog<Pair<String, String>> dialog = new Dialog<>();
+    	dialog.setTitle("Company manager");
+    	dialog.setHeaderText("Entrez le budget et le fichier CSV");
+    	ButtonType beginButton = new ButtonType("Commencer", ButtonData.OK_DONE);
+    	dialog.getDialogPane().getButtonTypes().addAll(beginButton);
 
+    	GridPane grid = new GridPane();
+    	grid.setHgap(10);
+    	grid.setVgap(10);
+    	grid.setPadding(new Insets(20, 150, 10, 10));
+
+    	TextField budget = new TextField();
+    	budget.setPromptText("Entre budget");
+
+    	grid.add(new Label("Budget:"), 0, 1);
+    	grid.add(budget, 1, 1);
+    	grid.add(new Label("Liste des employés:"), 0, 0);
+    	grid.add(openButton, 1, 0);
+    	
+
+    	// Enable/Disable login button depending on whether a username was entered.
+    	Node startButton = dialog.getDialogPane().lookupButton(beginButton);
+    	startButton.setDisable(true);
+
+    	// Do some validation (using the Java 8 lambda syntax).
+    	budget.textProperty().addListener((observable, oldValue, newValue)-> {
+    		if (csvPath.isEmpty() && newValue.matches("\\d*")) {
+    			Alert alert = new Alert(AlertType.INFORMATION);
+    			alert.setTitle("Information");
+    			alert.setHeaderText(null);
+    			alert.setContentText("Importez un fichier CSV");
+    			alert.showAndWait();			
+    		}else if (!newValue.matches("\\d*")) {
+            	budget.setText(newValue.replaceAll("[^\\d.]", ""));
+            }else{
+            	if (newValue.trim().isEmpty() || newValue.trim().length()<=3) {
+            		startButton.setDisable(true);
+				}
+				else if (newValue.trim().length()>3 && !csvPath.isEmpty()){
+					startButton.setDisable(false);
+				}
+            }
+    	});
+
+    	dialog.getDialogPane().setContent(grid);
+
+    	// Request focus on the username field by default.
+    	Platform.runLater(() -> budget.requestFocus());
+
+    	// Convert the result to a username-password-pair when the login button is clicked.
+    	dialog.setResultConverter(dialogButton -> {
+    	    if (dialogButton == beginButton) {
+    	        return new Pair<>(budget.getText(), csvPath);
+    	    }
+    	    return null;
+    	});
+
+    	Optional<Pair<String, String>> result = dialog.showAndWait();
+    	
+    	result.ifPresent(budgetCSV -> {
+    		if ((!budgetCSV.getKey().isEmpty() &&
+    				budgetCSV.getKey().matches("[0-9]{1,13}(\\.[0-9]*)?") &&
+    				budgetCSV.getKey().length() > 2 ) && (budgetCSV.getValue() != null)) {
+    			HardCodedParameters.csvPath = budgetCSV.getValue();
+    			HardCodedParameters.startBudget = Double.parseDouble(budgetCSV.getKey());
+    			isOk = true;	
+    		}
+    	});
+    	return isOk;
+    }
+    
     //    if(data.getUserFactory().getEmployeeOfFactory().isEmpty()){
 //        engine.onPause();
 //        Alert loose = new Alert(AlertType.CONFIRMATION);

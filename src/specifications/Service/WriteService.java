@@ -20,7 +20,7 @@ public interface WriteService {
     public void setEmployeeOfFactory(ArrayList<PersonModel> employeeOfFactory);
     public void setProgressionOfWork(int progressionOfWork);
     public void setName(String name);
-    public void loadCSVFile();
+    public void loadCSVFile(String csvPath);
     public void generateCsvFile();
     public void setEstimateChart(PieChart estimateChart);
     public void setSimulateChart(PieChart simulateChart);

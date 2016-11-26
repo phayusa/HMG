@@ -16,12 +16,17 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import specifications.Service.*;
+import specifications.Service.DataService;
+import specifications.Service.EngineService;
+import specifications.Service.StatisticsService;
+import specifications.Service.UIService;
+import specifications.Service.ViewerService;
 import tools.HardCodedParameters;
 import tools.Sound;
 import tools.User_Entry;
@@ -39,12 +44,14 @@ public class Main extends Application{
   private static ViewerService viewer;
   private static AnimationTimer timer;
   private static UIService Ui;
+  private boolean firstStart = true;
+
 
   //---EXECUTABLE---//
   public static void main(String[] args) {
     //readArguments(args);
 
-    data = new DataOfWorld();
+	data = new DataOfWorld();
     engine = new Engine();
     statistics = new StatisticsController();
     Ui = new UIController();
@@ -61,18 +68,29 @@ public class Main extends Application{
     ((Engine) engine).bindUiService(Ui);
 
 
-    data.init();
-    engine.init();
-    statistics.init();
-    viewer.init();
-    Ui.init();
-    
+   
     
     launch(args);
   }
 
-  @Override public void start(Stage stage) {
-    final Scene scene = new Scene(((Viewer)viewer).getMainPanel());
+  @Override 
+  public void start(Stage stage) {
+
+	  if (firstStart){
+		  if (!Ui.getStartPanel(stage)) {
+			System.exit(0);
+		  }else {
+			data.init();
+		    engine.init();
+		    statistics.init();
+		    viewer.init();
+		    Ui.init();
+	
+		    firstStart = false;
+		  }
+	  }
+	  System.out.println(data.getCurrentDay());
+	final Scene scene = new Scene(((Viewer)viewer).getMainPanel());
        
     scene.setFill(Color.CORNFLOWERBLUE);
 
@@ -89,30 +107,30 @@ public class Main extends Application{
             case DOWN:
               engine.releaseHeroesCommand(User_Entry.COMMAND.DOWN);
           }
-//          if (event.getCode()==KeyCode.LEFT) engine.releaseHeroesCommand(User_Entry.COMMAND.LEFT);
-//          if (event.getCode()==KeyCode.RIGHT) engine.releaseHeroesCommand(User_Entry.COMMAND.RIGHT);
-//          if (event.getCode()==KeyCode.UP) engine.releaseHeroesCommand(User_Entry.COMMAND.UP);
-//          if (event.getCode()==KeyCode.DOWN) engine.releaseHeroesCommand(User_Entry.COMMAND.DOWN);
+//	          if (event.getCode()==KeyCode.LEFT) engine.releaseHeroesCommand(User_Entry.COMMAND.LEFT);
+//	          if (event.getCode()==KeyCode.RIGHT) engine.releaseHeroesCommand(User_Entry.COMMAND.RIGHT);
+//	          if (event.getCode()==KeyCode.UP) engine.releaseHeroesCommand(User_Entry.COMMAND.UP);
+//	          if (event.getCode()==KeyCode.DOWN) engine.releaseHeroesCommand(User_Entry.COMMAND.DOWN);
           event.consume();
         }
     });
-//    scene.widthProperty().addListener(new ChangeListener<Number>() {
-//        @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-//          viewer.setMainWindowWidth(newSceneWidth.doubleValue());
-//        }
-//    });
-//    scene.heightProperty().addListener(new ChangeListener<Number>() {
-//        @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-//          viewer.setMainWindowHeight(newSceneHeight.doubleValue());
-//        }
-//    });
+//	    scene.widthProperty().addListener(new ChangeListener<Number>() {
+//	        @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+//	          viewer.setMainWindowWidth(newSceneWidth.doubleValue());
+//	        }
+//	    });
+//	    scene.heightProperty().addListener(new ChangeListener<Number>() {
+//	        @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+//	          viewer.setMainWindowHeight(newSceneHeight.doubleValue());
+//	        }
+//	    });
 
     
     stage.setScene(scene);
     stage.setWidth(HardCodedParameters.defaultWidth);
     stage.setHeight(HardCodedParameters.defaultHeight);
     stage.setResizable(false);
-//    stage.setMaximized(true);
+//	    stage.setMaximized(true);
     stage.setOnShown(new EventHandler<WindowEvent>() {
       @Override public void handle(WindowEvent event) {
         engine.start();
@@ -191,12 +209,10 @@ public class Main extends Application{
 	        case Keyboard:
 	          new MediaPlayer(new Media(getHostServices().getDocumentBase()+"Ressource/sound/keyboard.mp3")).play();
 	          break;
-
 	        default:
 	          break;
 	    }
 	    data.setSound(Sound.SOUND.None);
-   
       }
     };
     timer.start();

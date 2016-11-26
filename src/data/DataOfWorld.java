@@ -61,6 +61,7 @@ public class DataOfWorld implements DataService{
 
     @Override
     public void setBudget(double budget) {
+    	userFactory.setBudget(budget);
         this.budget = budget;
     }
 
@@ -84,8 +85,8 @@ public class DataOfWorld implements DataService{
         this.name = name;
     }
     
-    public void loadCSVFile () {
-    
+    public void loadCSVFile (String csvPath) {
+    	userFactory.loadCSVFile(csvPath);
     }
 
     @Override

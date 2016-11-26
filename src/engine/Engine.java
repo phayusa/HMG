@@ -99,6 +99,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
             switch (resultAnwser){
               case "reset":
                 resetPosition();
+                statistics.resetStat();
                 return;
               case "exit":
                 stop();
@@ -124,6 +125,7 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
             switch (resultAnwser){
               case "reset":
                 resetPosition();
+                statistics.resetStat();
                 break;
               case "exit":
                 stop();
@@ -147,6 +149,8 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
           switch (resultAnwser){
             case "reset":
               resetPosition();
+              statistics.resetStat();
+
               break;
             case "exit":
               stop();
@@ -377,7 +381,9 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
         }
       }
     statistics.generateSimulateChart();
-    dataOfWorld.setSound(SOUND.Keyboard);
+    if (dataOfWorld.getCurrentDay()>1) {
+    	dataOfWorld.setSound(SOUND.Keyboard);
+    }
   }
 
   @Override

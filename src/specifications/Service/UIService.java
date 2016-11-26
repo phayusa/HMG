@@ -6,6 +6,8 @@
  * ******************************************************/
 package specifications.Service;
 
+import javafx.stage.Stage;
+
 public interface UIService{
   public void init();
   public void addLineLog(String line);
@@ -18,4 +20,5 @@ public interface UIService{
   public void setResult(String result);
   public void dialogClearExport();
   public void exportCharts();
+  public boolean getStartPanel(Stage stage);
 }
