@@ -210,6 +210,19 @@ public class UIController implements RequireDataService, UIService{
         });
     }
 
+//    public void dialogNoEmployee(){
+//        result = "check";
+//        Alert loose = new Alert(AlertType.INFORMATION);
+//        loose.setTitle("Information");
+//        loose.setHeaderText("Vous n'avez plus d'employée.");
+//        loose.setContentText("Choisissez ce que vous voulez faire");
+//        ButtonType buttonAdd = new ButtonType("Ajouter Employée");
+//        ButtonType buttonReset = new ButtonType("Relancer une simulation");
+//        ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
+//        loose.getButtonTypes().setAll(buttonAdd,buttonReset,buttonExit);
+//        Optional<ButtonType> result = loose.showAndWait();
+//    }
+
     @Override
     public void dialogEndDay() {
         result = "check";
@@ -314,7 +327,7 @@ public class UIController implements RequireDataService, UIService{
                     	 }
                     }
                 });
-    	
+
     	Dialog<Pair<String, String>> dialog = new Dialog<>();
     	dialog.setTitle("Company manager");
     	dialog.setHeaderText("Entrez le budget et le fichier CSV");
@@ -354,8 +367,8 @@ public class UIController implements RequireDataService, UIService{
             		startButton.setDisable(true);
 				}
 				else if (newValue.trim().length()>3 && !csvPath.isEmpty()){
-					startButton.setDisable(false);
-				}
+                    startButton.setDisable(false);
+                }
             }
     	});
 
@@ -386,25 +399,5 @@ public class UIController implements RequireDataService, UIService{
     	return isOk;
     }
     
-    //    if(data.getUserFactory().getEmployeeOfFactory().isEmpty()){
-//        engine.onPause();
-//        Alert loose = new Alert(AlertType.CONFIRMATION);
-//        loose.setTitle("Information");
-//        loose.setHeaderText("Vous n'avez plus d'employée.");
-//        loose.setContentText("Choisissez ce que vous voulez faire");
-//        ButtonType buttonAdd = new ButtonType("Ajouter Employée");
-//        ButtonType buttonReset = new ButtonType("Relancer une simulation");
-//        ButtonType buttonExit = new ButtonType("Quitter", ButtonBar.ButtonData.CANCEL_CLOSE);
-//        loose.getButtonTypes().setAll(buttonAdd,buttonReset,buttonExit);
-//        Optional<ButtonType> result = loose.showAndWait();
-//        if(result.get() == buttonAdd){
-//            System.out.println("Ajouter !!!");
-//        }
-//        if(result.get() == buttonReset){
-//            engine.resetPosition();
-//        }
-//        if(result.get() == buttonExit){
-//            engine.stop();
-//        }
-//    }
+
 }

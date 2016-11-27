@@ -176,41 +176,9 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
     }
   }
 
-  @Override
-  public void setHeroesCommand(User_Entry.COMMAND c){
-    switch (c){
-      case LEFT:
-        keyLeft=true;
-        break;
-      case RIGHT:
-        keyRight=true;
-        break;
-      case UP:
-        keyUp=true;
-        break;
-      case DOWN:
-        keyDown=true;
-        break;
-    }
-  }
 
-  @Override
-  public void releaseHeroesCommand(User_Entry.COMMAND c){
-    switch (c){
-      case LEFT:
-        keyLeft=false;
-        break;
-      case RIGHT:
-        keyRight=false;
-        break;
-      case UP:
-        keyUp=false;
-        break;
-      case DOWN:
-        keyDown=false;
-        break;
-    }
-  }
+
+
 
   private void updateMoveHeroeGeneral(AnimationSprite objectToMove){
     if(objectToMove.isRight()) {
@@ -264,15 +232,6 @@ public class Engine implements EngineService, RequireDataService, RequireUiServi
 
     if(!objectToMove.isLeft() && !objectToMove.isRight() && !objectToMove.isDown() && !objectToMove.isUp())
       objectToMove.stopAnim();
-  }
-
-  private void updateAllPositionWithKey(){
-    for (PersonModel employee:dataOfWorld.getUserFactory().getEmployeeOfFactory()) {
-      employee.setLeft(keyLeft);
-      employee.setRight(keyRight);
-      employee.setDown(keyDown);
-      employee.setUp(keyUp);
-    }
   }
 
   private void updateAllPositionWithFinalPosition(int maxIndex){

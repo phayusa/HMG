@@ -15,6 +15,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -75,6 +76,8 @@ public class Main extends Application{
 
   @Override 
   public void start(Stage stage) {
+      stage.setTitle("Company Manager");
+      stage.getIcons().add(new Image("file:Ressource/images/logo_App.png"));
 
 	  if (firstStart){
 		  if (!Ui.getStartPanel(stage)) {
@@ -94,26 +97,7 @@ public class Main extends Application{
        
     scene.setFill(Color.CORNFLOWERBLUE);
 
-    scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
-      @Override
-        public void handle(KeyEvent event) {
-          switch (event.getCode()){
-            case LEFT:
-              engine.releaseHeroesCommand(User_Entry.COMMAND.LEFT);
-            case RIGHT:
-              engine.releaseHeroesCommand(User_Entry.COMMAND.RIGHT);
-            case UP:
-              engine.releaseHeroesCommand(User_Entry.COMMAND.UP);
-            case DOWN:
-              engine.releaseHeroesCommand(User_Entry.COMMAND.DOWN);
-          }
-//	          if (event.getCode()==KeyCode.LEFT) engine.releaseHeroesCommand(User_Entry.COMMAND.LEFT);
-//	          if (event.getCode()==KeyCode.RIGHT) engine.releaseHeroesCommand(User_Entry.COMMAND.RIGHT);
-//	          if (event.getCode()==KeyCode.UP) engine.releaseHeroesCommand(User_Entry.COMMAND.UP);
-//	          if (event.getCode()==KeyCode.DOWN) engine.releaseHeroesCommand(User_Entry.COMMAND.DOWN);
-          event.consume();
-        }
-    });
+
 //	    scene.widthProperty().addListener(new ChangeListener<Number>() {
 //	        @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
 //	          viewer.setMainWindowWidth(newSceneWidth.doubleValue());
@@ -148,18 +132,6 @@ public class Main extends Application{
       @Override
       public void handle(KeyEvent event) {
         switch (event.getCode()){
-          case LEFT:
-            engine.setHeroesCommand(User_Entry.COMMAND.LEFT);
-            break;
-          case RIGHT:
-            engine.setHeroesCommand(User_Entry.COMMAND.RIGHT);
-            break;
-          case UP:
-            engine.setHeroesCommand(User_Entry.COMMAND.UP);
-            break;
-          case DOWN:
-            engine.setHeroesCommand(User_Entry.COMMAND.DOWN);
-            break;
           case R:
             engine.resetPosition();
             statistics.resetStat();
@@ -169,9 +141,6 @@ public class Main extends Application{
             break;
           case P:
             engine.onPause();
-            break;
-          case T:
-            Ui.addLineLog("TATATA");
             break;
           case SPACE:
             data.setProgressionOfWork(data.getProgressOfWork() + 1);
@@ -193,7 +162,6 @@ public class Main extends Application{
       }
     });
 
-    stage.setTitle("Company Manager");
     stage.show();
     timer = new AnimationTimer() {
       @Override public void handle(long l) {
