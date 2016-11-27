@@ -11,23 +11,23 @@ import java.util.HashMap;
 public class HardCodedParameters {
   //---HARD-CODED-PARAMETERS---//
   public static String defaultParamFileName = "in.parameters";
-  public static final int defaultWidth = 1280, defaultHeight = 720,
+  public static final double defaultWidth = 1280, defaultHeight = 720,
                           FactoryWidth = 700, FactoryHeight = 510,
-                          OfficeWidth = 150,OfficeHeight = 80,numberOfficeInFactory=6,
-                          EmployeeStartX = -260;
+                          OfficeWidth = 150,OfficeHeight = 80,EmployeeStartX = -260;;
     public static final double FactoryStartX = 0, FactoryStartY = 0;
     public static final int TimeBetweenDaysInMilli = 10000;
+    public  static  final int numberOfficeInFactory=6;
 
     // ---- UI Dimension---//
     public static int maxLines = 8;
 
   //----Panels Dimension---//
-  public static final int companySizeX = 700, companySizeY = 510,
-				          companyTranslateX = -260, companyTranslateY = -80,
-				          statSizeX = 476, statSizeY = 510,
-				          statTranslateX = 394, statTranslateY = -80,
-				          backSizeX = 476, backSizeY = 148,
-				          backTranslateX = 394, backTranslateY = 253;
+  public static final double companySizeX = 700, companySizeY = 510,
+				          companyTranslateX = 30, companyTranslateY = 10,
+				          statSizeX = 476, statSizeY = 450,
+				          statTranslateX = 770, statTranslateY = 10,
+				          backSizeX = 476, backSizeY = 170,
+				          backTranslateX = 770, backTranslateY = 470;
   
   public static double startBudget = 0.0;
   public static final int enginePaceMillis = 100,

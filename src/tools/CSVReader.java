@@ -17,7 +17,7 @@ public class CSVReader {
         int i = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-			int halfFactory = HardCodedParameters.FactoryHeight/2;
+			int halfFactory = ((int) HardCodedParameters.FactoryHeight)/2;
             while ((line = br.readLine()) != null) {
                 String[] person = line.split(cvsSplitBy);
                 PersonModel personModel = new PersonModel(person[0], person[1], Double.parseDouble(person[2]), new GraphicalEntity(new Position(HardCodedParameters.EmployeeStartX,HardCodedParameters.FactoryStartY+halfFactory),50,50),"file:Ressource/images/test2.png",4,3,32,32,8);

@@ -13,14 +13,11 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -39,9 +36,7 @@ import tools.GraphicalEntity;
 import tools.HardCodedParameters;
 
 public class Viewer implements ViewerService, RequireReadService, RequireStatisticsService, RequireEngineService, RequireUiService{
-  private static final int spriteSlowDownRate=HardCodedParameters.spriteSlowDownRate;
-  private static final double defaultMainWidth=HardCodedParameters.defaultWidth,
-                              defaultMainHeight=HardCodedParameters.defaultHeight;
+  private double ScreenWidth,ScreenHeight;
   private ReadService data;
   private StatisticsService statistics;
   private EngineService engine;
@@ -78,14 +73,14 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
   public Parent panelCompany(){
 
 	Pane panel = new Pane();
-    panel.setMaxSize(HardCodedParameters.companySizeX,HardCodedParameters.companySizeY);
-    panel.setTranslateX(HardCodedParameters.companyTranslateX);
-    panel.setTranslateY(HardCodedParameters.companyTranslateY);
+    panel.setMaxSize(HardCodedParameters.companySizeX/HardCodedParameters.defaultWidth * ScreenWidth,HardCodedParameters.companySizeY/HardCodedParameters.defaultHeight * ScreenHeight);
+    panel.setTranslateX(HardCodedParameters.companyTranslateX/HardCodedParameters.defaultWidth * ScreenWidth);
+    panel.setTranslateY(HardCodedParameters.companyTranslateY/HardCodedParameters.defaultHeight * ScreenHeight);
     ImageView factoryRepresentation = data.getUserFactory().getImageOfEntity();
-    factoryRepresentation.setTranslateX(data.getUserFactory().getPositionOfEntity().x);
-    factoryRepresentation.setTranslateY(data.getUserFactory().getPositionOfEntity().y);
-    factoryRepresentation.setFitWidth(data.getUserFactory().getWidth());
-    factoryRepresentation.setFitHeight(data.getUserFactory().getHeight());
+    factoryRepresentation.setTranslateX(data.getUserFactory().getPositionOfEntity().x/HardCodedParameters.defaultWidth * ScreenWidth);
+    factoryRepresentation.setTranslateY(data.getUserFactory().getPositionOfEntity().y/HardCodedParameters.defaultHeight * ScreenHeight);
+    factoryRepresentation.setFitWidth(data.getUserFactory().getWidth()/HardCodedParameters.defaultWidth * ScreenWidth);
+    factoryRepresentation.setFitHeight(data.getUserFactory().getHeight()/HardCodedParameters.defaultHeight * ScreenHeight);
     factoryRepresentation.setOnMousePressed(new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
@@ -97,24 +92,24 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     panel.getChildren().add(factoryRepresentation);
     for (GraphicalEntity Office : data.getUserFactory().getOffices() ) {
       ImageView imageOfOffice = Office.getImageOfEntity();
-      imageOfOffice.setTranslateX(Office.getPositionOfEntity().x);
-      imageOfOffice.setTranslateY(Office.getPositionOfEntity().y);
-      imageOfOffice.setFitWidth(Office.getWidth());
-      imageOfOffice.setFitHeight(Office.getHeight());
+      imageOfOffice.setTranslateX(Office.getPositionOfEntity().x/HardCodedParameters.defaultWidth * ScreenWidth);
+      imageOfOffice.setTranslateY(Office.getPositionOfEntity().y/HardCodedParameters.defaultHeight * ScreenHeight);
+      imageOfOffice.setFitWidth(Office.getWidth()/HardCodedParameters.defaultWidth * ScreenWidth);
+      imageOfOffice.setFitHeight(Office.getHeight()/HardCodedParameters.defaultHeight * ScreenHeight);
       panel.getChildren().add(imageOfOffice);
     }
       ArrayList<PersonModel> newArray = new ArrayList<PersonModel>();
     for (PersonModel employee : data.getUserFactory().getEmployeeOfFactory()){
         if(employee.getPositionOfEntity().x < data.getUserFactory().getHideRoom().getPositionOfEntity().x && employee.getPositionOfEntity().x > data.getUserFactory().getPositionOfEntity().x){
             Label label = new Label(employee.getName());
-            label.setTranslateX(employee.getPositionOfEntity().x + employee.getWidth()/8);
-            label.setTranslateY(employee.getPositionOfEntity().y - employee.getHeight()/2);
+            label.setTranslateX((employee.getPositionOfEntity().x + employee.getWidth()/8)/HardCodedParameters.defaultWidth * ScreenWidth);
+            label.setTranslateY((employee.getPositionOfEntity().y - employee.getHeight()/2)/HardCodedParameters.defaultHeight * ScreenHeight);
             label.setTextFill(Color.BLACK);
             ImageView imageOfEmployee = employee.getCurrentSprite();
-            imageOfEmployee.setTranslateX(employee.getPositionOfEntity().x);
-            imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y);
-            imageOfEmployee.setFitWidth(employee.getWidth());
-            imageOfEmployee.setFitHeight(employee.getHeight());
+            imageOfEmployee.setTranslateX(employee.getPositionOfEntity().x/HardCodedParameters.defaultWidth * ScreenWidth);
+            imageOfEmployee.setTranslateY(employee.getPositionOfEntity().y/HardCodedParameters.defaultHeight * ScreenHeight);
+            imageOfEmployee.setFitWidth(employee.getWidth()/HardCodedParameters.defaultWidth * ScreenWidth);
+            imageOfEmployee.setFitHeight(employee.getHeight()/HardCodedParameters.defaultHeight * ScreenHeight);
             panel.getChildren().addAll(label, imageOfEmployee);
 
         }
@@ -124,19 +119,14 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
             if(employee.getPositionOfEntity().x > data.getUserFactory().getPositionOfEntity().x)
                 newArray.add(employee);
         }
-//        else
-//            engine.ClearEmployeeOfNotInAction();
-            //        if(employee.getPositionOfEntity().x < data.getUserFactory().getPositionOfEntity().x){
-//            engine.ClearEmployeeOfNotInAction();
-//        }
     }
     engine.ClearEmployeeOfNotInAction(newArray);
 
     ImageView hideRooom = data.getUserFactory().getHideRoom().getImageOfEntity();
-    hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x);
-    hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y);
-    hideRooom.setFitWidth(data.getUserFactory().getHideRoom().getWidth());
-    hideRooom.setFitHeight(data.getUserFactory().getHideRoom().getHeight());
+    hideRooom.setTranslateX(data.getUserFactory().getHideRoom().getPositionOfEntity().x/HardCodedParameters.defaultWidth * ScreenWidth);
+    hideRooom.setTranslateY(data.getUserFactory().getHideRoom().getPositionOfEntity().y/HardCodedParameters.defaultHeight * ScreenHeight);
+    hideRooom.setFitWidth(data.getUserFactory().getHideRoom().getWidth()/HardCodedParameters.defaultWidth * ScreenWidth);
+    hideRooom.setFitHeight(data.getUserFactory().getHideRoom().getHeight()/HardCodedParameters.defaultHeight * ScreenHeight);
     panel.getChildren().add(hideRooom);
 
     ProgressBar progressionOfProject = new ProgressBar(data.getProgressOfWorkInFloat());
@@ -144,15 +134,15 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     HBox ProgressionBox = new HBox();
     ProgressionBox.setAlignment(Pos.CENTER);
     ProgressionBox.getChildren().addAll(progressionOfProject,progressIndication);
-    ProgressionBox.setTranslateX(HardCodedParameters.FactoryStartX + HardCodedParameters.FactoryWidth/2 - 40);
-    ProgressionBox.setTranslateY(HardCodedParameters.FactoryHeight - 45);
+    ProgressionBox.setTranslateX((HardCodedParameters.FactoryStartX + HardCodedParameters.FactoryWidth/2.0 - 40.0) / HardCodedParameters.defaultWidth * ScreenWidth);
+    ProgressionBox.setTranslateY((HardCodedParameters.FactoryHeight - 45.0)/HardCodedParameters.defaultHeight * ScreenHeight);
     panel.getChildren().add(ProgressionBox);
 
     Label DayPresentation = new Label("Jour "+data.getCurrentDay()+"/"+data.getNumberOfDaysForProject());
     DayPresentation.setTextFill(Color.BLACK);
-    DayPresentation.setFont(new Font("Arial",25));
-    DayPresentation.setTranslateX(HardCodedParameters.FactoryStartX+15);
-    DayPresentation.setTranslateY(HardCodedParameters.FactoryHeight - 45);
+    DayPresentation.setFont(new Font("Arial",25.0));
+    DayPresentation.setTranslateX((HardCodedParameters.FactoryStartX+15.0)/HardCodedParameters.defaultWidth * ScreenWidth);
+    DayPresentation.setTranslateY((HardCodedParameters.FactoryHeight - 45.0)/HardCodedParameters.defaultHeight * ScreenHeight);
     panel.getChildren().add(DayPresentation);
 
 
@@ -162,16 +152,17 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
   public Parent panelStat(){
         Pane panel = new Pane();
         panel.setStyle("-fx-background-color: grey;-fx-border-color: black;");
-        panel.setMaxSize(HardCodedParameters.statSizeX,HardCodedParameters.statSizeY);
-        panel.setTranslateX(HardCodedParameters.statTranslateX);
-        panel.setTranslateY(HardCodedParameters.statTranslateY);
+        panel.setMinWidth(HardCodedParameters.statSizeX/HardCodedParameters.defaultWidth * ScreenWidth);
+        panel.setMinHeight(HardCodedParameters.statSizeY/HardCodedParameters.defaultHeight * ScreenHeight);
+        panel.setTranslateX(HardCodedParameters.statTranslateX/HardCodedParameters.defaultWidth * ScreenWidth);
+        panel.setTranslateY(HardCodedParameters.statTranslateY/HardCodedParameters.defaultHeight * ScreenHeight);
         
         final PieChart chartStatic = data.getEstimateChart();
 	  	chartStatic.autosize();
 	  	chartStatic.setTitle("Budget estimé");
-	  	chartStatic.setMaxSize(400, 200);
-	  	chartStatic.setTranslateY(20);
-	  	chartStatic.setLabelLineLength(10);
+	  	chartStatic.setMaxSize(400.0/HardCodedParameters.defaultWidth * ScreenWidth, 200/HardCodedParameters.defaultHeight*ScreenHeight);
+	  	chartStatic.setTranslateY(20.0/HardCodedParameters.defaultHeight*ScreenHeight);
+	  	chartStatic.setLabelLineLength(10.0/HardCodedParameters.defaultWidth*ScreenWidth);
 	  	chartStatic.setLegendVisible(false);
 
 	  	panel.getChildren().addAll(chartStatic);
@@ -179,9 +170,9 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
         final PieChart chart = data.getSimulateChart();
         chart.autosize();
         chart.setTitle("Budget simulé");
-        chart.setMaxSize(400, 200);
-        chart.setTranslateY(HardCodedParameters.statSizeY-250);
-        chart.setLabelLineLength(10);
+        chart.setMaxSize(400.0/HardCodedParameters.defaultWidth*ScreenWidth, 200/HardCodedParameters.defaultHeight*ScreenHeight);
+        chart.setTranslateY((HardCodedParameters.statSizeY-250.0)/HardCodedParameters.defaultHeight*ScreenHeight);
+        chart.setLabelLineLength(10.0/HardCodedParameters.defaultWidth*ScreenWidth);
         chart.setLegendVisible(false);
 
         chart.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -204,24 +195,29 @@ public class Viewer implements ViewerService, RequireReadService, RequireStatist
     public Parent panelBack(){
         Pane panel = new Pane();
         panel.setStyle("-fx-background-color: white;-fx-border-color: black;");
-        TextArea back = new TextArea(data.getLogsInString());
-        back.setMaxSize(HardCodedParameters.backSizeX, HardCodedParameters.backSizeY);
-        back.setEditable(false);
-        back.setWrapText(true);
 
+        Label back = new Label(data.getLogsInString(ScreenHeight));
+        back.setMinWidth(HardCodedParameters.backSizeX/HardCodedParameters.defaultWidth*ScreenWidth);
+        back.setMinHeight(HardCodedParameters.backSizeY/HardCodedParameters.defaultHeight*ScreenHeight);
 
-        panel.setMaxSize(HardCodedParameters.backSizeX,HardCodedParameters.backSizeY);
-        panel.setTranslateX(HardCodedParameters.backTranslateX);
-        panel.setTranslateY(HardCodedParameters.backTranslateY);
+        panel.setTranslateX(HardCodedParameters.backTranslateX/HardCodedParameters.defaultWidth*ScreenWidth);
+        panel.setTranslateY(HardCodedParameters.backTranslateY/HardCodedParameters.defaultHeight*ScreenHeight);
         panel.getChildren().addAll(back);
         return panel;
     }
 
   @Override
-    public Parent getMainPanel() {
-        StackPane rootPane = new StackPane();
+    public Parent getMainPanel(double ScreenWidth, double ScreenHeight) {
+        AnchorPane rootPane = new AnchorPane();
+        this.ScreenWidth = ScreenWidth;
+        this.ScreenHeight = ScreenHeight;
+      AnchorPane.setTopAnchor(panelCompany(),0.0);
+      AnchorPane.setLeftAnchor(panelCompany(),0.0);
 
-        rootPane.getChildren().addAll(panelCompany(),panelStat(),panelBack());
+      AnchorPane.setBottomAnchor(panelBack(),0.0);
+      AnchorPane.setRightAnchor(panelBack(),0.0);
+
+      rootPane.getChildren().addAll(panelCompany(),panelStat(),panelBack());
         return rootPane;
     }
    

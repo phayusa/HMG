@@ -27,6 +27,7 @@ public class DataOfWorld implements DataService{
     private ArrayList<String> CurrentLog;
     private ArrayList<String> TotalLog;
     private double EmployeeStartY;
+    private int maxLines;
 
 
 	private double budget;
@@ -51,6 +52,7 @@ public class DataOfWorld implements DataService{
         EmployeeStartY = HardCodedParameters.FactoryStartY+HardCodedParameters.FactoryHeight/3;
         setNumberOfDaysForProject(HardCodedParameters.workDayInMonth);
         sound = Sound.SOUND.None;
+        maxLines = HardCodedParameters.maxLines;
     }
 
 
@@ -170,10 +172,10 @@ public class DataOfWorld implements DataService{
 
     @Override
     public void addLineCurrentLog(String line) {
-        if(CurrentLog.size() >= HardCodedParameters.maxLines){
+        if(CurrentLog.size() >= maxLines){
             CurrentLog.remove(0);
         }
-        CurrentLog.add(line);
+        CurrentLog.add(' '+line);
     }
 
     @Override
@@ -182,7 +184,9 @@ public class DataOfWorld implements DataService{
     }
 
     @Override
-    public String getLogsInString() {
+    public String getLogsInString(double ScreenHeight)
+    {
+        maxLines = ((int) (HardCodedParameters.maxLines / HardCodedParameters.defaultHeight * ScreenHeight));
         return String.join("\n", CurrentLog);
     }
 
@@ -193,6 +197,7 @@ public class DataOfWorld implements DataService{
 	public void setSound(Sound.SOUND sound) {
 		this.sound = sound;
 	}
+
 
     @Override
     public double getEmployeeStartY() {

@@ -25,7 +25,7 @@ public interface ReadService {
     public float getProgressOfWorkInFloat();
     public int getCurrentDay();
     public int getMaxProgressionByDay();
-    public String getLogsInString();
+    public String getLogsInString(double ScreenHeight);
     public ArrayList<String> getCurrentLog();
     public ArrayList<String> getTotalLog();
     public int getNumberOfDaysForProject();

@@ -12,13 +12,13 @@ public class OfficeModel extends GraphicalEntity {
     private boolean occupiedRight;
     private Position positionRight;
 
-    public OfficeModel(Position startPosition, int width, int height, String pathOfImage) {
+    public OfficeModel(Position startPosition, double width, double height, String pathOfImage) {
         super(startPosition, width, height, pathOfImage);
         commonInit();
     }
 
 
-    public OfficeModel(Position startPosition, int width, int height) {
+    public OfficeModel(Position startPosition, double width, double height) {
         super(startPosition, width, height);
         commonInit();
     }

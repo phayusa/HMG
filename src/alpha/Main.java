@@ -88,12 +88,12 @@ public class Main extends Application{
 		    statistics.init();
 		    viewer.init();
 		    Ui.init();
-	
+
 		    firstStart = false;
 		  }
 	  }
 	  System.out.println(data.getCurrentDay());
-	final Scene scene = new Scene(((Viewer)viewer).getMainPanel());
+	final Scene scene = new Scene(((Viewer)viewer).getMainPanel(stage.getWidth(),stage.getHeight()));
        
     scene.setFill(Color.CORNFLOWERBLUE);
 
@@ -111,10 +111,7 @@ public class Main extends Application{
 
     
     stage.setScene(scene);
-    stage.setWidth(HardCodedParameters.defaultWidth);
-    stage.setHeight(HardCodedParameters.defaultHeight);
-    stage.setResizable(false);
-//	    stage.setMaximized(true);
+    stage.setMaximized(true);
     stage.setOnShown(new EventHandler<WindowEvent>() {
       @Override public void handle(WindowEvent event) {
         engine.start();
@@ -165,7 +162,7 @@ public class Main extends Application{
     stage.show();
     timer = new AnimationTimer() {
       @Override public void handle(long l) {
-        scene.setRoot(((Viewer)viewer).getMainPanel());
+        scene.setRoot(((Viewer)viewer).getMainPanel(stage.getWidth(),stage.getHeight()));
         switch (data.getSound()){
 	        case EmployeeLeave:
 	          new MediaPlayer(new Media(getHostServices().getDocumentBase()+"Ressource/sound/OUH.mp3")).play();

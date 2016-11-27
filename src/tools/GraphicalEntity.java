@@ -8,19 +8,19 @@ import javafx.scene.image.ImageView;
  */
 public class GraphicalEntity {
     protected Position positionOfEntity;
-    protected int width,height;
+    protected double width,height;
     // the image will be be load only once
     protected ImageView imageOfEntity;
 
     public  GraphicalEntity(){}
 
-    public GraphicalEntity(Position startPosition,int width,int height){
+    public GraphicalEntity(Position startPosition,double width,double height){
         positionOfEntity = startPosition;
         this.width = width;
         this.height = height;
     }
 
-    public GraphicalEntity(Position startPosition,int width,int height,String pathOfImage){
+    public GraphicalEntity(Position startPosition,double width,double height,String pathOfImage){
         positionOfEntity = startPosition;
         this.width = width;
         this.height = height;
@@ -62,7 +62,7 @@ public class GraphicalEntity {
         this.positionOfEntity = positionOfEntity;
     }
 
-    public int getWidth() {
+    public double getWidth() {
         return width;
     }
 
@@ -70,7 +70,7 @@ public class GraphicalEntity {
         this.width = width;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 

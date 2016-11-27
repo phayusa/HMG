@@ -37,7 +37,7 @@ public class PersonModel extends AnimationSprite{
 	@Override
 	public void setNewPosition(Position newPosition) {
 		super.setNewPosition(newPosition);
-		int halfFactory = HardCodedParameters.FactoryHeight/3;
+		int halfFactory = ((int) HardCodedParameters.FactoryHeight)/3;
 		if(newPosition.x == HardCodedParameters.EmployeeStartX && positionOfEntity.x != newPosition.x)
 			if(newPosition.y == HardCodedParameters.FactoryStartY+halfFactory && positionOfEntity.y != newPosition.y) {
 				inFactory = false;
